@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-
+const cors = require('cors');
 
 const port = process.env.PORT || 3000;
 
@@ -13,6 +13,7 @@ mongoose.connect(mongoURI);
 
 const snippetsRouter = require('./routes/snippets');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
