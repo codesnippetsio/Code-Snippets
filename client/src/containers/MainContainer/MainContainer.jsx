@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from './Sidebar/Sidebar.jsx'
+import Sidebar from '../Sidebar/Sidebar.jsx'
 
 const MainContainer = () =>{
     return (
