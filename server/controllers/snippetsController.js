@@ -3,7 +3,21 @@ const User = require('../models/userModel.js');
 const snippetsController = {};
 
 snippetsController.getSnippets = (req, res, next) => {
-  const id = 1;
+  return next();
 };
 
-snippetsController.module.exports = snippetsController;
+snippetsController.createSnippet = (req, res, next) => {
+  return next();
+};
+
+snippetsController.updateSnippet = (req, res, next) => {
+  return next();
+};
+
+snippetsController.deleteSnippet = (req, res, next) => {
+  return next();
+};
+
+// helper function to re-calculate taglist/language counts?
+
+module.exports = snippetsController;
