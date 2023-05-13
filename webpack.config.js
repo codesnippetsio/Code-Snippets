@@ -40,7 +40,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist')
     },
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/snippets': 'http://localhost:3000'
     }
   },
   devtool: 'eval-source-map'
