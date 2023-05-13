@@ -17,9 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/snippets', snippetsRouter);
 
-app.get('*', (req, res) => {
-  return res.status(404).send('404 NOT FOUND');
-});
+app.use((req, res) => res.status(404).send('Invalid endpoint'));
 
 app.use((err, req, res, next) => {
   const defaultErr = {

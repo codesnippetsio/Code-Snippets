@@ -21,7 +21,7 @@ const Sidebar = () => {
     // setState with data * deal with CORS warning - cors module & webpack config?
   const getSnippet = () => {
     fetch('http://localhost:3000/snippets',{mode: 'no-cors'})
-    .then(res => res.json())
+    .then(res => res) // change back to res.json() *currently encountring error
     .then(res => {
       console.log(res);
     })
@@ -31,8 +31,6 @@ const Sidebar = () => {
   // do get request after each post request
 
   useEffect(() => getSnippet(), []); // [] to be updated
-
-  // getSnippet();
 
   // addTag
   const addTag = () => {
