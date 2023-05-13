@@ -3,7 +3,7 @@ const User = require('../models/userModel.js');
 const snippetsController = {};
 
 snippetsController.getSnippets = (req, res, next) => {
-  const userId = 1; //placeholder id
+  const userId = '645fee9104d1f0acef95a002';
 
   User.findOne({ _id: userId })
     .then((user) => {
@@ -11,14 +11,14 @@ snippetsController.getSnippets = (req, res, next) => {
       return next();
     })
     .catch((err) => {
-      console.log("Couldn't find snippets", error);
-      next(error);
+      console.log("Couldn't find snippets", err);
+      next(err);
     });
 };
 
 snippetsController.createSnippet = (req, res, next) => {
   const { snippet } = req.body;
-  const userId = 1; //placeholder id
+  const userId = '645fee9104d1f0acef95a002';
 
   User.findOneAndUpdate(
     { _id: userId },
@@ -41,7 +41,7 @@ snippetsController.createSnippet = (req, res, next) => {
 
 snippetsController.updateSnippet = (req, res, next) => {
   const { updatedSnippet } = req.body;
-  const userId = 1; //placeholder id
+  const userId = '645fee9104d1f0acef95a002';
 
   User.findOneAndUpdate(
     { _id: userId, 'snippets._id': updatedSnippet._id },
@@ -63,7 +63,7 @@ snippetsController.updateSnippet = (req, res, next) => {
 
 snippetsController.deleteSnippet = (req, res, next) => {
   const { snippetId } = req.params;
-  const userId = 1; // Placeholder ID for the user
+  const userId = '645fee9104d1f0acef95a002';
 
   User.findOne({ _id: userId })
     .then((user) => {
