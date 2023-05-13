@@ -13,9 +13,12 @@ const userSchema = new Schema({
     default: {},
   },
 
+  lastId: { type: Number, default: 0 },
+
   snippets: {
     type: [
       {
+        id: { type: Number, required: true },
         type: Object,
         title: { type: String, required: true },
         comments: { type: String },

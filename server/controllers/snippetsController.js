@@ -20,22 +20,30 @@ snippetsController.createSnippet = (req, res, next) => {
   const { snippet } = req.body;
   const userId = '645fee9104d1f0acef95a002';
 
-  User.findOneAndUpdate(
-    { _id: userId },
-    {
-      $push: {
-        snippets: snippet,
-      },
-    },
-    { new: true }
-  )
-    .then((updatedUser) => {
-      res.locals.createdSnippet = snippet;
-      return next();
+  User.findById(userId)
+    .then((user) => {
+      // Increment the lastId and assign it to the new snippet
+      const newSnippetId = user.lastId + 1;
+      user.lastId = newSnippetId;
+
+      // Create the new snippet object with the assigned ID
+      const newSnippet = {
+        id: newSnippetId,
+        ...snippet,
+      };
+
+      // Push the new snippet to the snippets array
+      user.snippets.push(newSnippet);
+
+      // Save the updated user document
+      return user.save().then((updatedUser) => {
+        res.locals.createdSnippet = newSnippet;
+        next();
+      });
     })
-    .catch((err) => {
-      console.log('Creating a snippet has failed', error);
-      next(err);
+    .catch((error) => {
+      console.error('Creating a snippet has failed:', error);
+      next(error);
     });
 };
 
@@ -44,7 +52,7 @@ snippetsController.updateSnippet = (req, res, next) => {
   const userId = '645fee9104d1f0acef95a002';
 
   User.findOneAndUpdate(
-    { _id: userId, 'snippets._id': updatedSnippet._id },
+    { _id: userId, 'snippets.id': updatedSnippet.id },
     {
       $set: { 'snippets.$': updatedSnippet },
     },
@@ -68,12 +76,12 @@ snippetsController.deleteSnippet = (req, res, next) => {
   User.findOne({ _id: userId })
     .then((user) => {
       const deletedSnippet = user.snippets.find(
-        (snippet) => snippet._id.toString() === snippetId
+        (snippet) => snippet.id.toString() === snippetId
       );
 
       // Remove the snippet from the user's snippets array
       user.snippets = user.snippets.filter(
-        (snippet) => snippet._id.toString() !== snippetId
+        (snippet) => snippet.id.toString() !== snippetId
       );
 
       // Save the updated user document
