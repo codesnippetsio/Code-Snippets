@@ -4,6 +4,11 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
+const mongoURI =
+  'mongodb+srv://paaoul:Melikeit1@scratchcluster.igf2bag.mongodb.net/';
+
+mongoose.connect(mongoURI);
+
 const snippetsRouter = require('./routes/snippets');
 
 app.use(express.json());
