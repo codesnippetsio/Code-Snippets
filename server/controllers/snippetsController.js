@@ -1,7 +1,9 @@
+const User = require('../models/userModel.js');
+
 const snippetsController = {};
 
-snippetsController.placeHolder = (req, res, next) => {
-  return next();
-}
+snippetsController.getSnippets = (req, res, next) => {
+  const id = 1;
+};
 
-module.exports = snippetsController;
+snippetsController.module.exports = snippetsController;
