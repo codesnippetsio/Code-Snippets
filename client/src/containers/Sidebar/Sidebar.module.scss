@@ -1,3 +1,34 @@
-h1{
-  color:green;
+.sidebar {
+  height: 100%;
+  width: 20%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 40;
+  border-style: solid;
+  border-color: black;
+}
+
+.logo{
+  height: 20%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+  display: block;
+}
+
+.tabs_display {
+  height: 40%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+
+.tab {
+  width: 100%;
+  padding: 8px;
+  font-size: 24px;
+  display: block;
+  border-style: solid;
+  border-color: black;
 }
