@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node server/server.js",
     "build": "webpack",
-    "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack serve",
+    "dev": "NODE_ENV=development concurrently \"webpack serve --open\" \"nodemon ./server/server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aalayah Olaes, Scott Brasko,Yueran Li, Paul Lee, Kinski Wu",
@@ -14,6 +14,8 @@
   "dependencies": {
     "codemirror": "^6.0.1",
     "express": "^4.18.2",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.62.1"
@@ -23,10 +25,12 @@
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-react": "^7.18.6",
     "babel-loader": "^9.1.2",
+    "concurrently": "^8.0.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.1",
+    "nodemon": "^2.0.22",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
     "webpack": "^5.82.1",
