@@ -1,22 +1,15 @@
 const path = require('path');
-const fs = require('fs');
 const express = require('express');
 const app = express();
 
 const port = process.env.PORT || 3000;
 
+const snippetsRouter = require('./routes/snippets');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
-
-app.get('/api', (req, res) => {
-  return res.status(200).send('Entered api endpoint');
-})
-
-app.get('/', (req, res) => {
-  return res.sendFile(path.resolve(__dirname, './public/index.html'));
-});
+app.use('/snippets', snippetsRouter)
 
 app.get('*', (req, res) => {
   return res.status(404).send('404 NOT FOUND')
@@ -36,5 +29,3 @@ app.use((err, req, res, next) => {
 app.listen(port, ()=> {
   console.log(`Server listening on port ${port}...`)
 });
-
-module.exports = app;
