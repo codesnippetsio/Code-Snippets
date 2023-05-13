@@ -26,7 +26,6 @@ const userSchema = new Schema({
       },
     ],
     default: [],
-    lastSnippetId: { type: Number, default: 0 },
   },
 });
 
