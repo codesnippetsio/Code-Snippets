@@ -4,13 +4,21 @@ const snippetsController = require('../controllers/snippetsController');
 
 const router = express.Router();
 
-router.get('/', snippetsController.getSnippets, (req, res) => res.status(200).json({}));
+router.get('/', snippetsController.getSnippets, (req, res) =>
+  res.status(200).json(res.locals.allSnippets)
+);
 
-router.put('/', snippetsController.createSnippet, (req, res) => res.status(200).json({}));
+router.post('/', snippetsController.createSnippet, (req, res) =>
+  res.status(200).json(res.locals.createdSnippet)
+);
 
-router.post('/', snippetsController.updateSnippet, (req, res) => res.status(200).json({}));
+router.put('/', snippetsController.updateSnippet, (req, res) =>
+  res.status(200).json(res.locals.updatedSnippet)
+);
 
-router.delete('/', snippetsController.deleteSnippet, (req, res) => res.status(200).json({}));
+router.delete('/:snippetId', snippetsController.deleteSnippet, (req, res) =>
+  res.status(200).json(res.locals.deletedSnippet)
+);
 
 router.use((req, res) => res.status(404).send('Invalid endpoint'));
 
