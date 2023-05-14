@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SnippetDisplay from '../../components/SnippetDisplay/SnippetDisplay.jsx';
 import AddSnippet from '../../components/AddSnippet/AddSnippet.jsx';
 import styles from './Sidebar.module.scss';
+import SnippetsRadioList from './SnippetsRadioList/SnippetsRadioList.jsx';
 
 const Sidebar = () => {
   const [snippets, setSnippets] = useState([]);
@@ -14,22 +15,9 @@ const Sidebar = () => {
       .then((res) => {
         console.log('res', res);
 
-        // moved setSnippets to outside so we arent re-rendering for each snippet
-        const newSnippetArray = []
-        for (const snippet of res) {
-          newSnippetArray.push(snippet);
-          
-          // unsure what this is doing
-          // should we be setting every snippet to the selected snippet?
-          setSelectedSnippet({
-            id: snippet._id,
-            title: snippet.title,
-            comments: snippet.comments,
-            storedCode: snippet.storedCode,
-            tags: snippet.tags,
-            language: snippet.language,
-          });
-        }
+        // moved setSnippets to outside of for loop so we arent re-rendering each time a snippet is added to state
+        const newSnippetArray = [];
+        for (const snippet of res) newSnippetArray.push(snippet);
 
         setSnippets(newSnippetArray);
       })
@@ -46,6 +34,12 @@ const Sidebar = () => {
 
     return tabs;
   };
+
+  // wrapper to send to our snippets radio list for updating selected snippet. probably not 100% needed, but want to be able to console log from Sidebar
+  const setSelectedSnippetWrapper = e => {
+    setSelectedSnippet(e);
+  };
+
   // get data from backend at first page load
   useEffect(() => getSnippet(), []);
 
@@ -57,7 +51,9 @@ const Sidebar = () => {
       </div>
       <div className={styles.tabs_display}>
         <p className={styles.title}>Title:</p>
-        <div>{renderTabs()}</div>
+        {/* render our snippet list, pass down snippets and function to update selectedSnippet */}
+        <SnippetsRadioList snippets={snippets} onChange={setSelectedSnippetWrapper}/>
+        {/* <div>{renderTabs()}</div> */}
       </div>
       <div>
         {snippets && (

@@ -1,0 +1,27 @@
+.snippetGroup {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  // border-radius: 0px;
+  label {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  label:hover {
+    background-color: #bbb;
+  }
+
+  input {
+    display: none;
+  }
+
+  input:checked {
+    +label {
+      background-color: #bbb;
+    }
+  }
+}
