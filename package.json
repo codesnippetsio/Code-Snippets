@@ -18,7 +18,9 @@
     "mongodb": "^5.5.0",
     "mongoose": "^7.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
+    "sass": "^1.62.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
@@ -38,7 +40,6 @@
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.1",
     "nodemon": "^2.0.22",
-    "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
     "webpack": "^5.82.1",
