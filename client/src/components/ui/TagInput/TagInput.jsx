@@ -19,8 +19,14 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const TagInput = (props) => {
-  const initialTags = props.tags ? props.tags : [];
-  const [tags, setTags] = React.useState(initialTags);
+  const initialTags = () => {
+    const newTagList = [];
+    if (props.tags)
+      props.tags.forEach((tag) => newTagList.push({ id: tag, text: tag }));
+    return newTagList;
+  };
+
+  const [tags, setTags] = React.useState(initialTags());
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
@@ -45,29 +51,31 @@ const TagInput = (props) => {
   };
 
   useEffect(() => {
-    if (props.onChange) props.onChange(tags);
+    const tagStringList = [];
+    if (props.onChange) {
+      tags.forEach((tag) => tagStringList.push(tag.text));
+      props.onChange(tagStringList);
+    }
   }, [tags]);
 
   return (
-    <div>
-      <ReactTags
-        tags={tags}
-        suggestions={suggestions}
-        delimiters={delimiters}
-        handleDelete={handleDelete}
-        handleAddition={handleAddition}
-        handleDrag={handleDrag}
-        handleTagClick={handleTagClick}
-        inputFieldPosition='bottom'
-        autocomplete
-      />
-    </div>
+    <ReactTags
+      tags={tags}
+      suggestions={suggestions}
+      delimiters={delimiters}
+      handleDelete={handleDelete}
+      handleAddition={handleAddition}
+      handleDrag={handleDrag}
+      handleTagClick={handleTagClick}
+      inputFieldPosition='inline'
+      autocomplete
+    />
   );
 };
 
 TagInput.propTypes = {
   onChange: PropTypes.func,
-  tags: PropTypes.array
+  tags: PropTypes.array,
 };
 
 export default TagInput;
