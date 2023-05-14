@@ -75,9 +75,9 @@ const AddSnippet = ({ closeModal }) => {
             onChange={(e) => {
               setComments(e.target.value);
             }}
-          ></input>
+          ></input><br/>
           <label>Tags:</label>
-          <TagInput onChange={setTagsWrapper} tags={[{id:'test',text:'test'}]}/>
+          <TagInput onChange={setTagsWrapper} />
           <input
             id='storedCode'
             value={storedCode}
