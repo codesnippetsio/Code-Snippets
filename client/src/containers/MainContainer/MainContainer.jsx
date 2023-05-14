@@ -1,12 +1,11 @@
 import React from 'react';
 import Sidebar from '../Sidebar/Sidebar.jsx';
-
+import styles from './MainContainer.module.scss';
 
 
 const MainContainer = () =>{
     return (
-    <div className="main_container">
-      <h1>Main Container</h1>
+    <div className={styles.container}>
       <Sidebar />
     </div>
     );
