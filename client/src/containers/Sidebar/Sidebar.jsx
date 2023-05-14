@@ -4,8 +4,10 @@ import AddSnippet from '../../components/AddSnippet/AddSnippet.jsx';
 import styles from './Sidebar.module.scss';
 
 const Sidebar = () => {
+
   const [snippets, setSnippets] = useState([]);
   const [selectedSnippet, setSelectedSnippet] = useState({});
+  const [openModal, setOpenModal] = useState(false);
 
   // getSnippet func
   const getSnippet = () => {
@@ -69,12 +71,16 @@ const Sidebar = () => {
           />
         )}
       </div>
-      <AddSnippet
+      {/* <AddSnippet
         snippets={snippets}
         selectedSnippet={selectedSnippet}
         getSnippet={getSnippet}
         renderTags={renderTabs}
-      />
+      /> */}
+      <button className="addButton" onClick={() => {setOpenModal(true)}}>
+        Add a snippet
+      </button>
+      {openModal && <AddSnippet closeModal={setOpenModal}/>}
     </div>
   );
 };
