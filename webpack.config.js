@@ -13,12 +13,21 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        type: 'asset/resource',
+      },
+      {
         test: /\.jsx?/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react']
-        }
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              ['@babel/preset-react', { runtime: 'automatic' }],
+            ],
+          },
+        },
       },
       {
         test: /\.s?css/,
@@ -34,14 +43,17 @@ module.exports = {
       template:'./public/index.html'
     })
   ],
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss'],
+  },
   devServer: {
     static: {
       publicPath: '/dist/',
       directory: path.resolve(__dirname, 'dist')
     },
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/snippets': 'http://localhost:3000'
     }
   },
   devtool: 'eval-source-map'
-}
+};

@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const port = process.env.PORT || 3000;
 
@@ -12,14 +13,13 @@ mongoose.connect(mongoURI);
 
 const snippetsRouter = require('./routes/snippets');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/snippets', snippetsRouter);
 
-app.get('*', (req, res) => {
-  return res.status(404).send('404 NOT FOUND');
-});
+app.use((req, res) => res.status(404).send('Invalid endpoint'));
 
 app.use((err, req, res, next) => {
   const defaultErr = {
