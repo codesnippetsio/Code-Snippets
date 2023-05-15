@@ -114,7 +114,7 @@ const Sidebar = () => {
           !collapse && styles.snippetDisplayOpen
         }`}
       >
-        {snippets && (
+        {/* {snippets && (
           <SnippetDisplay
             collapse={collapse}
             snippets={snippets}
@@ -122,7 +122,7 @@ const Sidebar = () => {
             getSnippet={getSnippet}
             renderTags={renderTabs}
           />
-        )}
+        )} */}
       </div>
     </>
   );

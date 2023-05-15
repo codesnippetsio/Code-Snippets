@@ -7,7 +7,6 @@ snippetsController.getSnippets = (req, res, next) => {
 
   User.findOne({ _id: userId })
     .then((user) => {
-      console.log(user);
       res.locals.allSnippets = user.snippets;
       return next();
     })

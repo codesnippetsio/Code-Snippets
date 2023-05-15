@@ -91,7 +91,7 @@ const AddSnippet = ({ closeModal }) => {
             ></input>
             <br />
             <label>Tags:</label>
-            <TagInput onChange={setTagsWrapper} />
+            <TagInput onChange={setTagsWrapper} tags={['react', 'express']}/>
             <br />
             <hr/>
             <h5 className='px-2'>Enter code:</h5>
