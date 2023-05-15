@@ -127,7 +127,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
               text={snippetStoredCode}
               onCopy={() => setCopied(true)}
             >
-              <button className='copyButton'> Copy Code Snippet </button>
+              <button className={styles.addButton}> Copy Code Snippet </button>
             </CopyToClipboard>
           </CodeMirror>
 

@@ -22,8 +22,17 @@
   width: 185px;
 }
 
-// .codeSnippet {
-//   font-size: 16px;
-//   margin-left: 20px;
-//   margin-right: 20px;
-// }
+.addButton {
+  border: transparent;
+    height: 50px;
+    width: 270px;
+    // padding-left: 7px;
+    // padding-right: 7px;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    background-color: transparent;
+    color: white;
+}
