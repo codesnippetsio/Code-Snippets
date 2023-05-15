@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
+import TagInput from '../../components/ui/TagInput/TagInput';
 
 const AddSnippet = ({ closeModal }) => {
   const [title, setTitle] = useState('');
   const [language, setLanguage] = useState('');
   const [comments, setComments] = useState('');
   const [storedCode, setStoredCode] = useState('');
+  const [tagList, setTags] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -21,7 +23,7 @@ const AddSnippet = ({ closeModal }) => {
         title: title,
         language: language,
         comments: comments,
-        tags: [],
+        tags: tagList,
         storedCode: storedCode,
       }),
     })
@@ -31,24 +33,28 @@ const AddSnippet = ({ closeModal }) => {
         console.log('failed saving snippet');
       });
 
-    
-      setOpenModal(true);
-      // setTitle('');
-      // setLanguage('');
-      // setComments('');
-      // setStoredCode('');
+    setOpenModal(true);
+    // setTitle('');
+    // setLanguage('');
+    // setComments('');
+    // setStoredCode('');
+  }
+
+  // wrapper function for setTags to send to TagInput
+  function setTagsWrapper(tags) {
+    setTags(tags);
   }
 
   return (
-    <div className="modalBackground">
-      <div className="modalContainer">
-        <button className="closeButton" onClick={() => closeModal(false)}>
+    <div className='modalBackground'>
+      <div className='modalContainer'>
+        <button className='closeButton' onClick={() => closeModal(false)}>
           X
         </button>
-        <div className="codeSnippet">
+        <div className='codeSnippet'>
           <label>Title:</label>
           <input
-            id="title"
+            id='title'
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
@@ -56,7 +62,7 @@ const AddSnippet = ({ closeModal }) => {
           ></input>
           <label>Language:</label>
           <input
-            id="language"
+            id='language'
             value={language}
             onChange={(e) => {
               setLanguage(e.target.value);
@@ -64,14 +70,16 @@ const AddSnippet = ({ closeModal }) => {
           ></input>
           <label>Comments:</label>
           <input
-            id="comments"
+            id='comments'
             value={comments}
             onChange={(e) => {
               setComments(e.target.value);
             }}
-          ></input>
+          ></input><br/>
+          <label>Tags:</label>
+          <TagInput onChange={setTagsWrapper} />
           <input
-            id="storedCode"
+            id='storedCode'
             value={storedCode}
             onChange={(e) => {
               setStoredCode(e.target.value);
@@ -79,10 +87,10 @@ const AddSnippet = ({ closeModal }) => {
           ></input>
         </div>
 
-        <button className="saveButton" onClick={handleSubmit}>
+        <button className='saveButton' onClick={handleSubmit}>
           Save
         </button>
-        {openModal && <SaveModal closeModal={setOpenModal}/>}
+        {openModal && <SaveModal closeModal={setOpenModal} />}
       </div>
     </div>
   );
