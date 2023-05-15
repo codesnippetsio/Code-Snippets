@@ -7,12 +7,11 @@ snippetsController.getSnippets = (req, res, next) => {
 
   User.findOne({ _id: userId })
     .then((user) => {
-      console.log(user);
-      res.locals.allSnippets = user.snippets;
+      res.locals.allSnippets = user;
       return next();
     })
     .catch((err) => {
-      console.log('Could not find snippets', err);
+      console.log('Could not find user', err);
       next(err);
     });
 };
