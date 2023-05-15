@@ -21,13 +21,10 @@
     "mongodb": "^5.5.0",
     "mongoose": "^7.1.1",
     "react": "^18.2.0",
-<<<<<<<<< Temporary merge branch 1
     "react-copy-to-clipboard": "^5.1.0",
-=========
     "react-bootstrap": "^2.7.4",
     "react-dnd": "^14.0.5",
     "react-dnd-html5-backend": "^14.1.0",
->>>>>>>>> Temporary merge branch 2
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-tag-input": "^6.8.1",

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 // import Snippet from 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CodeMirror from '@uiw/react-codemirror';
+import styles from './SnippetDisplay.module.scss';
+import { langs } from '@uiw/codemirror-extensions-langs';
+import TagInput from '../../components/ui/TagInput/TagInput';
+
 
 
 const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
@@ -10,7 +15,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
     const snippetLanguage = selectedSnippet.language ? selectedSnippet.language : '';
     const snippetComments = selectedSnippet.comments ? selectedSnippet.comments : '';
     const snippetStoredCode = selectedSnippet.storedCode ? selectedSnippet.storedCode : '';
-    const snippetTagList = selectedSnippet.tagList ? selectedSnippet.tagList : '';
+    const snippetTagList = selectedSnippet.tags ? selectedSnippet.tags : '';
 
     
     // create a state variable for each passed down state and the its setState function 
@@ -62,17 +67,8 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
     // copy code state 
     const [copied, setCopied] = useState(false);
 
-    // create fnc updateValue
-
-    // create an empty array
-        // iterate through props array (tags) 
-        // for each element push the react component 
-
-    // update the state to edit mode if clicked 
     
-    // create a func that checks if the edit button is clicked
-        // if edit button is clicked 
-    const checkEdit = ({ editButtonState }) => {
+    const checkEdit = () => {
         if (editButtonState === true) {
         return(
         <div className='entireSnippetDisplay'>
@@ -80,7 +76,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
                 <input className="titleEdit" onChange={(e) => {setTitle(e.target.value)}}> <span> Title: </span> {snippetTitle}</input>
                 <input className="languageEdit" onChange={(e) => {setLanguage(e.target.value)}}> <span> Language: </span> {snippetLanguage}</input>
                 <input className="commentsEdit" onChange={(e) => {setComments(e.target.value)}}> <span> Comments: </span> {snippetComments}</input>
-                <TagInput onChange={setTagsWrapper}/>
+                <TagInput onChange={setTags} tags={snippetTagList}/>
                 {/* <input className="tagsEdit" onChange={(e) => {setTags}}> <span> Title: </span> {snippetTagList}</input> */}
             </div>
 
@@ -119,7 +115,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
             <p className="titleDisplay"> <span> Title: </span> {snippetTitle}</p>
             <p className="languageDisplay"> <span> Language: </span> {snippetLanguage}</p>
             <p className="commentsDisplay"> <span> Comments: </span> {snippetComments}</p>
-            <p className="tagsDisplay"> <span> Tags: </span> {snippetTagList}</p>
+            <TagInput tags={snippetTagList}/>
         </div>
 
         <CodeMirror
@@ -137,7 +133,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
             onCopy = {() => setCopied(true)}> 
             <button className='copyButton'> Copy Code Snippet </button>
             </CopyToClipboard>
-            </CodeMirror>
+        </CodeMirror>
 
         <div>
             <button
@@ -154,15 +150,6 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
                 Edit Snippet 
             </button>
         </div>
-
-        {/* <div>
-             <p className='codeDisplay' value={snippetStoredCode}> <span>Code Snippet:</span>{snippetStoredCode} </p>
-             <CopyToClipboard text={snippetStoredCode}
-             onCopy = {() => setCopied(true)}> 
-                <button className='copyButton'> Copy Code Snippet </button>
-            </CopyToClipboard>
-            { copied ? <span className='copiedAffirm'> Code Copied! </span>: null}
-        </div> */}
 
         </div>
         )}
