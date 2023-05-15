@@ -12,6 +12,8 @@
   "author": "Aalayah Olaes, Scott Brasko,Yueran Li, Paul Lee, Kinski Wu",
   "license": "ISC",
   "dependencies": {
+    "@uiw/codemirror-extensions-langs": "^4.19.16",
+    "@uiw/react-codemirror": "^4.19.16",
     "bootstrap": "^5.2.3",
     "codemirror": "^6.0.1",
     "cors": "^2.8.5",

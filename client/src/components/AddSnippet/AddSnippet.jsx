@@ -1,3 +1,8 @@
+import CodeMirror from '@uiw/react-codemirror';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import { langs } from '@uiw/codemirror-extensions-langs';
+import styles from './AddSnippet.module.scss';
 import React, { useState } from 'react';
 import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
 import TagInput from '../../components/ui/TagInput/TagInput';
@@ -15,7 +20,6 @@ const AddSnippet = ({ closeModal }) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     fetch('/snippets', {
       method: 'POST',
       headers: {
@@ -53,7 +57,7 @@ const AddSnippet = ({ closeModal }) => {
         <Modal
           show={true}
           onHide={() => closeModal(false)}
-          size='lg'
+          size='xl'
           aria-labelledby='contained-modal-title-vcenter'
           centered
         >
@@ -88,13 +92,25 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <label>Tags:</label>
             <TagInput onChange={setTagsWrapper} />
-            <input
+            <br />
+            <hr/>
+            <h5 className='px-2'>Enter code:</h5>
+            <CodeMirror
+              className={styles.editor}
+              height='500px'
+              id='storedCode'
+              // value={storedCode}
+              extensions={[langs.tsx()]}
+              placeholder={'const sayHi = () => {\n  console.log(\'Hello World!)\n}'}
+              onChange={(e) => setStoredCode(e)}
+            ></CodeMirror>
+            {/* <input
               id='storedCode'
               value={storedCode}
               onChange={(e) => {
                 setStoredCode(e.target.value);
               }}
-            ></input>
+            ></input> */}
           </div>
           <Modal.Footer>
             <Button variant='secondary' onClick={() => closeModal(false)}>
