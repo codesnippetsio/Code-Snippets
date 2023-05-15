@@ -12,3 +12,21 @@ export const TAGS = [
   'git'
 ];
 
+export const LANGUAGES = [
+  'JavaScript',
+  'HTML',
+  'CSS',
+  'TypeScript',
+  'Python',
+  'PHP',
+  'Ruby',
+  'Swift',
+  'C',
+  'C++',
+  'Go',
+  'Java',
+  'SQL',
+  'Rust',
+  'Assembly',
+  'Binary'
+];

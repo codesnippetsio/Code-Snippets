@@ -8,6 +8,7 @@ import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
 import TagInput from '../../components/ui/TagInput/TagInput';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { LANGUAGES } from '../../data/data.js';
 
 const AddSnippet = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -15,11 +16,19 @@ const AddSnippet = ({ closeModal }) => {
   const [comments, setComments] = useState('');
   const [storedCode, setStoredCode] = useState('');
   const [tagList, setTags] = useState('');
-
+  const [error, setError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (title === '') {
+      setError(true);
+      return;
+    } else {
+      setOpenModal(true);
+      setError(false);
+    }
+
     fetch('/snippets', {
       method: 'POST',
       headers: {
@@ -39,7 +48,7 @@ const AddSnippet = ({ closeModal }) => {
         console.log('failed saving snippet');
       });
 
-    setOpenModal(true);
+
     // setTitle('');
     // setLanguage('');
     // setComments('');
@@ -52,58 +61,76 @@ const AddSnippet = ({ closeModal }) => {
   }
 
   return (
-    <div className='modalBackground'>
-      <div className='modalContainer modal show'>
+    <div className="modalBackground">
+      <div className="modalContainer modal show">
         <Modal
           show={true}
           onHide={() => closeModal(false)}
-          size='xl'
-          aria-labelledby='contained-modal-title-vcenter'
+          size="xl"
+          aria-labelledby="contained-modal-title-vcenter"
           centered
         >
+
           <Modal.Header closeButton>
             <Modal.Title>Add a snippet</Modal.Title>
           </Modal.Header>
-          <div className='codeSnippet'>
+
+          <div className="codeSnippet">
+
             <label>Title:</label>
             <input
-              id='title'
+              id="title"
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
             ></input>
+            {error && <span className='error'>Title is required!</span>}
+            <br />
+            <br />
+
             <label>Language:</label>
-            <input
-              id='language'
+            <select id='language'
               value={language}
-              onChange={(e) => {
-                setLanguage(e.target.value);
-              }}
-            ></input>
+              onChange={(e) => setLanguage(e.target.value)}
+            >
+              {LANGUAGES.map((language) => (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              ))}
+            </select>
+            <br />
+            <br />
+
             <label>Comments:</label>
             <input
-              id='comments'
+              id="comments"
               value={comments}
               onChange={(e) => {
                 setComments(e.target.value);
               }}
             ></input>
             <br />
+            <br />
+
             <label>Tags:</label>
             <TagInput onChange={setTagsWrapper} />
             <br />
-            <hr/>
-            <h5 className='px-2'>Enter code:</h5>
+            <hr />
+            <h5 className="px-2">Enter code:</h5>
             <CodeMirror
               className={styles.editor}
-              height='500px'
-              id='storedCode'
+              height="500px"
+              id="storedCode"
               // value={storedCode}
               extensions={[langs.tsx()]}
-              placeholder={'const sayHi = () => {\n  console.log(\'Hello World!)\n}'}
+              placeholder={
+                "const sayHi = () => {\n  console.log('Hello World!)\n}"
+              }
               onChange={(e) => setStoredCode(e)}
-            ></CodeMirror>
+            >
+            </CodeMirror>
             {/* <input
               id='storedCode'
               value={storedCode}
@@ -112,19 +139,21 @@ const AddSnippet = ({ closeModal }) => {
               }}
             ></input> */}
           </div>
+
           <Modal.Footer>
-            <Button variant='secondary' onClick={() => closeModal(false)}>
+          {openModal && <SaveModal closeModal={setOpenModal} />}
+            <Button variant="secondary" onClick={() => closeModal(false)}>
               Close
             </Button>
             <Button
-              variant='primary'
-              className='saveButton'
+              variant="primary"
+              className="saveButton"
               onClick={handleSubmit}
             >
               Save
             </Button>
           </Modal.Footer>
-          {openModal && <SaveModal closeModal={setOpenModal} />}
+          
         </Modal>
       </div>
     </div>
