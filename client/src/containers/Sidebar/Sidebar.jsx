@@ -67,14 +67,8 @@ const Sidebar = () => {
             />
           </button>
         </Card.Header>
-
-        {/* <div className={styles.logo}></div> */}
-        {/* <div className={styles.all_snippets}>
-        <button className={styles.tab}>All Snippets</button>
-      </div> */}
         <Card.Body className='px-0 pt-0'>
           <div className={styles.cardBody}>
-            {/* <p className={styles.title}>Title:</p> */}
             {/* render our snippet list, pass down snippets and function to update selectedSnippet */}
             {loading && (
               <div className='d-flex justify-content-center pt-3'>
@@ -89,16 +83,8 @@ const Sidebar = () => {
               snippets={snippets}
               onChange={setSelectedSnippetWrapper}
             />
-            {/* <div>{renderTabs()}</div> */}
           </div>
         </Card.Body>
-        {/* <AddSnippet
-        snippets={snippets}
-        selectedSnippet={selectedSnippet}
-        getSnippet={getSnippet}
-        renderTags={renderTabs}
-      /> */}
-
         <button
           className='addButton'
           onClick={() => {
@@ -116,11 +102,8 @@ const Sidebar = () => {
       >
         {/* {snippets && (
           <SnippetDisplay
-            collapse={collapse}
-            snippets={snippets}
             selectedSnippet={selectedSnippet}
             getSnippet={getSnippet}
-            renderTags={renderTabs}
           />
         )} */}
       </div>
