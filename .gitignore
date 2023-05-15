@@ -1,0 +1,13 @@
+# general
+.DS_store
+
+#dependencies
+node_modules
+
+package-lock.json
+
+#logs
+npm-debug.log*
+
+# output from webpack
+dist/

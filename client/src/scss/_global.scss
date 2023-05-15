@@ -1,0 +1,15 @@
+body {
+  color: red;
+}
+
+
+// this might be a bug. react tag library wasnt going inline
+.ReactTags__selected {
+  display: flex;
+}
+
+.cm-editor {outline: none !important}
+
+.entireSnippetDisplay {
+  z-index: 50;
+}

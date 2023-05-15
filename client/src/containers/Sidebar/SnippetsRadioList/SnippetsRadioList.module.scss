@@ -1,0 +1,59 @@
+.snippetGroup {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  // border-radius: 0px;
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    height: 60px;
+    text-align: left;
+    justify-content: left;
+    padding: 5px;
+    cursor: pointer;
+
+    p {
+      font-size: .75rem;
+      line-height: normal;
+      margin: 0;
+      z-index: 30;
+      color: rgb(82, 78, 78);
+    }
+
+    .labelHeader {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items:start;
+
+      span {
+        font-size: .8rem;
+        color: rgb(82, 78, 78);
+      }
+    }
+  }
+
+  label:hover {
+    background-color: #bbb;
+  }
+
+  input {
+    display: none;
+  }
+
+  input:checked {
+    +label {
+      background-color: #bbb;
+    }
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.555);
+  }
+}
