@@ -11,7 +11,7 @@ snippetsController.getSnippets = (req, res, next) => {
       return next();
     })
     .catch((err) => {
-      console.log("Couldn't find snippets", err);
+      console.log('Could not find snippets', err);
       next(err);
     });
 };
@@ -63,26 +63,25 @@ snippetsController.updateSnippet = (req, res, next) => {
       return next();
     })
     .catch((err) => {
-      console.log('Updating the snippet has failed:', error);
+      console.log('Updating the snippet has failed:', err);
       next(err);
     });
   return next();
 };
 
 snippetsController.deleteSnippet = (req, res, next) => {
-  const { snippetId } = req.params;
+  const { id } = req.query;
   const userId = '645fee9104d1f0acef95a002';
 
   User.findOne({ _id: userId })
     .then((user) => {
-      const deletedSnippet = user.snippets.find(
-        (snippet) => snippet.id.toString() === snippetId
-      );
+      const deletedSnippet = user.snippets.find((snippet) => {
+        console.log(snippet.id);
+        return `${snippet.id}` === id;
+      });
 
       // Remove the snippet from the user's snippets array
-      user.snippets = user.snippets.filter(
-        (snippet) => snippet.id.toString() !== snippetId
-      );
+      user.snippets = user.snippets.filter((snippet) => `${snippet.id}` !== id);
 
       // Save the updated user document
       return user.save().then(() => {
@@ -97,27 +96,27 @@ snippetsController.deleteSnippet = (req, res, next) => {
 };
 
 // helper function to re-calculate taglist/language counts?
-const recalcTagsAndLang = function (user) {
-  let tagList = {};
-  let languageList = {};
+// const recalcTagsAndLang = function (user) {
+//   let tagList = {};
+//   let languageList = {};
 
-  for (const snippet of user.snippets) {
-    for (const tag of snippet.tags) {
-      if (!tagList[tag]) {
-        tagList[tag] = 1;
-      } else {
-        tagList[tag] += 1;
-      }
+//   for (const snippet of user.snippets) {
+//     for (const tag of snippet.tags) {
+//       if (!tagList[tag]) {
+//         tagList[tag] = 1;
+//       } else {
+//         tagList[tag] += 1;
+//       }
 
-      if (!languageList[snippet.language]) {
-        languageList[snippet.language] = 1;
-      } else {
-        languageList[snippet.language] += 1;
-      }
-    }
-  }
+//       if (!languageList[snippet.language]) {
+//         languageList[snippet.language] = 1;
+//       } else {
+//         languageList[snippet.language] += 1;
+//       }
+//     }
+//   }
 
-  //return something here.
-};
+//   //return something here.
+// };
 
 module.exports = snippetsController;
