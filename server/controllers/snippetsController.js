@@ -7,6 +7,7 @@ snippetsController.getSnippets = (req, res, next) => {
 
   User.findOne({ _id: userId })
     .then((user) => {
+      console.log(user);
       res.locals.allSnippets = user.snippets;
       return next();
     })
@@ -119,17 +120,15 @@ const recalcTagsAndLang = function (user) {
     if (Array.isArray(snippet.tags)) {
       for (const tag of snippet.tags) {
         if (!tagList[tag]) {
-          tagList[tag] = 1;
-        } else {
-          tagList[tag] += 1;
+          tagList[tag] = [];
         }
+        tagList[tag].push(snippet);
       }
 
       if (!languageList[snippet.language]) {
-        languageList[snippet.language] = 1;
-      } else {
-        languageList[snippet.language] += 1;
+        languageList[snippet.language] = [];
       }
+      languageList[snippet.language].push(snippet);
     }
   }
   //return something here.
