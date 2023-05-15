@@ -113,8 +113,8 @@ snippetsController.deleteSnippet = (req, res, next) => {
 
 // helper function to re-calculate taglist/language counts?
 const recalcTagsAndLang = function (user) {
-  let tagList = {};
-  let languageList = {};
+  const tagList = {};
+  const languageList = {};
 
   for (const snippet of user.snippets) {
     if (Array.isArray(snippet.tags)) {
