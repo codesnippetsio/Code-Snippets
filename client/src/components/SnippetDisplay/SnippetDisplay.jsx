@@ -78,7 +78,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     if (editButtonState === true) {
       return(
         <div className='entireSnippetDisplay'>
-          <div className='displayContainer'>
+          <div className={styles.displayContainer}>
 
             <span className='title'> Title: </span>
             <input
