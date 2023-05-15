@@ -51,7 +51,7 @@ snippetsController.createSnippet = (req, res, next) => {
       next(error);
     });
 };
-
+ 
 snippetsController.updateSnippet = (req, res, next) => {
   const { id, title, comments, storedCode, tags, language } = req.body;
   const updatedSnippet = { id, title, comments, storedCode, tags, language };
@@ -109,7 +109,6 @@ snippetsController.deleteSnippet = (req, res, next) => {
       next(error);
     });
 };
-
 // helper function to re-calculate taglist/language counts?
 const recalcTagsAndLang = function (user) {
   const tagList = {};
