@@ -1,6 +1,7 @@
 .editor {
-  width: 95%;
-  margin: auto;
+  margin: 10px;
+  width: 1000px;
+  // margin: auto;
   padding-bottom: 10px;
 }
 
@@ -20,6 +21,25 @@
 
 .tags {
   width: 185px;
+}
+
+.entireSnippetDisplay {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonDiv {
+  padding: 15px;
+  display: flex;
+  gap: 5px;
+}
+
+.card {
+  padding: 15px;
+  margin: 50px;
+  display: flex;
+  
 }
 
 .addButton {

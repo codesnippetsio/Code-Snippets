@@ -5,7 +5,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import styles from './SnippetDisplay.module.scss';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import TagInput from '../../components/ui/TagInput/TagInput';
-
+import {Card, Button} from 'react-bootstrap';
 const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   // indSnippet = this.props
   // create delete method using fetch request
@@ -77,7 +77,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   const checkEdit = () => {
     if (editButtonState === true) {
       return(
-        <div className='entireSnippetDisplay'>
+        <div className={styles.entireSnippetDisplay}>
           <div className='displayContainer'>
 
             <span className='title'> Title: </span>
@@ -127,19 +127,19 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
               text={snippetStoredCode}
               onCopy={() => setCopied(true)}
             >
-              <button className={styles.addButton}> Copy Code Snippet </button>
+              <Button className={styles.addButton}> Copy Code Snippet </Button>
             </CopyToClipboard>
           </CodeMirror>
 
 
-          <button
+          <Button
             className="saveEditButton"
             onClick={() => {
               editSnippet(selectedSnippet.id);
               setEditButtonState(false);
             }}>
                 Save Edit
-          </button>
+          </Button>
 
         </div>
       );
@@ -147,7 +147,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
 
     if (editButtonState === false) {
       return (
-        <div className='entireSnippetDisplay'>
+        <div className={styles.entireSnippetDisplay}>
 
           <div className="displayContainer"> 
             <p className="title"> <span className='title'> Title: </span> {snippetTitle}</p>
@@ -173,7 +173,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
               text={snippetStoredCode}
               onCopy={() => setCopied(true)}
             >
-              <button className='copyButton'> Copy Code Snippet </button>
+              <Button className='copyButton'> Copy Code Snippet </Button>
             </CopyToClipboard>
           </CodeMirror>
 
@@ -183,24 +183,26 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   };
     
   return (
-    <> {checkEdit()} 
+    <> 
+    <Card className={styles.card}>
+    {checkEdit()} 
 
-      <div>
-        <button
+      <div className={styles.buttonDiv}>
+        <Button
           className="deleteButton"
           onClick={() => {deleteSnippet(selectedSnippet.id)}}>
                 Delete Snippet 
-        </button>
-        <button
+        </Button>
+        <Button
           className="editButton"
           onClick={() => {
             // editSnippet(selectedSnippet.id);
             setEditButtonState(true);
           }}>
                 Edit Snippet 
-        </button>
+        </Button>
       </div>  
-
+      </Card>
     </>
   );
 };

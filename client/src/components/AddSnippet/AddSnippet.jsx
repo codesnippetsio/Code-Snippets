@@ -72,7 +72,7 @@ const AddSnippet = ({ closeModal }) => {
           centered
         >
           <Modal.Header className={styles.header}>
-            <Modal.Title class="col-12 text-center">Add a snippet</Modal.Title>
+            <Modal.Title className="col-12 text-center">Add a snippet</Modal.Title>
           </Modal.Header>
           <br />
 
