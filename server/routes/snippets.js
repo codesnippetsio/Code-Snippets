@@ -16,7 +16,7 @@ router.put('/', snippetsController.updateSnippet, (req, res) =>
   res.status(200).json(res.locals.updatedSnippet)
 );
 
-router.delete('/:snippetId', snippetsController.deleteSnippet, (req, res) =>
+router.delete('/', snippetsController.deleteSnippet, (req, res) =>
   res.status(200).json(res.locals.deletedSnippet)
 );
 
