@@ -96,7 +96,6 @@ const SnippetDisplay = ({ indSnippet }) =>{
             Edit Snippet 
         </button>
       </div>
-
     </div>
     );
 }
