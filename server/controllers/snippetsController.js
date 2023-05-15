@@ -7,17 +7,19 @@ snippetsController.getSnippets = (req, res, next) => {
 
   User.findOne({ _id: userId })
     .then((user) => {
+      console.log(user);
       res.locals.allSnippets = user.snippets;
       return next();
     })
     .catch((err) => {
-      console.log("Couldn't find snippets", err);
+      console.log('Could not find snippets', err);
       next(err);
     });
 };
 
 snippetsController.createSnippet = (req, res, next) => {
-  const { snippet } = req.body;
+  const { title, comments, storedCode, tags, language } = req.body;
+  const snippet = { title, comments, storedCode, tags, language };
   const userId = '645fee9104d1f0acef95a002';
 
   User.findById(userId)
@@ -35,6 +37,10 @@ snippetsController.createSnippet = (req, res, next) => {
       // Push the new snippet to the snippets array
       user.snippets.push(newSnippet);
 
+      const [tags, languages] = recalcTagsAndLang(user);
+      user.tags = tags;
+      user.languages = languages;
+
       // Save the updated user document
       return user.save().then((updatedUser) => {
         res.locals.createdSnippet = newSnippet;
@@ -48,7 +54,8 @@ snippetsController.createSnippet = (req, res, next) => {
 };
 
 snippetsController.updateSnippet = (req, res, next) => {
-  const { updatedSnippet } = req.body;
+  const { id, title, comments, storedCode, tags, language } = req.body;
+  const updatedSnippet = { id, title, comments, storedCode, tags, language };
   const userId = '645fee9104d1f0acef95a002';
 
   User.findOneAndUpdate(
@@ -59,30 +66,38 @@ snippetsController.updateSnippet = (req, res, next) => {
     { new: true }
   )
     .then((updatedUser) => {
+      const [tags, languages] = recalcTagsAndLang(updatedUser);
+      updatedUser.tags = tags;
+      updatedUser.languages = languages;
+      return updatedUser.save();
+    })
+    .then((savedUser) => {
       res.locals.updatedSnippet = updatedSnippet;
-      return next();
+      next();
     })
     .catch((err) => {
-      console.log('Updating the snippet has failed:', error);
+      console.log('Updating the snippet has failed:', err);
       next(err);
     });
-  return next();
 };
 
 snippetsController.deleteSnippet = (req, res, next) => {
-  const { snippetId } = req.params;
+  const { id } = req.query;
   const userId = '645fee9104d1f0acef95a002';
 
   User.findOne({ _id: userId })
     .then((user) => {
-      const deletedSnippet = user.snippets.find(
-        (snippet) => snippet.id.toString() === snippetId
-      );
+      const deletedSnippet = user.snippets.find((snippet) => {
+        return `${snippet.id}` === id;
+      });
 
       // Remove the snippet from the user's snippets array
-      user.snippets = user.snippets.filter(
-        (snippet) => snippet.id.toString() !== snippetId
-      );
+      user.snippets = user.snippets.filter((snippet) => `${snippet.id}` !== id);
+
+      //recalculate the tags and languages.
+      const [tags, languages] = recalcTagsAndLang(user);
+      user.tags = tags;
+      user.languages = languages;
 
       // Save the updated user document
       return user.save().then(() => {
@@ -98,15 +113,17 @@ snippetsController.deleteSnippet = (req, res, next) => {
 
 // helper function to re-calculate taglist/language counts?
 const recalcTagsAndLang = function (user) {
-  let tagList = {};
-  let languageList = {};
+  const tagList = {};
+  const languageList = {};
 
   for (const snippet of user.snippets) {
-    for (const tag of snippet.tags) {
-      if (!tagList[tag]) {
-        tagList[tag] = 1;
-      } else {
-        tagList[tag] += 1;
+    if (Array.isArray(snippet.tags)) {
+      for (const tag of snippet.tags) {
+        if (!tagList[tag]) {
+          tagList[tag] = 1;
+        } else {
+          tagList[tag] += 1;
+        }
       }
 
       if (!languageList[snippet.language]) {
@@ -116,8 +133,8 @@ const recalcTagsAndLang = function (user) {
       }
     }
   }
-
   //return something here.
+  return [tagList, languageList];
 };
 
 module.exports = snippetsController;
