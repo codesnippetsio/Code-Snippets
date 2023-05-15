@@ -5,6 +5,7 @@ import styles from './Sidebar.module.scss';
 import SnippetsRadioList from './SnippetsRadioList/SnippetsRadioList.jsx';
 import { Card, Spinner } from 'react-bootstrap';
 import arrow from '../../assets/arrow.png';
+import img from '../../assets/star nose mole.jpeg';
 
 const Sidebar = () => {
   const [snippets, setSnippets] = useState([]);
@@ -85,14 +86,17 @@ const Sidebar = () => {
             />
           </div>
         </Card.Body>
+        
+        <h2 className={styles.imgHeader} style={{ display:'inline-block'}}>Click me to add a new snippet!</h2>
         <button
-          className='addButton'
+          className={styles.addButton}
           onClick={() => {
             setOpenModal(true);
           }}
         >
-          Add a snippet
+          <img src={img} alt="img" className={styles.img}/>
         </button>
+
       </Card>
       {openModal && <AddSnippet closeModal={setOpenModal} />}
       <div
