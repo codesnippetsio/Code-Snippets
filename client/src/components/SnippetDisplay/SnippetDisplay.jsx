@@ -10,9 +10,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   // indSnippet = this.props
   // create delete method using fetch request
   const snippetTitle = selectedSnippet.title ? selectedSnippet.title : '';
-  const snippetLanguage = selectedSnippet.language
-    ? selectedSnippet.language
-    : '';
+  const snippetLanguage = selectedSnippet.language ? selectedSnippet.language : '';
   const snippetComments = selectedSnippet.comments
     ? selectedSnippet.comments
     : '';
@@ -73,9 +71,9 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     const [copied, setCopied] = useState(false);
 
     
-    const checkEdit = () => {
-        if (editButtonState === true) {
-        return(
+  const checkEdit = () => {
+    if (editButtonState === true) {
+    return(
         <div className='entireSnippetDisplay'>
           <div className='displayContainer'>
             <input
@@ -128,13 +126,13 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
 
 
           <button
-                className="saveEditButton"
-                onClick={() => {
-                editSnippet(selectedSnippet.id);
-                setEditButtonState(false);
-                }}>
+            className="saveEditButton"
+            onClick={() => {
+              editSnippet(selectedSnippet.id);
+              setEditButtonState(false);
+            }}>
                 Save Edit
-            </button>
+          </button>
 
         </div>
       );
@@ -172,29 +170,10 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
             </CopyToClipboard>
           </CodeMirror>
 
-        {/* <div>
-            <button
-              className='deleteButton'
-              onClick={() => {
-                deleteSnippet(selectedSnippet._id);
-              }}
-            >
-              Delete Snippet
-            </button>
-            <button
-              className='editButton'
-              onClick={() => {
-                editSnippet(selectedSnippet._id);
-                setEditButtonState(true);
-              }}
-            >
-              Edit Snippet
-            </button>
-        </div> */}
-
         </div>
       );
     }
+  }
     
     return (
         <> {checkEdit()} 
@@ -213,11 +192,12 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
                 }}>
                 Edit Snippet 
             </button>
-        </div>
+        </div>  
 
         </>
     );
-}
+
+
 }
 
 export default SnippetDisplay;
