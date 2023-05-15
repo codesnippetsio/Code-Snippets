@@ -12,6 +12,9 @@ const Sidebar = () => {
   const [openModal, setOpenModal] = useState(false);
   const [collapse, setCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [tags, setTags] = useState({});
+  const [langs, setLangs] = useState({});
+
 
   // getSnippet func
   const getSnippet = () => {
@@ -23,9 +26,21 @@ const Sidebar = () => {
 
         // moved setSnippets to outside of for loop so we arent re-rendering each time a snippet is added to state
         const newSnippetArray = [];
-        for (const snippet of res) newSnippetArray.push(snippet);
+        for (const snippet of res.snippets) newSnippetArray.push(snippet);
+
+        const newTagsObj = {};
+        for (const [key, value] of Object.entries(res.tags)){
+          newTagsObj[key] = value;
+        }
+
+        const newLangsObj = {};
+        for (const [key, value] of Object.entries(res.language)){
+          newLangsObj[key] = value;
+        }
 
         setSnippets(newSnippetArray);
+        setTags(newTagsObj);
+        setLangs(newLangsObj);
         setLoading(false);
       })
       .catch((error) => console.log('Get request failed', error));
@@ -100,12 +115,6 @@ const Sidebar = () => {
           !collapse && styles.snippetDisplayOpen
         }`}
       >
-        {/* {snippets && (
-          <SnippetDisplay
-            selectedSnippet={selectedSnippet}
-            getSnippet={getSnippet}
-          />
-        )} */}
       </div>
     </>
   );
