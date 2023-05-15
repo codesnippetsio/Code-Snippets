@@ -16,11 +16,19 @@ const AddSnippet = ({ closeModal }) => {
   const [comments, setComments] = useState('');
   const [storedCode, setStoredCode] = useState('');
   const [tagList, setTags] = useState('');
-
+  const [error, setError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (title === '') {
+      setError(true);
+      return;
+    } else {
+      setOpenModal(true);
+      setError(false);
+    }
+
     fetch('/snippets', {
       method: 'POST',
       headers: {
@@ -40,7 +48,7 @@ const AddSnippet = ({ closeModal }) => {
         console.log('failed saving snippet');
       });
 
-    setOpenModal(true);
+
     // setTitle('');
     // setLanguage('');
     // setComments('');
@@ -62,10 +70,13 @@ const AddSnippet = ({ closeModal }) => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
+
           <Modal.Header closeButton>
             <Modal.Title>Add a snippet</Modal.Title>
           </Modal.Header>
+
           <div className="codeSnippet">
+
             <label>Title:</label>
             <input
               id="title"
@@ -74,8 +85,12 @@ const AddSnippet = ({ closeModal }) => {
                 setTitle(e.target.value);
               }}
             ></input>
+            {error && <span className='error'>Title is required!</span>}
+            <br />
+            <br />
+
             <label>Language:</label>
-            <select
+            <select id='language'
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -85,6 +100,9 @@ const AddSnippet = ({ closeModal }) => {
                 </option>
               ))}
             </select>
+            <br />
+            <br />
+
             <label>Comments:</label>
             <input
               id="comments"
@@ -94,6 +112,8 @@ const AddSnippet = ({ closeModal }) => {
               }}
             ></input>
             <br />
+            <br />
+
             <label>Tags:</label>
             <TagInput onChange={setTagsWrapper} />
             <br />
@@ -109,7 +129,8 @@ const AddSnippet = ({ closeModal }) => {
                 "const sayHi = () => {\n  console.log('Hello World!)\n}"
               }
               onChange={(e) => setStoredCode(e)}
-            ></CodeMirror>
+            >
+            </CodeMirror>
             {/* <input
               id='storedCode'
               value={storedCode}
@@ -118,7 +139,9 @@ const AddSnippet = ({ closeModal }) => {
               }}
             ></input> */}
           </div>
+
           <Modal.Footer>
+          {openModal && <SaveModal closeModal={setOpenModal} />}
             <Button variant="secondary" onClick={() => closeModal(false)}>
               Close
             </Button>
@@ -130,7 +153,7 @@ const AddSnippet = ({ closeModal }) => {
               Save
             </Button>
           </Modal.Footer>
-          {openModal && <SaveModal closeModal={setOpenModal} />}
+          
         </Modal>
       </div>
     </div>
