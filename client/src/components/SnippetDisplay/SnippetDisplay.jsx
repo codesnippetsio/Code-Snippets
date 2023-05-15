@@ -26,15 +26,17 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
     const [tagList, setTags] = useState(snippetTagList);
     const [editButtonState, setEditButtonState] = useState(false);
 
-    const deleteSnippet = (_id) => {
-        fetch (`/snippets?id=${_id}`, {
+    const deleteSnippet = (id) => {
+        fetch (`http://localhost:3000/snippets?id=${id}`, {
             method: 'DELETE',
         })
         .then((response) => {
-            response.json()
+            if (response.ok) {
+                getSnippet();
+            }
         })
         .catch((err) => {
-            return next({
+            return ({
                 log: `SnippetDisiplay.deleteSnippet: Error: ${err}`,
                 status: err.status || 500,
                 message: 'There was an error deleting snippet.'
@@ -42,13 +44,13 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
         })
     }
 
-    const editSnippet = (_id) => {
+    const editSnippet = (id) => {
         // const [oldState, setOldState] = React.useState([]);
         // create an object (eventually will hold the updated state)
             const updatedSnippet = {};
         // within fetch request (post)
             // body: JSON.stringify(created object)
-            fetch (`/snippets?id=${_id}`, {
+            fetch (`/snippets?id=${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updatedSnippet)
             })
@@ -98,7 +100,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
             <button
                 className="saveEditButton"
                 onClick={() => {
-                editSnippet(selectedSnippet._id);
+                editSnippet(selectedSnippet.id);
                 setEditButtonState(false);
                 }}>
                 Save Edit
@@ -116,6 +118,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
             <p className="languageDisplay"> <span> Language: </span> {snippetLanguage}</p>
             <p className="commentsDisplay"> <span> Comments: </span> {snippetComments}</p>
             <TagInput tags={snippetTagList}/>
+            {/* <div className="tagContainer">{renderTags()}</div> */}
         </div>
 
         <CodeMirror
@@ -135,7 +138,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
             </CopyToClipboard>
         </CodeMirror>
 
-        <div>
+        {/* <div>
             <button
                 className="deleteButton"
                 onClick={() => {deleteSnippet(selectedSnippet._id)}}>
@@ -149,7 +152,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
                 }}>
                 Edit Snippet 
             </button>
-        </div>
+        </div> */}
 
         </div>
         )}
@@ -157,6 +160,23 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) =>{
     
     return (
         <> {checkEdit()} 
+
+        <div>
+            <button
+                className="deleteButton"
+                onClick={() => {deleteSnippet(selectedSnippet.id)}}>
+                Delete Snippet 
+            </button>
+            <button
+                className="editButton"
+                onClick={() => {
+                editSnippet(selectedSnippet.id);
+                setEditButtonState(true);
+                }}>
+                Edit Snippet 
+            </button>
+        </div>
+
         </>
     );
 }
