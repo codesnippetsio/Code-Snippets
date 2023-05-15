@@ -1,15 +1,70 @@
+// .sidebar {
+//   height: 100%;
+//   width: 400px;
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   padding-top: 40;
+//   border-style: solid;
+//   border-color: black;
+// }
+
 .sidebar {
-  height: 100%;
-  width: 400px;
+  width: 300px;
+  height: 100vh !important;
   position: absolute;
-  left: 0;
+  left: -300px;
   top: 0;
-  padding-top: 40;
-  border-style: solid;
-  border-color: black;
+  
+  transition: 200ms ease-in;
+
+  background-color: rgb(10, 25, 41);
+
+  padding-top: 28px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  .toggleButton {
+    position: absolute;
+    right: -50px;
+    top: 35px;
+    transform: scale(.5);
+    background: none;
+    border: none;
+
+    .arrow {
+      
+    }
+
+    .arrowOpen {
+      transform: scaleX(-1);
+    }
+  }
+
+  .cardBody {
+  
+  }
 }
 
-.logo{
+.open {
+  left: 0;
+}
+
+.snippetDisplay {
+  position: relative;
+  z-index: -20;
+  left: -250px;
+  transition: 200ms ease-in;
+}
+
+.snippetDisplayOpen {
+  left: 0;
+  transition: 200ms ease-in;
+}
+
+.logo {
   height: 20%;
   width: 100%;
   border-style: solid;
@@ -17,26 +72,24 @@
   display: block;
 }
 
-.tabs_display {
-  height: 40%;
-  width: 100%;
-  border-style: solid;
-  border-color: black;
-}
+// .tabs_display {
+//   height: 40%;
+//   width: 100%;
+//   border-style: solid;
+//   border-color: black;
+// }
 
-.tab {
-  width: 100%;
-  padding: 8px;
-  font-size: 24px;
-  display: block;
-  border-style: solid;
-  border-color: black;
-}
+// .tab {
+//   width: 100%;
+//   padding: 8px;
+//   font-size: 24px;
+//   display: block;
+//   border-style: solid;
+//   border-color: black;
+// }
 
 .all_snippets {
-  
 }
 
 .title {
-  
 }

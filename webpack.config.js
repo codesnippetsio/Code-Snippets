@@ -13,6 +13,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        type: 'asset/resource',
+      },
+      {
         test: /\.jsx?/,
         exclude: /(node_modules)/,
         use: {

@@ -28,8 +28,13 @@ function SnippetsRadioList(props) {
               key={`snippet-tag-${i}`}
             />
             <label htmlFor={`snippet-input-${i}`} key={`snippet-label-${i}`}>
-              {el.title}
+              <div className={styles.labelHeader}>
+                <h6>{el.title} </h6>
+                <span>{el.language}</span>
+              </div>
+              <p className='text-truncate'>{el.storedCode}</p>
             </label>
+            <hr />
           </Fragment>
         ) : (
           <Fragment key={i}>
@@ -41,8 +46,13 @@ function SnippetsRadioList(props) {
               key={i}
             />
             <label htmlFor={`snippet-input-${i}`} key={`snippet-label-${i}`}>
-              {el.title}
+              <div className={styles.labelHeader}>
+                <h6>{el.title} </h6>
+                <span>{el.language}</span>
+              </div>
+              <p className='text-truncate'>{el.storedCode}</p>
             </label>
+            <hr />
           </Fragment>
         );
 
