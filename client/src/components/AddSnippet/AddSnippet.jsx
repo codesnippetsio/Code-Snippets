@@ -64,22 +64,23 @@ const AddSnippet = ({ closeModal }) => {
     <div className="modalBackground">
       <div className="modalContainer modal show">
         <Modal
+          className={styles.modal}
           show={true}
           onHide={() => closeModal(false)}
           size="xl"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-
-          <Modal.Header closeButton>
-            <Modal.Title>Add a snippet</Modal.Title>
+          <Modal.Header className={styles.header}>
+            <Modal.Title class="col-12 text-center">Add a snippet</Modal.Title>
           </Modal.Header>
+          <br />
 
-          <div className="codeSnippet">
+          <div className={styles.codeSnippet}>
 
-            <label>Title:</label>
+            <label>Title: </label>
             <input
-              id="title"
+              className={styles.title}
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -89,8 +90,8 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Language:</label>
-            <select id='language'
+            <label>Language: </label>
+            <select className={styles.language}
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -103,9 +104,9 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Comments:</label>
+            <label>Comments: </label>
             <input
-              id="comments"
+              className={styles.comments}
               value={comments}
               onChange={(e) => {
                 setComments(e.target.value);
@@ -114,10 +115,10 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Tags:</label>
-            <TagInput onChange={setTagsWrapper} />
-            <br />
+            <label>Tags: </label>
+            <TagInput className={styles.tags} onChange={setTagsWrapper} />
             <hr />
+
             <h5 className="px-2">Enter code:</h5>
             <CodeMirror
               className={styles.editor}
