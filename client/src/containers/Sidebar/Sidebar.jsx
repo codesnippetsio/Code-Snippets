@@ -23,7 +23,7 @@ const Sidebar = () => {
 
         // moved setSnippets to outside of for loop so we arent re-rendering each time a snippet is added to state
         const newSnippetArray = [];
-        for (const snippet of res) newSnippetArray.push(snippet);
+        for (const snippet of res.snippets) newSnippetArray.push(snippet);
 
         setSnippets(newSnippetArray);
         setLoading(false);
@@ -100,12 +100,12 @@ const Sidebar = () => {
           !collapse && styles.snippetDisplayOpen
         }`}
       >
-        {/* {snippets && (
+        {snippets && (
           <SnippetDisplay
             selectedSnippet={selectedSnippet}
             getSnippet={getSnippet}
           />
-        )} */}
+        )}
       </div>
     </>
   );

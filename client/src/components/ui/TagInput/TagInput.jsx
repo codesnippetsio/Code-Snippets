@@ -19,18 +19,25 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const TagInput = (props) => {
-  const initialTags = () => {
-    const newTagList = [];
-    if (props.tags)
-      props.tags.forEach((tag) => newTagList.push({ id: tag, text: tag }));
-    return newTagList;
-  };
 
-  const [tags, setTags] = React.useState(initialTags());
+  const [tags, setTags] = React.useState([]);
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
   };
+
+  const initialTags = () => {
+    const newTagList = [];
+    if (props.tags) {
+      props.tags.forEach((tag) => newTagList.push({ id: tag, text: tag }));
+      setTags(newTagList);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log('hello');
+  //   initialTags();
+  // }, [tags]);
 
   const handleAddition = (tag) => {
     setTags([...tags, tag]);
@@ -67,7 +74,7 @@ const TagInput = (props) => {
       handleAddition={handleAddition}
       handleDrag={handleDrag}
       handleTagClick={handleTagClick}
-      inputFieldPosition='inline'
+      // inputFieldPosition='inline'
       autocomplete
     />
   );
