@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import styles from './MainContainer.module.scss';
@@ -55,6 +56,7 @@ const MainContainer = () =>{
         <Signup handleSigned={handleSigned} /> 
       </div>
     );
+
 };
 
 export default MainContainer;
