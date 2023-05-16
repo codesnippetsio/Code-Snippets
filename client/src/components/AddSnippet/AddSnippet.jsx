@@ -1,13 +1,24 @@
+import React, { useState } from 'react';
+
+//  importing child components
+import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
+import TagInput from '../../components/ui/TagInput/TagInput';
+
+//  importing external functionality
 import CodeMirror from '@uiw/react-codemirror';
+import PropTypes from 'prop-types';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { langs } from '@uiw/codemirror-extensions-langs';
-import styles from './AddSnippet.module.scss';
-import React, { useState } from 'react';
-import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
-import TagInput from '../../components/ui/TagInput/TagInput';
+
+//  importing utils
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+
+//  importing styles
+import styles from './AddSnippet.module.scss';
+
+//  importing data
 import { LANGUAGES } from '../../data/data.js';
 
 const AddSnippet = ({ closeModal }) => {
@@ -47,11 +58,6 @@ const AddSnippet = ({ closeModal }) => {
         console.log(err);
         console.log('failed saving snippet');
       });
-
-    // setTitle('');
-    // setLanguage('');
-    // setComments('');
-    // setStoredCode('');
   }
 
   // wrapper function for setTags to send to TagInput
@@ -78,8 +84,9 @@ const AddSnippet = ({ closeModal }) => {
           <br />
 
           <div className={styles.codeSnippet}>
-            <label>Title: </label>
+            <label htmlFor={'newSnippetTitle'}>Title: </label>
             <input
+              id="newSnippetTitle"
               className={styles.title}
               value={title}
               onChange={(e) => {
@@ -90,8 +97,9 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Language: </label>
+            <label htmlFor="newSnippetLanguage">Language: </label>
             <select
+              id="newSnippetLanguage"
               className={styles.language}
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
@@ -105,8 +113,9 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Comments: </label>
+            <label htmlFor="newSnippetComments">Comments: </label>
             <input
+              id="newSnippetComments"
               className={styles.comments}
               value={comments}
               onChange={(e) => {
@@ -116,8 +125,12 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Tags: </label>
-            <TagInput className={styles.tags} onChange={setTagsWrapper} />
+            <label htmlFor="newSnippetTags">Tags: </label>
+            <TagInput
+              id="newSnippetTags"
+              className={styles.tags}
+              onChange={setTagsWrapper}
+            />
             <hr />
 
             <h5 className="px-2">Enter code:</h5>
@@ -128,7 +141,7 @@ const AddSnippet = ({ closeModal }) => {
               // value={storedCode}
               extensions={[langs.tsx()]}
               placeholder={
-                "const sayHi = () => {\n  console.log('Hello World!)\n}"
+                "const sayHi = () => {\n  console.log('Hello World!')\n}"
               }
               onChange={(e) => setStoredCode(e)}
             ></CodeMirror>
@@ -158,6 +171,10 @@ const AddSnippet = ({ closeModal }) => {
       </div>
     </div>
   );
+};
+
+AddSnippet.propTypes = {
+  closeModal: PropTypes.func
 };
 
 export default AddSnippet;
