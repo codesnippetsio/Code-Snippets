@@ -26,6 +26,7 @@ module.exports = {
               '@babel/preset-env',
               ['@babel/preset-react', { runtime: 'automatic' }],
             ],
+            plugins: ['@babel/plugin-transform-runtime', '@babel/transform-async-to-generator'],
           },
         },
       },
@@ -47,6 +48,11 @@ module.exports = {
     extensions: ['.js', '.jsx', '.scss'],
   },
   devServer: {
+    host: "localhost",
+    port: 8080,
+    hot: true,
+    historyApiFallback: true,
+    headers: { "Access-Control-Allow-Origin": "*" },
     hot: true,
     static: {
       publicPath: '/dist/',
