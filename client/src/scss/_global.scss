@@ -13,3 +13,58 @@ body {
 .entireSnippetDisplay {
   z-index: 50;
 }
+
+.login {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  width: 60%;
+  margin: auto;
+  // margin-top: 300px;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  align-items: flex-end;
+  margin-top: 20px;
+}
+
+#go {
+  margin-top: 20px;
+  width: 80px;
+  border: 1px solid green;
+  background-color: green;
+  border-radius: 10px;
+  color: white;
+}
+#submit {
+  margin-top: 20px;
+  width: 100px;
+  border: 1px solid green;
+  background-color: green;
+  border-radius: 10px;
+  color: white;
+}
+
+#loginBox {
+
+  height: 260px;
+  width: 500px;
+  border: 2px solid rgb(42, 41, 41);
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  flex-direction: column;
+  border-radius: 12px;
+  border-style: double;
+}
+
+
+.signup {
+  width: 30%;
+  margin: auto;
+}
