@@ -3,6 +3,16 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { auth } = require('express-openid-connect');
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: 'a long, randomly-generated string stored in env',
+  baseURL: 'http://localhost:3000',
+  clientID: 'Adw5QsdNG4dW47WgU78YAHOMorrzLhmW',
+  issuerBaseURL: 'https://dev-y3r4evhiowfqu1xi.us.auth0.com'
+};
 
 const port = process.env.PORT || 3000;
 
@@ -17,6 +27,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
+app.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
 app.use('/snippets', snippetsRouter);
 
 app.use((req, res) => res.status(404).send('Invalid endpoint'));
