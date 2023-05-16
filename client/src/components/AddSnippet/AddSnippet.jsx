@@ -58,14 +58,6 @@ const AddSnippet = ({ closeModal }) => {
         console.log(err);
         console.log('failed saving snippet');
       });
-<<<<<<< HEAD
-=======
-
-    // setTitle('');
-    // setLanguage('');
-    // setComments('');
-    // setStoredCode('');
->>>>>>> dev
   }
 
   // wrapper function for setTags to send to TagInput
@@ -74,21 +66,18 @@ const AddSnippet = ({ closeModal }) => {
   }
 
   return (
-    <div className='modalBackground'>
-      <div className='modalContainer modal show'>
+    <div className="modalBackground">
+      <div className="modalContainer modal show">
         <Modal
           className={styles.modal}
           show={true}
           onHide={() => closeModal(false)}
-          size='xl'
-          aria-labelledby='contained-modal-title-vcenter'
-          centered>
+          size="xl"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
           <Modal.Header className={styles.header}>
-<<<<<<< HEAD
-            <Modal.Title className='col-12 text-center'>
-=======
             <Modal.Title className="col-12 text-center">
->>>>>>> dev
               Add a snippet
             </Modal.Title>
           </Modal.Header>
@@ -102,14 +91,9 @@ const AddSnippet = ({ closeModal }) => {
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
-<<<<<<< HEAD
-              }}></input>
-            {error && <span className='error'>Title is required!</span>}
-=======
               }}
             ></input>
             {error && <span className="error">Title is required!</span>}
->>>>>>> dev
             <br />
             <br />
 
@@ -118,7 +102,8 @@ const AddSnippet = ({ closeModal }) => {
               id="newSnippetLanguage"
               className={styles.language}
               value={language}
-              onChange={(e) => setLanguage(e.target.value)}>
+              onChange={(e) => setLanguage(e.target.value)}
+            >
               {LANGUAGES.map((language) => (
                 <option key={language} value={language}>
                   {language}
@@ -135,7 +120,8 @@ const AddSnippet = ({ closeModal }) => {
               value={comments}
               onChange={(e) => {
                 setComments(e.target.value);
-              }}></input>
+              }}
+            ></input>
             <br />
             <br />
 
@@ -147,24 +133,16 @@ const AddSnippet = ({ closeModal }) => {
             />
             <hr />
 
-            <h5 className='px-2'>Enter code:</h5>
+            <h5 className="px-2">Enter code:</h5>
             <CodeMirror
               className={styles.editor}
-              height='500px'
-              id='storedCode'
+              height="500px"
+              id="storedCode"
               // value={storedCode}
               extensions={[langs.tsx()]}
               placeholder={
                 "const sayHi = () => {\n  console.log('Hello World!')\n}"
               }
-<<<<<<< HEAD
-              onChange={(e) => setStoredCode(e)}></CodeMirror>
-          </div>
-
-          <Modal.Footer>
-            {openModal && <SaveModal />}
-            <Button variant='secondary' onClick={() => closeModal(false)}>
-=======
               onChange={(e) => setStoredCode(e)}
             ></CodeMirror>
             {/* <input
@@ -179,13 +157,13 @@ const AddSnippet = ({ closeModal }) => {
           <Modal.Footer>
             {openModal && <SaveModal closeModal={setOpenModal} />}
             <Button variant="secondary" onClick={() => closeModal(false)}>
->>>>>>> dev
               Close
             </Button>
             <Button
-              variant='primary'
-              className='saveButton'
-              onClick={handleSubmit}>
+              variant="primary"
+              className="saveButton"
+              onClick={handleSubmit}
+            >
               Save
             </Button>
           </Modal.Footer>
