@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  tags: [String],
-  languages: [String],
+  tags: { type: [String], default: [] },
+  languages: { type: [String], default: [] },
   snippets: {
     type: [
       {
