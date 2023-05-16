@@ -15,7 +15,7 @@ import styles from './Sidebar.module.scss';
 import arrow from '../../assets/arrow.png';
 import img from '../../assets/star nose mole.jpeg';
 
-const Sidebar = () => {
+const Sidebar = ({handleLogin}) => {
   const [snippets, setSnippets] = useState([]);
   const [selectedSnippet, setSelectedSnippet] = useState();
   const [openModal, setOpenModal] = useState(false);
