@@ -1,4 +1,5 @@
 import CodeMirror from '@uiw/react-codemirror';
+import PropTypes from 'prop-types';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { langs } from '@uiw/codemirror-extensions-langs';
@@ -78,8 +79,9 @@ const AddSnippet = ({ closeModal }) => {
           <br />
 
           <div className={styles.codeSnippet}>
-            <label>Title: </label>
+            <label htmlFor={'newSnippetTitle'}>Title: </label>
             <input
+              id="newSnippetTitle"
               className={styles.title}
               value={title}
               onChange={(e) => {
@@ -90,8 +92,9 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Language: </label>
+            <label htmlFor="newSnippetLanguage">Language: </label>
             <select
+              id="newSnippetLanguage"
               className={styles.language}
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
@@ -105,8 +108,9 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Comments: </label>
+            <label htmlFor="newSnippetComments">Comments: </label>
             <input
+              id="newSnippetComments"
               className={styles.comments}
               value={comments}
               onChange={(e) => {
@@ -116,8 +120,12 @@ const AddSnippet = ({ closeModal }) => {
             <br />
             <br />
 
-            <label>Tags: </label>
-            <TagInput className={styles.tags} onChange={setTagsWrapper} />
+            <label htmlFor="newSnippetTags">Tags: </label>
+            <TagInput
+              id="newSnippetTags"
+              className={styles.tags}
+              onChange={setTagsWrapper}
+            />
             <hr />
 
             <h5 className="px-2">Enter code:</h5>
@@ -128,7 +136,7 @@ const AddSnippet = ({ closeModal }) => {
               // value={storedCode}
               extensions={[langs.tsx()]}
               placeholder={
-                "const sayHi = () => {\n  console.log('Hello World!)\n}"
+                "const sayHi = () => {\n  console.log('Hello World!')\n}"
               }
               onChange={(e) => setStoredCode(e)}
             ></CodeMirror>
@@ -158,6 +166,10 @@ const AddSnippet = ({ closeModal }) => {
       </div>
     </div>
   );
+};
+
+AddSnippet.propTypes = {
+  closeModal: PropTypes.func
 };
 
 export default AddSnippet;

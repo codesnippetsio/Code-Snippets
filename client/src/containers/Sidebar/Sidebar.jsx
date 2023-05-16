@@ -14,34 +14,35 @@ const Sidebar = () => {
   const [collapse, setCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // getSnippet func
+  //Get all snippets stored under user's account
+  //TODO: Get user ID from global state to include in request
+  //FIXME: HARD CODING ID FOR NOW
   const getSnippet = () => {
     setLoading(true);
-    fetch('http://localhost:3000/snippets')
+    fetch(
+      '/snippets?' + new URLSearchParams({ _id: '6463eb52ab99bf89a84a3ebd' })
+    )
       .then((res) => res.json())
-      .then((res) => {
-        console.log('res', res);
-
-        // moved setSnippets to outside of for loop so we arent re-rendering each time a snippet is added to state
-        const newSnippetArray = [];
-        for (const snippet of res.snippets) newSnippetArray.push(snippet);
-
+      .then((newSnippetArray) => {
+        //As structured in snippets route, should receive an array of snippet objects
         setSnippets(newSnippetArray);
         setLoading(false);
       })
-      .catch((error) => console.log('Get request failed', error));
+      .catch((error) =>
+        console.log('Failed to complete request for snippets: ', error)
+      );
   };
 
-  // renderTags function
-  const renderTabs = () => {
-    const tabs = [];
+  // // renderTags function
+  // const renderTabs = () => {
+  //   const tabs = [];
 
-    for (let i = 0; i < snippets.length; i++) {
-      tabs.push(<button className={styles.tab}>{snippets[i].title}</button>);
-    }
+  //   for (let i = 0; i < snippets.length; i++) {
+  //     tabs.push(<button className={styles.tag}>{snippets[i].title}</button>);
+  //   }
 
-    return tabs;
-  };
+  //   return tabs;
+  // };
 
   // wrapper to send to our snippets radio list for updating selected snippet. probably not 100% needed, but want to be able to console log from Sidebar
   const setSelectedSnippetWrapper = (e) => {
@@ -64,19 +65,19 @@ const Sidebar = () => {
             <img
               className={`${styles.arrow} ${!collapse && styles.arrowOpen}`}
               src={arrow}
-              alt='arrow'
+              alt="arrow"
             />
           </button>
         </Card.Header>
-        <Card.Body className='px-0 pt-0'>
+        <Card.Body className="px-0 pt-0">
           <div className={styles.cardBody}>
             {/* render our snippet list, pass down snippets and function to update selectedSnippet */}
             {loading && (
-              <div className='d-flex justify-content-center pt-3'>
+              <div className="d-flex justify-content-center pt-3">
                 <Spinner
-                  animation='border'
-                  role='status'
-                  variant='primary'
+                  animation="border"
+                  role="status"
+                  variant="primary"
                 ></Spinner>
               </div>
             )}
@@ -86,17 +87,18 @@ const Sidebar = () => {
             />
           </div>
         </Card.Body>
-        
-        <h2 className={styles.imgHeader} style={{ display:'inline-block'}}>Click me to add a new snippet!</h2>
+
+        <h2 className={styles.imgHeader} style={{ display: 'inline-block' }}>
+          Click me to add a new snippet!
+        </h2>
         <button
           className={styles.addButton}
           onClick={() => {
             setOpenModal(true);
           }}
         >
-          <img src={img} alt="img" className={styles.img}/>
+          <img src={img} alt="img" className={styles.img} />
         </button>
-
       </Card>
       {openModal && <AddSnippet closeModal={setOpenModal} />}
       <div

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // import Snippet from
+import PropTypes from 'prop-types';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import CodeMirror from '@uiw/react-codemirror';
 import styles from './SnippetDisplay.module.scss';
@@ -7,8 +8,15 @@ import { langs } from '@uiw/codemirror-extensions-langs';
 import TagInput from '../../components/ui/TagInput/TagInput';
 import { Card, Button } from 'react-bootstrap';
 const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
+  // copy code state
+  const [copied, setCopied] = useState(false);
+  const [editButtonState, setEditButtonState] = useState(false);
+  //TODO: Pull userId from global state
+  //FIXME: HARDCODING USER ID FOR NOW
+  const userId = '6463eb52ab99bf89a84a3ebd';
   // indSnippet = this.props
   // create delete method using fetch request
+
   let snippetTitle = selectedSnippet.title ? selectedSnippet.title : '';
   let snippetLanguage = selectedSnippet.language
     ? selectedSnippet.language
@@ -21,16 +29,8 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     : '';
   let snippetTagList = selectedSnippet.tags ? selectedSnippet.tags : [];
 
-  // create a state variable for each passed down state and the its setState function
-  // const [title, setTitle] = useState(snippetTitle);
-  // const [language, setLanguage] = useState(snippetLanguage);
-  // const [comments, setComments] = useState(snippetComments);
-  // const [storedCode, setStoredCode] = useState(snippetStoredCode);
-  // const [tagList, setTags] = useState(snippetTagList);
-  const [editButtonState, setEditButtonState] = useState(false);
-
-  const deleteSnippet = (id) => {
-    fetch(`http://localhost:3000/snippets?id=${id}`, {
+  const deleteSnippet = (snippetId, userId) => {
+    fetch('/snippets?' + new URLSearchParams({ snippetId, userId }), {
       method: 'DELETE'
     })
       .then((response) => {
@@ -41,43 +41,39 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
       .catch((err) => {
         return {
           log: `SnippetDisiplay.deleteSnippet: Error: ${err}`,
-          status: err.status || 500,
+          status: err.status,
           message: 'There was an error deleting snippet.'
         };
       });
   };
 
   const editSnippet = (id) => {
-    // const [oldState, setOldState] = React.useState([]);
-    // create an object (eventually will hold the updated state)
     const updatedSnippet = {
-      id: id,
       title: snippetTitle,
       comments: snippetComments,
       storedCode: snippetStoredCode,
       tags: snippetTagList,
       language: snippetLanguage
     };
-    // within fetch request (post)
-    // body: JSON.stringify(created object)
-    fetch(`/snippets?id=${id}`, {
+
+    fetch('/snippets?' + new URLSearchParams({ _id: id }), {
       method: 'PUT',
       body: JSON.stringify(updatedSnippet)
     })
       .then((response) => {
-        response.json();
+        //Are we using this response anywhere? IF not, delete this.
+        //response.json();
         getSnippet();
       })
       .catch((err) => {
+        //What's happening here? Where is this being returned to?
         return {
           log: `SnippetDisplay.editSnippet: Error: ${err}`,
-          status: err.status || 500,
+          status: err.status,
           message: 'There was an error editing code snippet.'
         };
       });
   };
-  // copy code state
-  const [copied, setCopied] = useState(false);
 
   const checkEdit = () => {
     if (editButtonState === true) {
@@ -139,7 +135,8 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <Button
             className="saveEditButton"
             onClick={() => {
-              editSnippet(selectedSnippet.id);
+              console.dir(selectedSnippet);
+              editSnippet(selectedSnippet._id);
               setEditButtonState(false);
             }}
           >
@@ -154,15 +151,15 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
         <div className={styles.entireSnippetDisplay}>
           <div className="displayContainer">
             <p className="title">
-              {' '}
+              {snippetTitle}
               <span className="title"> Title: </span> {snippetTitle}
             </p>
             <p className="language">
-              {' '}
+              {snippetLanguage}
               <span> Language: </span> {snippetLanguage}
             </p>
             <p className="comments">
-              {' '}
+              {snippetComments}
               <span> Comments: </span> {snippetComments}
             </p>
             <TagInput className="tags" tags={snippetTagList} />
@@ -202,7 +199,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <Button
             className="deleteButton"
             onClick={() => {
-              deleteSnippet(selectedSnippet.id);
+              deleteSnippet(selectedSnippet._id, userId);
             }}
           >
             Delete Snippet
@@ -210,7 +207,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <Button
             className="editButton"
             onClick={() => {
-              // editSnippet(selectedSnippet.id);
+              //editSnippet(selectedSnippet.id);
               setEditButtonState(true);
             }}
           >
@@ -222,4 +219,8 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   );
 };
 
+SnippetDisplay.propTypes = {
+  selectedSnippet: PropTypes.object,
+  getSnippet: PropTypes.func
+};
 export default SnippetDisplay;

@@ -2,28 +2,27 @@ import PropTypes from 'prop-types';
 import styles from './SnippetsRadioList.module.scss';
 import { Fragment } from 'react';
 
-function SnippetsRadioList(props) {
+function SnippetsRadioList({ snippets, onChange }) {
   // call passed in function on changed button, should find a way to do this without having to iterate through snippet array. store the snippet on the input itself somehow?
   const onChangeValue = (e) => {
-    if (!props.onChange) return;
-    for (const el of props.snippets) {
-      if (el.id !== undefined && el.id.toString() === e.target.value)
-        props.onChange(el);
-    }
+    console.log(e);
+    if (!onChange) return;
+    onChange(buttonMapper[e.target.id]);
   };
 
-  const toggleButtons = [];
+  const buttonMapper = {};
+  const buttonList = [];
 
-  if (props.snippets) {
-    props.snippets.forEach((el, i) => {
+  if (snippets) {
+    snippets.forEach((el, i) => {
       const currButton =
         i === 0 ? (
-          <Fragment key={i}>
+          <Fragment key={`snippet-tag-${i}`}>
             <input
-              name='snippetList'
-              type='radio'
+              name="snippetList"
+              type="radio"
               id={`snippet-input-${i}`}
-              value={el.id}
+              value={el._id}
               defaultChecked
               key={`snippet-tag-${i}`}
             />
@@ -32,17 +31,17 @@ function SnippetsRadioList(props) {
                 <h6>{el.title} </h6>
                 <span>{el.language}</span>
               </div>
-              <p className='text-truncate'>{el.storedCode}</p>
+              <p className="text-truncate">{el.storedCode}</p>
             </label>
             <hr />
           </Fragment>
         ) : (
-          <Fragment key={i}>
+          <Fragment key={`snippet-tag-${i}`}>
             <input
-              name='snippetList'
-              type='radio'
+              name="snippetList"
+              type="radio"
               id={`snippet-input-${i}`}
-              value={el.id}
+              value={el._id}
               key={i}
             />
             <label htmlFor={`snippet-input-${i}`} key={`snippet-label-${i}`}>
@@ -50,13 +49,13 @@ function SnippetsRadioList(props) {
                 <h6>{el.title} </h6>
                 <span>{el.language}</span>
               </div>
-              <p className='text-truncate'>{el.storedCode}</p>
+              <p className="text-truncate">{el.storedCode}</p>
             </label>
             <hr />
           </Fragment>
         );
-
-      toggleButtons.push(currButton);
+      buttonMapper[`snippet-input-${i}`] = el;
+      buttonList.push(currButton);
     });
   }
 
@@ -66,7 +65,7 @@ function SnippetsRadioList(props) {
         className={`${styles.snippetGroup}`}
         onChange={(e) => onChangeValue(e)}
       >
-        {toggleButtons}
+        {buttonList}
       </div>
     </>
   );
@@ -74,7 +73,7 @@ function SnippetsRadioList(props) {
 
 SnippetsRadioList.propTypes = {
   snippets: PropTypes.array,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 export default SnippetsRadioList;
