@@ -1,1 +1,1 @@
-# scratch_project_code_snippets
+# Code Snippets
