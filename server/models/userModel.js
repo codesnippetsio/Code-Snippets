@@ -4,32 +4,17 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  tags: {
-    type: Object,
-    default: {},
-  },
-  languages: {
-    type: Object,
-    default: {},
-  },
-
-  lastId: { type: Number, default: 0 },
-
+  tags: { type: [String], default: [] },
+  languages: { type: [String], default: [] },
   snippets: {
     type: [
       {
-        id: { type: Number, required: true },
-        type: Object,
-        title: { type: String, required: true },
-        comments: { type: String },
-        storedCode: { type: String },
-
-        tags: [String],
-        language: { type: String },
-      },
+        type: Schema.Types.ObjectId,
+        ref: 'Snippet'
+      }
     ],
-    default: [],
-  },
+    default: []
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);

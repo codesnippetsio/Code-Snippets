@@ -42,21 +42,29 @@ const AddSnippet = ({ closeModal }) => {
     fetch('/snippets', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         title: title,
         language: language,
         comments: comments,
         tags: tagList,
-        storedCode: storedCode,
-      }),
+        storedCode: storedCode
+      })
     })
       .then((data) => data.json())
       .catch((err) => {
         console.log(err);
         console.log('failed saving snippet');
       });
+<<<<<<< HEAD
+=======
+
+    // setTitle('');
+    // setLanguage('');
+    // setComments('');
+    // setStoredCode('');
+>>>>>>> dev
   }
 
   // wrapper function for setTags to send to TagInput
@@ -75,7 +83,11 @@ const AddSnippet = ({ closeModal }) => {
           aria-labelledby='contained-modal-title-vcenter'
           centered>
           <Modal.Header className={styles.header}>
+<<<<<<< HEAD
             <Modal.Title className='col-12 text-center'>
+=======
+            <Modal.Title className="col-12 text-center">
+>>>>>>> dev
               Add a snippet
             </Modal.Title>
           </Modal.Header>
@@ -88,8 +100,14 @@ const AddSnippet = ({ closeModal }) => {
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
+<<<<<<< HEAD
               }}></input>
             {error && <span className='error'>Title is required!</span>}
+=======
+              }}
+            ></input>
+            {error && <span className="error">Title is required!</span>}
+>>>>>>> dev
             <br />
             <br />
 
@@ -131,12 +149,29 @@ const AddSnippet = ({ closeModal }) => {
               placeholder={
                 "const sayHi = () => {\n  console.log('Hello World!)\n}"
               }
+<<<<<<< HEAD
               onChange={(e) => setStoredCode(e)}></CodeMirror>
           </div>
 
           <Modal.Footer>
             {openModal && <SaveModal />}
             <Button variant='secondary' onClick={() => closeModal(false)}>
+=======
+              onChange={(e) => setStoredCode(e)}
+            ></CodeMirror>
+            {/* <input
+              id='storedCode'
+              value={storedCode}
+              onChange={(e) => {
+                setStoredCode(e.target.value);
+              }}
+            ></input> */}
+          </div>
+
+          <Modal.Footer>
+            {openModal && <SaveModal closeModal={setOpenModal} />}
+            <Button variant="secondary" onClick={() => closeModal(false)}>
+>>>>>>> dev
               Close
             </Button>
             <Button

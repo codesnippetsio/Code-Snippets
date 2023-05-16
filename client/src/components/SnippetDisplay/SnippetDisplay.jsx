@@ -58,6 +58,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     };
     // within fetch request (post)
     // body: JSON.stringify(created object)
+
     fetch(`/snippets?id=${id}`, {
       method: 'PUT',
       body: JSON.stringify(updatedSnippet),
@@ -74,6 +75,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
         };
       });
   };
+  // copy code state
   // copy code state
   const [copied, setCopied] = useState(false);
 
