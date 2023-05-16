@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
-import { TAGS } from '../../../data/data';
-import styles from './TagInput.module.scss';
+import React, { useState, useEffect } from 'react';
+
+//  importing utils
 import { WithContext as ReactTags } from 'react-tag-input';
 import PropTypes from 'prop-types';
+
+//  importing data
+import { TAGS } from '../../../data/data';
+
+//  importing styles
 
 const suggestions = TAGS.map((tag) => {
   return {
@@ -19,8 +24,7 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const TagInput = (props) => {
-
-  const [tags, setTags] = React.useState([]);
+  const [tags, setTags] = useState([]);
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
