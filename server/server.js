@@ -43,9 +43,9 @@ app.use(auth(config));
 
 // testing auth confid
 
-// app.get('/', (req, res) => {
-//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-// });
+app.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
 
 //Point relevant requests to snippet and authentication routers
 app.use('/snippets', snippetsRouter);
