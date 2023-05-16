@@ -1,52 +1,51 @@
 const request = require('supertest');
+const Users = require('../server/models/userModel');
 
 const server = 'http://localhost:3000';
 
 describe('Snippets route', () => {
   describe('GET', () => {
-    xit('responds with 200 status and json', () => {
+    //before all test:
+    //Create a new user in the db
+    //save _id in a variable
+
+    //after all test:
+    //delete user
+
+    it('responds with 200 status and json', () => {
       return request(server)
-        .get('/snippets')
+        .get('/snippets/?_id=6463eb52ab99bf89a84a3ebd')
         .expect(200)
-        .expect('Content-Type', 'application/json')
-        .end((err, res) => {
-          if (err) throw err;
-        });
+        .expect('Content-Type', 'application/json; charset=utf-8');
     });
-    xit('responds with data that has keys: title, comments, storedCode, language', () => {
+    it('responds with data that has keys: title, comments, storedCode, language', () => {
       return request(server)
-        .get('/snippets')
+        .get('/snippets/?_id=6463eb52ab99bf89a84a3ebd')
         .expect((res) => {
-          if (!res.body.hasOwnProperty('title')) {
+          if (!res.body[0].hasOwnProperty('title')) {
             throw new Error("Expected 'title' key!");
           }
-          if (!res.body.hasOwnProperty('comments')) {
+          if (!res.body[0].hasOwnProperty('comments')) {
             throw new Error("Expected 'comments' key!");
           }
-          if (!res.body.hasOwnProperty('language')) {
+          if (!res.body[0].hasOwnProperty('language')) {
             throw new Error("Expected 'language' key!");
           }
-          if (!res.body.hasOwnProperty('storedCode')) {
+          if (!res.body[0].hasOwnProperty('storedCode')) {
             throw new Error("Expected 'storedCode' key!");
           }
-        })
-        .end((err, res) => {
-          if (err) throw err;
         });
     });
-    xit('responds with data that has key, tags, and value of an array', () => {
+    it('responds with data that has key, tags, and value of an array', () => {
       return request(server)
-        .get('/snippets')
+        .get('/snippets/?_id=6463eb52ab99bf89a84a3ebd')
         .expect((res) => {
-          if (!res.body.hasOwnProperty('tags')) {
+          if (!res.body[0].hasOwnProperty('tags')) {
             throw new Error("Expected 'tags' key!");
           }
-          if (!Array.isArray(res.body.tags)) {
+          if (!Array.isArray(res.body[0].tags)) {
             throw new Error("Expected 'tags' to be an array!");
           }
-        })
-        .end((err, res) => {
-          if (err) throw err;
         });
     });
   });
