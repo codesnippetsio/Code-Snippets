@@ -47,6 +47,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.scss'],
   },
   devServer: {
+    hot: true,
     static: {
       publicPath: '/dist/',
       directory: path.resolve(__dirname, 'dist')
