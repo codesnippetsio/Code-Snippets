@@ -32,22 +32,21 @@ const AddSnippet = ({ closeModal }) => {
     fetch('/snippets', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         title: title,
         language: language,
         comments: comments,
         tags: tagList,
-        storedCode: storedCode,
-      }),
+        storedCode: storedCode
+      })
     })
       .then((data) => data.json())
       .catch((err) => {
         console.log(err);
         console.log('failed saving snippet');
       });
-
 
     // setTitle('');
     // setLanguage('');
@@ -72,12 +71,13 @@ const AddSnippet = ({ closeModal }) => {
           centered
         >
           <Modal.Header className={styles.header}>
-            <Modal.Title className="col-12 text-center">Add a snippet</Modal.Title>
+            <Modal.Title className="col-12 text-center">
+              Add a snippet
+            </Modal.Title>
           </Modal.Header>
           <br />
 
           <div className={styles.codeSnippet}>
-
             <label>Title: </label>
             <input
               className={styles.title}
@@ -86,12 +86,13 @@ const AddSnippet = ({ closeModal }) => {
                 setTitle(e.target.value);
               }}
             ></input>
-            {error && <span className='error'>Title is required!</span>}
+            {error && <span className="error">Title is required!</span>}
             <br />
             <br />
 
             <label>Language: </label>
-            <select className={styles.language}
+            <select
+              className={styles.language}
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -130,8 +131,7 @@ const AddSnippet = ({ closeModal }) => {
                 "const sayHi = () => {\n  console.log('Hello World!)\n}"
               }
               onChange={(e) => setStoredCode(e)}
-            >
-            </CodeMirror>
+            ></CodeMirror>
             {/* <input
               id='storedCode'
               value={storedCode}
@@ -142,7 +142,7 @@ const AddSnippet = ({ closeModal }) => {
           </div>
 
           <Modal.Footer>
-          {openModal && <SaveModal closeModal={setOpenModal} />}
+            {openModal && <SaveModal closeModal={setOpenModal} />}
             <Button variant="secondary" onClick={() => closeModal(false)}>
               Close
             </Button>
@@ -154,7 +154,6 @@ const AddSnippet = ({ closeModal }) => {
               Save
             </Button>
           </Modal.Footer>
-          
         </Modal>
       </div>
     </div>
