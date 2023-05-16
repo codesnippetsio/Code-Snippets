@@ -1,6 +1,10 @@
+import React, { Fragment } from 'react';
+
+//  importing utils
 import PropTypes from 'prop-types';
+
+//  importing styles
 import styles from './SnippetsRadioList.module.scss';
-import { Fragment } from 'react';
 
 function SnippetsRadioList({ snippets, onChange }) {
   // call passed in function on changed button, should find a way to do this without having to iterate through snippet array. store the snippet on the input itself somehow?
@@ -60,14 +64,14 @@ function SnippetsRadioList({ snippets, onChange }) {
   }
 
   return (
-    <>
+    <React.Fragment>
       <div
         className={`${styles.snippetGroup}`}
         onChange={(e) => onChangeValue(e)}
       >
         {buttonList}
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
+import React from 'react';
 
 function SaveModal() {
   return <div>You have successfully saved a snippet!</div>;

@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
+
+//  importing child components
 import SnippetDisplay from '../../components/SnippetDisplay/SnippetDisplay.jsx';
 import AddSnippet from '../../components/AddSnippet/AddSnippet.jsx';
-import styles from './Sidebar.module.scss';
 import SnippetsRadioList from './SnippetsRadioList/SnippetsRadioList.jsx';
+
+//  importing utils
 import { Card, Spinner } from 'react-bootstrap';
+
+//  importing styles
+import styles from './Sidebar.module.scss';
+
+//  importing assets
 import arrow from '../../assets/arrow.png';
 import img from '../../assets/star nose mole.jpeg';
 
 const Sidebar = () => {
   const [snippets, setSnippets] = useState([]);
-  const [selectedSnippet, setSelectedSnippet] = useState({});
+  const [selectedSnippet, setSelectedSnippet] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [collapse, setCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -49,18 +57,19 @@ const Sidebar = () => {
     setSelectedSnippet(e);
   };
 
-  // get data from backend at first page load
-  useEffect(() => getSnippet(), []);
-
   const toggleSidebar = () => {
     setCollapse(() => !collapse);
   };
 
   return (
-    <>
+    <React.Fragment>
+      {/*----- SIDE BAR -----*/}
       <Card className={`pt-0 ${styles.sidebar} ${!collapse && styles.open}`}>
         <Card.Header>
           <h1>Code Snippets</h1>
+
+          {/* Changes the collapse state, which will render/unrender the sidebar*/}
+
           <button className={styles.toggleButton} onClick={toggleSidebar}>
             <img
               className={`${styles.arrow} ${!collapse && styles.arrowOpen}`}
@@ -69,9 +78,12 @@ const Sidebar = () => {
             />
           </button>
         </Card.Header>
+
+        {/* Renders the list of snippets fetched from DB */}
+
         <Card.Body className="px-0 pt-0">
+          {/* Animation while app is fetching data from DB */}
           <div className={styles.cardBody}>
-            {/* render our snippet list, pass down snippets and function to update selectedSnippet */}
             {loading && (
               <div className="d-flex justify-content-center pt-3">
                 <Spinner
@@ -100,7 +112,13 @@ const Sidebar = () => {
           <img src={img} alt="img" className={styles.img} />
         </button>
       </Card>
+
+      {/*----- ADD SNIPPET MODAL -----*/}
+
       {openModal && <AddSnippet closeModal={setOpenModal} />}
+
+      {/*----- SNIPPET DISPLAY -----*/}
+
       <div
         className={`${styles.snippetDisplay} ${
           !collapse && styles.snippetDisplayOpen
@@ -113,7 +131,7 @@ const Sidebar = () => {
           />
         )}
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

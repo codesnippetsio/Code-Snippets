@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-// import Snippet from
+
+//  importing child components
+import TagInput from '../../components/ui/TagInput/TagInput';
+
+//  importing external functionality
 import PropTypes from 'prop-types';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import CodeMirror from '@uiw/react-codemirror';
 import styles from './SnippetDisplay.module.scss';
 import { langs } from '@uiw/codemirror-extensions-langs';
-import TagInput from '../../components/ui/TagInput/TagInput';
+
+//  importing utils
 import { Card, Button } from 'react-bootstrap';
+
 const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   // copy code state
   const [copied, setCopied] = useState(false);
@@ -191,7 +197,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Card className={styles.card}>
         {checkEdit()}
 
@@ -215,7 +221,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           </Button>
         </div>
       </Card>
-    </>
+    </React.Fragment>
   );
 };
 
