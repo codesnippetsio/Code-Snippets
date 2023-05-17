@@ -80,7 +80,8 @@ snippetsController.saveSnippetToUser = (req, res, next) => {
 
 //Updates snippet with provided properties
 snippetsController.updateSnippet = (req, res, next) => {
-  const { _id, title, comments, storedCode, tags, language } = req.body;
+  const { _id } = req.query;
+  const { title, comments, storedCode, tags, language } = req.body;
   const updatedSnippet = { title, comments, storedCode, tags, language };
 
   for (const key in updatedSnippet) {
@@ -114,17 +115,17 @@ snippetsController.updateSnippet = (req, res, next) => {
 
 //Deletes snippet with provided ID and removes from users with associated ID
 snippetsController.deleteSnippet = (req, res, next) => {
-  const { uid, sid } = req.query;
-  Snippet.findByIdAndDelete(sid)
+  const { userId, snippetId } = req.query;
+  Snippet.findByIdAndDelete(snippetId)
     .exec()
     .then((result) => {
       res.locals.deletedSnippet = result;
     })
     .then(() => {
-      User.findById(uid)
+      User.findById(userId)
         .exec()
         .then((user) => {
-          user.snippets = user.snippets.filter((el) => el != uid);
+          user.snippets = user.snippets.filter((el) => el != snippetId);
           user
             .save()
             .then((updatedUser) => {
