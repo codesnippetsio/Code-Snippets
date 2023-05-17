@@ -280,7 +280,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
 
   return (
     <React.Fragment>
-      <Card className={styles.card}>
+      <Card className={styles.card} id="right">
         {displayContent}
 
         <div className={styles.buttonDiv}>

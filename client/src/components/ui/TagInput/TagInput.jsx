@@ -68,7 +68,7 @@ const TagInput = ({ onChange, defaultTags }) => {
   }, [tags]);
 
   return (
-    <ReactTags
+    <ReactTags 
       tags={tags}
       suggestions={suggestions}
       delimiters={delimiters}
