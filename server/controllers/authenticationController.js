@@ -36,12 +36,10 @@ authenticationController.signUp = async (req, res, next) => {
       username: req.body.username,
       password: hashedPassword,
     });
-
-    console.log('User created, signup complete');
     res.locals.newUser = await newUser;
     return next();
   } catch (err) {
-    return next('Im triggered');
+    return next(err);
   }
 };
 
