@@ -20,11 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 
 //to be deleted, just for testing purposes
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './need-to-be-deleted/testlogin.html'));
+  res.sendFile(path.join(__dirname, './need-to-be-deleted/testlogin.html'));
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './need-to-be-deleted/testsignup.html'));
+  res.sendFile(path.join(__dirname, './need-to-be-deleted/testsignup.html'));
 });
 
 // app.use('/snippets', snippetsRouter);
