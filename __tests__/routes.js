@@ -80,7 +80,7 @@ describe('Snippets route', () => {
         });
     });
   });
-  describe('POST', () => {
+  xdescribe('POST', () => {
     beforeAll(async () => {
       console.log('Connecting to the database!');
       await mongoose.connect(mongoURI);
@@ -132,7 +132,53 @@ describe('Snippets route', () => {
     });
   });
   describe('PUT', () => {});
-  describe('DELETE', () => {});
+  xdescribe('DELETE', () => {
+    beforeAll(async () => {
+      console.log('Connecting to the database!');
+      await mongoose.connect(mongoURI);
+
+      console.log('Creating dummy data!');
+      return (user = await Users.create({ username, password }));
+    });
+    beforeEach(async () => {
+      const fakeSnippet = await Snippets.create(snippet);
+      snippet_id = fakeSnippet._id;
+      user.snippets.push(fakeSnippet._id);
+      return user.save();
+    });
+    afterAll(async () => {
+      console.log('Deleting dummy data!');
+      await Users.findByIdAndDelete(user._id);
+
+      console.log('Disconnecting from the database!');
+      return await mongoose.connection.close();
+    });
+    xit('responds with 200 status and json', () => {
+      return request(server)
+        .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8');
+    });
+    xit('responds with the deleted document', () => {
+      return request(server)
+        .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
+        .expect((res) => {
+          expect(res.body.title).toBe(snippet.title);
+          expect(res.body.comments).toBe(snippet.comments);
+          expect(res.body.storedCode).toBe(snippet.storedCode);
+          expect(res.body.language).toBe(snippet.language);
+          expect(res.body.tags).toEqual(snippet.tags);
+        });
+    });
+    xit("removes delete document from user's snippets array", () => {
+      return request(server)
+        .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
+        .expect(async () => {
+          user = await Users.findById(user._id);
+          expect(user.snippets.length).toEqual(0);
+        });
+    });
+  });
 });
 
 describe('Authentication route', () => {
