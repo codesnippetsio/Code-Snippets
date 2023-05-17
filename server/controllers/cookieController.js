@@ -1,2 +1,4 @@
 
-const cookieController = {}
+const cookieController = {};
+
+module.exports = cookieController;

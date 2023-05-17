@@ -28,6 +28,8 @@
     "@uiw/codemirror-extensions-langs": "^4.19.16",
     "@uiw/react-codemirror": "^4.19.16",
     "babel-jest": "^29.5.0",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
     "codemirror": "^6.0.1",
     "cors": "^2.8.5",
