@@ -15,7 +15,7 @@ const MainContainer = () => {
     const passwordInputValue = document.getElementById('password').value;
     document.getElementById('password').value = '';
 
-    fetch('/authentication/login', {
+    fetch('http://localhost:3000/authentication/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,9 +33,6 @@ const MainContainer = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    //todo: remove this after testing
-    setLogin(true);
   };
   //functino to handle showing the signup page
   const handleHaveAccount = () => setHaveAccount(false);
@@ -48,7 +45,7 @@ const MainContainer = () => {
     const passwordValue = document.getElementById('psw').value;
     document.getElementById('psw').value = '';
 
-    fetch('/authentication/signup', {
+    fetch('http://localhost:3000/authentication/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,9 +63,6 @@ const MainContainer = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    //todo: remove this after testing
-    setHaveAccount(true);
   };
 
   return login ? (
