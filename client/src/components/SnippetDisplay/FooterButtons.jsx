@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './SnippetDisplay.module.scss';
+import styles from './SnippetCard.module.scss';
 import { Button } from 'react-bootstrap';
 
 const FooterButtons = ({ deleteSnippet, setEditButtonState }) => {

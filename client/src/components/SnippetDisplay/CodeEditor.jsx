@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './SnippetDisplay.module.scss';
+import styles from './SnippetCard.module.scss';
 import CodeMirror from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from 'react-bootstrap';
 
-const CodeEditor = () => {
+const CodeEditor = ({ snippetStoredCode, setCopied }) => {
   return (
     <CodeMirror
       className={styles.editor}
