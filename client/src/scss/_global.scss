@@ -2,13 +2,18 @@ body {
   color: red;
 }
 
-
 // this might be a bug. react tag library wasnt going inline
 .ReactTags__selected {
   display: flex;
 }
 
-.cm-editor {outline: none !important}
+.cm-editor {
+  outline: none !important;
+}
+
+.ͼ1b {
+  height: 50vh;
+}
 
 .entireSnippetDisplay {
   z-index: 50;
