@@ -1,10 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 const snippetsRouter = require('./routes/snippetsRouter');
 const authenticationRouter = require('./routes/authenticationRouter');
 
 require('dotenv').config();
+require('./authConfig/passport')(passport);
 
 //Create express app and set constants
 const app = express();
@@ -15,6 +19,7 @@ const mongoURI = process.env.MONGO_URI;
 mongoose.connect(mongoURI);
 
 //Call default middleware
+app.use(passport.initialize());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
