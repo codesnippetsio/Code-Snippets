@@ -3,13 +3,13 @@ const accessController = require('../controllers/accessController');
 const router = express.Router();
 
 router.post('/login',accessController.verifyUser, (req,res) => {
-  return res.redirect('/mockdb.html');
+  return res.redirect('/');
 });
 	
 
 
 router.post('/signup',accessController.createUser, (req,res) => {
-  return res.redirect('/testlogin.html');
+  return res.redirect('/');
 });
 
 
