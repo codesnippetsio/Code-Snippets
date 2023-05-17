@@ -3,13 +3,12 @@ const User = require('../models/userModel.js');
 const bcrypt = require('bcrypt');
 const authenticationController = {};
 
-
 //Error creator method specific to this controller
 const createError = (method, log, status, message = log) => {
   return {
     log: `Error occurred in authenticationController.${method}: ${log}`,
     status,
-    message: { err: message }
+    message: { err: message },
   };
 };
 
@@ -24,13 +23,13 @@ authenticationController.signUp = async (req, res, next) => {
       return next({
         log: 'Error occured in authenticationController.signUp',
         status: 400,
-        message: 'Username already exists, please select another'
+        message: 'Username already exists, please select another',
       });
     }
 
     // password encryption
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password,salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await User.create({
       username: req.body.username,
@@ -60,17 +59,19 @@ authenticationController.getUserData = (req, res, next) => {
 
 authenticationController.Null = async (req, res, next) => {
   try {
-    await passport.authenticate('signup', {session: false}, (err, user) => {
+    await passport.authenticate('signup', { session: false }, (err, user) => {
       if (err) {
         throw err;
       }
       if (!user) {
-        return res.status(400).json({message: 'Signup failed, please input a valid username'});
+        return res
+          .status(400)
+          .json({ message: 'Signup failed, please input a valid username' });
       }
       const jwt = require('jsonwebtoken');
-      const { jwtSecret, jwtExpirtation } = require('../authConfig/config') ;
+      const { jwtSecret, jwtExpirtation } = require('../authConfig/config');
 
-      const token = jwt.sign({ id: user._id}, jwtSecret, {
+      const token = jwt.sign({ id: user._id }, jwtSecret, {
         expiresIn: jwtExpirtation,
       });
 
@@ -79,13 +80,10 @@ authenticationController.Null = async (req, res, next) => {
       res.locals.user = user;
 
       return next();
-    }) (req, res, next);
+    })(req, res, next);
   } catch (err) {
-    return next(
-      createError('signUp', `Error with signUp ${err}`, 500)
-    );
+    return next(createError('signUp', `Error with signUp ${err}`, 500));
   }
 };
-
 
 module.exports = authenticationController;
