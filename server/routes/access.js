@@ -1,5 +1,7 @@
 const express = require('express');
 const accessController = require('../controllers/accessController');
+const cookieController = require('../controllers/cookieController');
+const sessionController = require('../controllers/sessionController');
 const router = express.Router();
 
 router.post('/login',accessController.verifyUser, (req,res) => {
