@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './Welcome.scss';
 
 const Welcome = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const username = e.target[0].value;
@@ -25,14 +28,19 @@ const Welcome = () => {
       );
   };
 
+  const signupDisplay = () => {
+    console.log('you clicked signup');
+    setModalVisible(true);
+  };
+
   const inputChange = () => {
     console.log('its changing');
   };
 
   return (
-    <div>
+    <div className='welcome'>
       <h1>Code Snippets</h1>
-      <form onSubmit={handleSubmit}>
+      <form className='form' onSubmit={handleSubmit}>
         <div className='input-container'>
           <label>Username </label>
           <input
@@ -60,7 +68,10 @@ const Welcome = () => {
         </button>
       </form>
       <h2>
-        Not a member? <a href='/'>Sign up</a>
+        Not a member?{' '}
+        <a className='signup' onClick={signupDisplay}>
+          Sign up
+        </a>
       </h2>
     </div>
   );

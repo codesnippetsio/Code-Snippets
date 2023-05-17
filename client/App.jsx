@@ -1,6 +1,6 @@
 import React from 'react';
 import MainContainer from './src/containers/MainContainer/MainContainer.jsx';
-import Welcome from './src/Welcome.jsx';
+import Welcome from './src/pages/Welcome.jsx';
 import {
   BrowserRouter as Router,
   Route,
