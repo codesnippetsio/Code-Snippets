@@ -8,7 +8,7 @@ require('dotenv').config();
 const server = 'http://localhost:3000';
 const mongoURI = process.env.MONGO_URI;
 
-xdescribe('Snippets route', () => {
+describe('Snippets route', () => {
   let user;
   let snippet_id;
   const username = '__DummyData__';
@@ -19,6 +19,13 @@ xdescribe('Snippets route', () => {
     storedCode: 'cry()',
     tags: ['1', '2', '3'],
     language: 'Klingon',
+  };
+  const newSnippet = {
+    title: 'NEW FAKE DATA',
+    comments: 'MORE FUN COMMENTS!',
+    storedCode: 'cryAgain()',
+    tags: ['4', '5', '6'],
+    language: 'Huttese',
   };
   describe('GET', () => {
     //before all GET test:
@@ -32,6 +39,7 @@ xdescribe('Snippets route', () => {
       const fakeSnippet = await Snippets.create(snippet);
       snippet_id = fakeSnippet._id;
       user.snippets.push(fakeSnippet._id);
+
       return user.save();
     });
 
@@ -45,13 +53,13 @@ xdescribe('Snippets route', () => {
     });
     it('responds with 200 status and json', () => {
       return request(server)
-        .get(`/snippets/?_id=${user._id}`)
+        .get(`/snippets/?userId=${user._id}`)
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8');
     });
     it('responds with data that has keys: title, comments, storedCode, language', () => {
       return request(server)
-        .get(`/snippets/?_id=${user._id}`)
+        .get(`/snippets/?userId=${user._id}`)
         .expect((res) => {
           if (!res.body[0].hasOwnProperty('title')) {
             throw new Error("Expected 'title' key!");
@@ -69,7 +77,7 @@ xdescribe('Snippets route', () => {
     });
     it('responds with data that has key, tags, and value of an array', () => {
       return request(server)
-        .get(`/snippets/?_id=${user._id}`)
+        .get(`/snippets/?userId=${user._id}`)
         .expect((res) => {
           if (!res.body[0].hasOwnProperty('tags')) {
             throw new Error("Expected 'tags' key!");
@@ -106,15 +114,15 @@ xdescribe('Snippets route', () => {
     });
     it('responds with 200 status and json', () => {
       return request(server)
-        .post('/snippets')
-        .send({ ...snippet, userId: user._id })
+        .post(`/snippets/?userId=${user._id}`)
+        .send(snippet)
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8');
     });
     it('responds with the newly created document', () => {
       return request(server)
-        .post('/snippets')
-        .send({ ...snippet, userId: user._id })
+        .post(`/snippets/?userId=${user._id}`)
+        .send(snippet)
         .expect((res) => {
           expect(res.body.title).toBe(snippet.title);
           expect(res.body.comments).toBe(snippet.comments);
@@ -125,15 +133,57 @@ xdescribe('Snippets route', () => {
     });
     it("pushes newly created document to user's snippets array", () => {
       return request(server)
-        .post('/snippets')
-        .send({ ...snippet, userId: user._id })
+        .post(`/snippets/?userId=${user._id}`)
+        .send(snippet)
         .expect(async (res) => {
           user = await Users.findById(user._id);
           expect(user.snippets.length).toEqual(1);
         });
     });
   });
-  describe('PUT', () => {});
+  describe('PUT', () => {
+    beforeAll(async () => {
+      console.log('Connecting to the database!');
+      await mongoose.connect(mongoURI);
+
+      console.log('Creating dummy data!');
+      user = await Users.create({ username, password });
+
+      const fakeSnippet = await Snippets.create(snippet);
+      snippet_id = fakeSnippet._id;
+
+      return;
+    });
+    afterEach(async () => {
+      return await Snippets.findByIdAndUpdate(snippet_id, snippet);
+    });
+    afterAll(async () => {
+      console.log('Deleting dummy data!');
+      await Snippets.findByIdAndDelete(snippet_id);
+      await Users.findByIdAndDelete(user._id);
+
+      console.log('Disconnecting from the database!');
+      return await mongoose.connection.close();
+    });
+    it('responds with 200 status and json', () => {
+      return request(server)
+        .put(`/snippets/?snippetId=${snippet_id}&userId=${user._id}`)
+        .send(newSnippet)
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8');
+    });
+    it('responds with unupdated document', () => {
+      return request(server)
+        .put(`/snippets/?snippetId=${snippet_id}&userId=${user._id}`)
+        .send(newSnippet)
+        .expect((res) => {
+          console.log(res.body);
+          expect(res.body.snippet.title).toEqual(snippet.title);
+          expect(res.body.snippet.comments).toEqual(snippet.comments);
+          expect(res.body.snippet.language).toEqual(snippet.language);
+        });
+    });
+  });
   describe('DELETE', () => {
     beforeAll(async () => {
       console.log('Connecting to the database!');
@@ -165,11 +215,11 @@ xdescribe('Snippets route', () => {
       return request(server)
         .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
         .expect((res) => {
-          expect(res.body.title).toBe(snippet.title);
-          expect(res.body.comments).toBe(snippet.comments);
-          expect(res.body.storedCode).toBe(snippet.storedCode);
-          expect(res.body.language).toBe(snippet.language);
-          expect(res.body.tags).toEqual(snippet.tags);
+          expect(res.body.snippet.title).toBe(snippet.title);
+          expect(res.body.snippet.comments).toBe(snippet.comments);
+          expect(res.body.snippet.storedCode).toBe(snippet.storedCode);
+          expect(res.body.snippet.language).toBe(snippet.language);
+          expect(res.body.snippet.tags).toEqual(snippet.tags);
         });
     });
     it("removes delete document from user's snippets array", () => {
@@ -183,7 +233,7 @@ xdescribe('Snippets route', () => {
   });
 });
 
-xdescribe('Authentication route', () => {
+describe('Authentication route', () => {
   let user;
   const username = '__DummyData__';
   const password = 'codesmith';
@@ -240,9 +290,9 @@ xdescribe('Authentication route', () => {
     });
     it('responds with 200 status and json', () => {
       return request(server)
-        .post('/authentication')
+        .post('/authentication/signup')
         .send({ username, password })
-        .expect(200)
+        .expect(201)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect((res) => {
           user = res.body;
@@ -250,7 +300,7 @@ xdescribe('Authentication route', () => {
     });
     it('responds with newly created user document', () => {
       return request(server)
-        .post('/authentication')
+        .post('/authentication/signup')
         .send({ username, password })
         .expect((res) => {
           user = res.body;
@@ -260,7 +310,7 @@ xdescribe('Authentication route', () => {
   });
 });
 
-xdescribe('Error handling', () => {
+describe('Error handling', () => {
   describe('Invalid route', () => {
     it('it returns a 404 status and error message', () => {
       return request(server)
