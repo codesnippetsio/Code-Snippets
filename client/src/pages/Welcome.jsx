@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Welcome.scss';
 
-const Welcome = () => {
+const Welcome = ({ setLoggedIn }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSubmit = (e) => {
@@ -21,7 +21,7 @@ const Welcome = () => {
       .then((user) => {
         console.log('hello');
         console.log('You loggedin', user);
-        //   setLoggedIn(user);
+        setLoggedIn('fake data');
       })
       .catch((err) =>
         console.log('error from Login-Post-Request ERROR: ', err)
