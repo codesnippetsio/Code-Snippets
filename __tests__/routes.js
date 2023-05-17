@@ -9,25 +9,25 @@ const server = 'http://localhost:3000';
 const mongoURI = process.env.MONGO_URI;
 
 describe('Snippets route', () => {
-  let user_id;
+  let user;
   let snippet_id;
   const username = '__DummyData__';
   const password = 'codesmith';
-
-  describe('GET', () => {
+  const snippet = {
+    title: 'FAKE DATA',
+    comments: 'FUN COMMENTS!',
+    storedCode: 'cry()',
+    tags: ['1', '2', '3'],
+    language: 'Klingon',
+  };
+  xdescribe('GET', () => {
     //before all GET test:
-    const snippet = {
-      title: 'FAKE DATA',
-      comments: 'FUN COMMENTS!',
-      storedCode: 'cry()',
-      tags: [1, 2, 3],
-      language: 'Klingon',
-    };
     beforeAll(async () => {
+      console.log('Connecting to the database!');
       await mongoose.connect(mongoURI);
 
-      const user = await Users.create({ username, password });
-      user_id = user._id;
+      console.log('Creating dummy data!');
+      user = await Users.create({ username, password });
 
       const fakeSnippet = await Snippets.create(snippet);
       snippet_id = fakeSnippet._id;
@@ -36,20 +36,22 @@ describe('Snippets route', () => {
     });
 
     afterAll(async () => {
-      await Users.findByIdAndDelete(user_id);
+      console.log('Deleting dummy data!');
+      await Users.findByIdAndDelete(user._id);
       await Snippets.findByIdAndDelete(snippet_id);
 
+      console.log('Disconnecting from the database!');
       return await mongoose.connection.close();
     });
-    xit('responds with 200 status and json', () => {
+    it('responds with 200 status and json', () => {
       return request(server)
-        .get(`/snippets/?_id=${user_id}`)
+        .get(`/snippets/?_id=${user._id}`)
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8');
     });
-    xit('responds with data that has keys: title, comments, storedCode, language', () => {
+    it('responds with data that has keys: title, comments, storedCode, language', () => {
       return request(server)
-        .get(`/snippets/?_id=${user_id}`)
+        .get(`/snippets/?_id=${user._id}`)
         .expect((res) => {
           if (!res.body[0].hasOwnProperty('title')) {
             throw new Error("Expected 'title' key!");
@@ -65,9 +67,9 @@ describe('Snippets route', () => {
           }
         });
     });
-    xit('responds with data that has key, tags, and value of an array', () => {
+    it('responds with data that has key, tags, and value of an array', () => {
       return request(server)
-        .get(`/snippets/?_id=${user_id}`)
+        .get(`/snippets/?_id=${user._id}`)
         .expect((res) => {
           if (!res.body[0].hasOwnProperty('tags')) {
             throw new Error("Expected 'tags' key!");
@@ -78,7 +80,57 @@ describe('Snippets route', () => {
         });
     });
   });
-  describe('POST', () => {});
+  describe('POST', () => {
+    beforeAll(async () => {
+      console.log('Connecting to the database!');
+      await mongoose.connect(mongoURI);
+
+      console.log('Creating dummy data!');
+      user = await Users.create({ username, password });
+
+      return user.save();
+    });
+    afterAll(async () => {
+      console.log('Deleting dummy data!');
+
+      await Users.findByIdAndDelete(user._id);
+
+      console.log('Disconnecting from the database!');
+      return await mongoose.connection.close();
+    });
+    afterEach(async () => {
+      user = await Users.findById(user._id);
+      return await Snippets.findByIdAndDelete(user.snippets[0]);
+    });
+    xit('responds with 200 status and json', () => {
+      return request(server)
+        .post('/snippets')
+        .send({ ...snippet, userId: user._id })
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8');
+    });
+    xit('responds with the newly created document', () => {
+      return request(server)
+        .post('/snippets')
+        .send({ ...snippet, userId: user._id })
+        .expect((res) => {
+          expect(res.body.title).toBe(snippet.title);
+          expect(res.body.comments).toBe(snippet.comments);
+          expect(res.body.storedCode).toBe(snippet.storedCode);
+          expect(res.body.language).toBe(snippet.language);
+          expect(res.body.tags).toEqual(snippet.tags);
+        });
+    });
+    xit("pushes newly created document to user's snippets array", () => {
+      return request(server)
+        .post('/snippets')
+        .send({ ...snippet, userId: user._id })
+        .expect(async (res) => {
+          user = await Users.findById(user._id);
+          expect(user.snippets.length).toEqual(1);
+        });
+    });
+  });
   describe('PUT', () => {});
   describe('DELETE', () => {});
 });
