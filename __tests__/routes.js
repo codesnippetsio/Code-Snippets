@@ -183,7 +183,7 @@ xdescribe('Snippets route', () => {
   });
 });
 
-describe('Authentication route', () => {
+xdescribe('Authentication route', () => {
   let user;
   const username = '__DummyData__';
   const password = 'codesmith';
@@ -209,13 +209,13 @@ describe('Authentication route', () => {
       console.log('Disconnecting from database!');
       return await mongoose.connection.close();
     });
-    xit('responds with 200 status and json', () => {
+    it('responds with 200 status and json', () => {
       return request(server)
         .get(`/authentication/?_id=${user._id}`)
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8');
     });
-    xit('responds with the correct user data', () => {
+    it('responds with the correct user data', () => {
       return request(server)
         .get(`/authentication/?_id=${user._id}`)
         .expect((res) => {
@@ -225,9 +225,50 @@ describe('Authentication route', () => {
         });
     });
   });
-  describe('POST', () => {});
+  describe('POST', () => {
+    beforeAll(async () => {
+      console.log('Connecting to the database!');
+      return await mongoose.connect(mongoURI);
+    });
+    afterEach(async () => {
+      console.log('Deleting dummy data!');
+      return await Users.findByIdAndDelete(user._id);
+    });
+    afterAll(async () => {
+      console.log('Disconnecting from database!');
+      return await mongoose.connection.close();
+    });
+    it('responds with 200 status and json', () => {
+      return request(server)
+        .post('/authentication')
+        .send({ username, password })
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((res) => {
+          user = res.body;
+        });
+    });
+    it('responds with newly created user document', () => {
+      return request(server)
+        .post('/authentication')
+        .send({ username, password })
+        .expect((res) => {
+          user = res.body;
+          expect(res.body.username).toEqual(username);
+        });
+    });
+  });
 });
 
-describe('Invalid route', () => {
-  describe('GET', () => {});
+xdescribe('Error handling', () => {
+  describe('Invalid route', () => {
+    it('it returns a 404 status and error message', () => {
+      return request(server)
+        .get('/lorem_ipsum')
+        .expect(404)
+        .expect((res) => {
+          expect(res.text).toEqual('Invalid endpoint');
+        });
+    });
+  });
 });
