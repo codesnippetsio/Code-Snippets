@@ -22,6 +22,10 @@ router.post('/login', passport.authenticate('local', {session: false}), (req, re
     .json({ token });
 });
 
+router.get('/protected', passport.authenticate('jwt', {session: false }), (req, res) => {
+  res.send('Protected route accessed!');
+});
+
 router.get('/', authenticationController.getUserData, (req, res) => {
   res.status(200).json(res.locals.userData);
 });

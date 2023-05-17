@@ -58,34 +58,5 @@ authenticationController.getUserData = (req, res, next) => {
     });
 };
 
-authenticationController.Null = async (req, res, next) => {
-  try {
-    await passport.authenticate('signup', {session: false}, (err, user) => {
-      if (err) {
-        throw err;
-      }
-      if (!user) {
-        return res.status(400).json({message: 'Signup failed, please input a valid username'});
-      }
-      const jwt = require('jsonwebtoken');
-      const { jwtSecret, jwtExpirtation } = require('../authConfig/config') ;
-
-      const token = jwt.sign({ id: user._id}, jwtSecret, {
-        expiresIn: jwtExpirtation,
-      });
-
-      req.token = token;
-      req.user = user;
-      res.locals.user = user;
-
-      return next();
-    }) (req, res, next);
-  } catch (err) {
-    return next(
-      createError('signUp', `Error with signUp ${err}`, 500)
-    );
-  }
-};
-
 
 module.exports = authenticationController;
