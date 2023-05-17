@@ -1,6 +1,8 @@
 const passport = require('../authConfig/passport.js');
 const User = require('../models/userModel.js');
+const bcrypt = require('bcrypt');
 const authenticationController = {};
+
 
 //Error creator method specific to this controller
 const createError = (method, log, status, message = log) => {
@@ -13,25 +15,34 @@ const createError = (method, log, status, message = log) => {
 
 //Authentication and user creation methods go here.
 //Feel free to change these as you see fit -- I just have them in here for testing purposes.
-authenticationController.createUser = (req, res, next) => {
+authenticationController.signUp = async (req, res, next) => {
   const { username, password } = req.body;
-  User.create(
-    //Information goes here...
-    { username, password }
-  )
-    .then((user) => {
-      res.locals.newUserInfo = user;
-      return next();
-    })
-    .catch((err) => {
-      return next(
-        createError(
-          'createUser',
-          `Error creating user with provided credentials: ${err}`,
-          500
-        )
-      );
+  try {
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return next({
+        log: 'Error occured in authenticationController.signUp',
+        status: 400,
+        message: 'Username already exists, please select another'
+      });
+    }
+
+    // password encryption
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password,salt);
+
+    const newUser = await User.create({
+      username: req.body.username,
+      password: hashedPassword,
     });
+
+    console.log('User created, signup complete');
+    res.locals.newUser = await newUser;
+    return next();
+  } catch (err) {
+    return next('Im triggered');
+  }
 };
 
 authenticationController.getUserData = (req, res, next) => {
@@ -49,7 +60,7 @@ authenticationController.getUserData = (req, res, next) => {
     });
 };
 
-authenticationController.signUp = async (req, res, next) => {
+authenticationController.Null = async (req, res, next) => {
   try {
     await passport.authenticate('signup', {session: false}, (err, user) => {
       if (err) {
