@@ -11,10 +11,19 @@
   },
   "author": "Aalayah Olaes, Scott Brasko,Yueran Li, Paul Lee, Kinski Wu",
   "license": "ISC",
+  "jest": {
+    "globalSetup": "./jest-setup.js",
+    "globalTeardown": "./jest-teardown.js",
+    "testEnvironment": "jest-environment-jsdom",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ]
+  },
   "dependencies": {
     "@uiw/codemirror-extensions-langs": "^4.19.16",
     "@uiw/codemirror-theme-okaidia": "^4.19.16",
     "@uiw/react-codemirror": "^4.19.16",
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
     "codemirror": "^6.0.1",
