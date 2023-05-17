@@ -4,7 +4,7 @@ const snippetsController = require('../controllers/snippetsController');
 
 const router = express.Router();
 
-router.get('/', snippetsController.getSnippets, (req, res) =>
+router.get('/:username', snippetsController.getSnippets, (req, res) =>
   res.status(200).json(res.locals.allSnippets)
 );
 

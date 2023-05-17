@@ -12,11 +12,13 @@ const mongoURI =
 mongoose.connect(mongoURI);
 
 const snippetsRouter = require('./routes/snippets');
+const userRouter = require('./routes/user');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/user', userRouter);
 app.use('/snippets', snippetsRouter);
 
 app.use((req, res) => res.status(404).send('Invalid endpoint'));

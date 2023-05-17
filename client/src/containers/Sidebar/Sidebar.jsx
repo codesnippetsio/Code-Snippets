@@ -17,7 +17,8 @@ const Sidebar = () => {
   // getSnippet func
   const getSnippet = () => {
     setLoading(true);
-    fetch('http://localhost:3000/snippets')
+    
+    fetch(`http://localhost:3000/snippets/:username`)
       .then((res) => res.json())
       .then((res) => {
         console.log('res', res);

@@ -55,6 +55,7 @@ module.exports = {
     },
     proxy: {
       '/snippets': 'http://localhost:3000',
+      '/user': 'http://localhost:3000'
     },
   },
   devtool: 'eval-source-map',
