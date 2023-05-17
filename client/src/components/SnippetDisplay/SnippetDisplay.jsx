@@ -54,7 +54,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   };
 
   const editSnippet = (snippetId) => {
-    fetch(`/snippets?${new URLSearchParams({ snippetId })}`, {
+    fetch(`/snippets?${new URLSearchParams({ snippetId, userId })}`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(currentDisplay)
@@ -126,7 +126,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
               setCurrentDisplay({ ...currentDisplay, tags: e });
             }
           }}
-          tags={currentDisplay.tags}
+          defaultTags={currentDisplay.tags}
         />
         {/* <input className="tagsEdit" onChange={(e) => {setTags}}> <span> Title: </span> {snippetTagList}</input> */}
       </div>
