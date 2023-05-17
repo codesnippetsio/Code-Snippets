@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Welcome.scss';
+import Signup from '../components/Signup'
 
 const Welcome = ({ setLoggedIn }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -73,6 +74,7 @@ const Welcome = ({ setLoggedIn }) => {
           Sign up
         </a>
       </h2>
+      {modalVisible && <Signup setModalVisible={setModalVisible}/>}
     </div>
   );
 };
