@@ -1,17 +1,31 @@
 body {
-  color: red;
+  background: url(https://wallpaperaccess.com/full/266479.png) no-repeat center
+    center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-
 
 // this might be a bug. react tag library wasnt going inline
 .ReactTags__selected {
   display: flex;
 }
 
-.cm-editor {outline: none !important}
+.cm-editor {
+  outline: none !important;
+}
 
-.entireSnippetDisplay {
-  z-index: 50;
+#right {
+  background: radial-gradient(150px 40px at 195px bottom, #666, #222);
+
+  color: rgb(186, 127, 241);
+}
+
+#card {
+  background: radial-gradient(150px 40px at 195px bottom, #666, #222);
+  color: white;
+  margin-top: 100px;
 }
 
 .login {
@@ -20,7 +34,7 @@ body {
   min-height: 500px;
   width: 60%;
   margin: auto;
-  // margin-top: 300px;
+  margin-top: 100px;
   justify-content: center;
   align-items: center;
 }
@@ -28,16 +42,19 @@ body {
 .form {
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
+  justify-content: space-around;
   align-items: flex-end;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
+#secondDiv {
+  margin-top: 15px;
+}
 #go {
   margin-top: 20px;
   width: 80px;
-  border: 1px solid green;
-  background-color: green;
+  border: 1px solid;
+  background-color: rgb(4, 99, 129);
   border-radius: 10px;
   color: white;
 }
@@ -51,20 +68,40 @@ body {
 }
 
 #loginBox {
-
+  background-color: rgb(18, 64, 84);
+  opacity: 0.9;
+  background: -webkit-linear-gradient(#eee, #333);
   height: 260px;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
   width: 500px;
   border: 2px solid rgb(42, 41, 41);
   display: flex;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   flex-direction: column;
   border-radius: 12px;
   border-style: double;
 }
 
+#bottomMessage {
+  font-size: 20px;
+  background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#headerTitle {
+  font-size: 72px;
+  background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .signup {
   width: 30%;
+  color: lightgrey;
   margin: auto;
+  margin-top: 200px;
 }
