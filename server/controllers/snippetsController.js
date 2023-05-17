@@ -18,6 +18,7 @@ snippetsController.getSnippets = (req, res, next) => {
 
 snippetsController.createSnippet = (req, res, next) => {
   const { title, comments, storedCode, tags, language } = req.body;
+  if (!title) return next('error');
   const snippet = { title, comments, storedCode, tags, language };
   const userId = '6463e2a56199f6aa201aecff';
 
@@ -51,9 +52,10 @@ snippetsController.createSnippet = (req, res, next) => {
       next(error);
     });
 };
- 
+
 snippetsController.updateSnippet = (req, res, next) => {
   const { id, title, comments, storedCode, tags, language } = req.body;
+  if (!title) return next('error');
   const updatedSnippet = { id, title, comments, storedCode, tags, language };
   const userId = '6463e2a56199f6aa201aecff';
 
@@ -82,6 +84,7 @@ snippetsController.updateSnippet = (req, res, next) => {
 
 snippetsController.deleteSnippet = (req, res, next) => {
   const { id } = req.query;
+  if(!id) return next('error')
   const userId = '6463e2a56199f6aa201aecff';
 
   User.findOne({ _id: userId })

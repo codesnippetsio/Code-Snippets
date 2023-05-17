@@ -4,11 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    src: './client/index.js'
+    src: './client/index.js',
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -22,45 +22,40 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              '@babel/preset-env',
-              ['@babel/preset-react', { runtime: 'automatic' }],
-            ],
-            plugins: ['@babel/plugin-transform-runtime', '@babel/transform-async-to-generator'],
+            presets: ['@babel/preset-env', ['@babel/preset-react', { runtime: 'automatic' }]],
+            plugins: ['@babel/plugin-proposal-class-properties'],
           },
         },
       },
       {
         test: /\.s?css/,
-        use: [
-          'style-loader', 'css-loader', 'sass-loader'
-        ]
-      }
-    ]
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
-      template:'./public/index.html'
-    })
+      template: './public/index.html',
+    }),
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.scss'],
   },
   devServer: {
-    host: "localhost",
+    host: 'localhost',
     port: 8080,
     hot: true,
     historyApiFallback: true,
-    headers: { "Access-Control-Allow-Origin": "*" },
+    headers: { 'Access-Control-Allow-Origin': '*' },
     hot: true,
     static: {
       publicPath: '/dist/',
-      directory: path.resolve(__dirname, 'dist')
+      directory: path.resolve(__dirname, 'dist'),
     },
     proxy: {
-      '/snippets': 'http://localhost:3000'
-    }
+      '/snippets': 'http://localhost:3000',
+    },
   },
-  devtool: 'eval-source-map'
+  devtool: 'eval-source-map',
 };

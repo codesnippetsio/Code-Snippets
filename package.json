@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production node server/server.js",
     "build": "webpack",
     "dev": "NODE_ENV=development concurrently \"webpack-dev-server --open --hot --progress --color\" \"nodemon ./server/server.js\"",
-    "test": "jest --verbose"
+    "test": "jest"
   },
   "author": "Aalayah Olaes, Scott Brasko,Yueran Li, Paul Lee, Kinski Wu",
   "license": "ISC",
