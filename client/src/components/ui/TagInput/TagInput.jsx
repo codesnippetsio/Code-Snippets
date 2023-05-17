@@ -70,7 +70,7 @@ const TagInput = (props) => {
   }, [tags]);
 
   return (
-    <ReactTags
+    <ReactTags 
       tags={tags}
       suggestions={suggestions}
       delimiters={delimiters}

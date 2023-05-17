@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const passport = require('passport');
+
 const snippetsRouter = require('./routes/snippetsRouter');
 const authenticationRouter = require('./routes/authenticationRouter');
+
 
 require('dotenv').config();
 
@@ -15,6 +18,7 @@ const mongoURI = process.env.MONGO_URI;
 mongoose.connect(mongoURI);
 
 //Call default middleware
+app.use(passport.initialize());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

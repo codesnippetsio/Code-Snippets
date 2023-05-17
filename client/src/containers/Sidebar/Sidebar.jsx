@@ -67,32 +67,33 @@ const Sidebar = ({ handleLogin }) => {
   return (
     <React.Fragment>
       {/*----- SIDE BAR -----*/}
-      <Card className={`pt-0 ${styles.sidebar} ${!collapse && styles.open}`}>
+      <Card
+        id='card'
+        className={`pt-0 ${styles.sidebar} ${!collapse && styles.open}`}
+      >
         <Card.Header>
-          <h1>Code Snippets</h1>
-
           {/* Changes the collapse state, which will render/unrender the sidebar*/}
 
           <button className={styles.toggleButton} onClick={toggleSidebar}>
             <img
               className={`${styles.arrow} ${!collapse && styles.arrowOpen}`}
               src={arrow}
-              alt="arrow"
+              alt='arrow'
             />
           </button>
         </Card.Header>
 
         {/* Renders the list of snippets fetched from DB */}
 
-        <Card.Body className="px-0 pt-0">
+        <Card.Body className='px-0 pt-0'>
           {/* Animation while app is fetching data from DB */}
           <div className={styles.cardBody}>
             {loading && (
-              <div className="d-flex justify-content-center pt-3">
+              <div className='d-flex justify-content-center pt-3'>
                 <Spinner
-                  animation="border"
-                  role="status"
-                  variant="primary"
+                  animation='border'
+                  role='status'
+                  variant='primary'
                 ></Spinner>
               </div>
             )}
@@ -112,7 +113,7 @@ const Sidebar = ({ handleLogin }) => {
             setOpenModal(true);
           }}
         >
-          <img src={img} alt="img" className={styles.img} />
+          <img src={img} alt='img' className={styles.img} />
         </button>
       </Card>
 
