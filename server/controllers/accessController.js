@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../models/userModel.js');
 
 const saltRounds = 10;
@@ -14,10 +14,10 @@ accessController.createUser = async (req, res, next) => {
       status: 400,
       message: { err: 'An error occurred' },
     });
-  
+
   try {
     const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password,salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new User.create({ username, password: hashedPassword });
     const user = await newUser.save();
     res.locals.user = user._id;
@@ -42,14 +42,14 @@ accessController.verifyUser = async (req, res, next) => {
     });
 
   try {
-    const data = User.findOne({username});
-    if (data){
+    const data = User.findOne({ username });
+    if (data) {
       const result = await bcrypt.compare(password, data.password);
       if (result) {
         res.locals.user = data._id;
         return next();
       }
-    }  
+    }
   } catch (err) {
     return next({
       log: 'Error occurred in verifying a user inside db.',
@@ -58,6 +58,5 @@ accessController.verifyUser = async (req, res, next) => {
     });
   }
 };
-
 
 module.exports = accessController;
