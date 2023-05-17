@@ -84,7 +84,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   const checkEdit = () => {
     if (editButtonState === true) {
       return (
-        <div className={styles.entireSnippetDisplay}>
+        <div id='snippetDisplay'>
           <div className="displayContainer">
             <span className="title"> Title: </span>
             <input
@@ -198,7 +198,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
 
   return (
     <React.Fragment>
-      <Card className={styles.card}>
+      <Card className={styles.card} id='right'>
         {checkEdit()}
 
         <div className={styles.buttonDiv}>
