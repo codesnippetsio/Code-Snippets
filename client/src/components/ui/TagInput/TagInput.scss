@@ -1,0 +1,26 @@
+.react-tags-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  .ReactTags_tagInput {
+    display: flex;
+  }
+  .ReactTags_selected {
+    display: flex;
+    white-space: pre-wrap;
+  }
+  button {
+    //display: inline-block;
+    color: white !important;
+    background-color: inherit !important;
+    border: none;
+  }
+
+  .tag-wrapper {
+    white-space: nowrap;
+    margin: 3px;
+    padding: 3px;
+    border: 1pt solid whitesmoke;
+    border-radius: 3px;
+  }
+}

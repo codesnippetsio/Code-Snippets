@@ -9,18 +9,36 @@
 //   border-color: black;
 // }
 
+.displayTypeSelectosr {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100%;
+  input {
+    display: none;
+  }
+  label {
+  }
+  .displayTypeButton {
+    .active {
+      color: whitesmoke;
+      border-bottom: 1pt double whitesmoke;
+    }
+    .inactive {
+    }
+  }
+}
+
 .sidebar {
   width: 300px;
-  height: 100vh !important;
+  height: inherit;
   position: absolute;
   left: -300px;
   top: 0;
-  
+
   transition: 200ms ease-in;
 
   background-color: rgb(10, 25, 41);
-
-  padding-top: 28px;
 
   display: flex;
   flex-direction: column;
@@ -31,12 +49,12 @@
     z-index: 20;
     right: -50px;
     top: 35px;
-    transform: scale(.5);
+    transform: scale(0.5);
     background: none;
     border: none;
 
     .arrow {
-      
+      color: whitesmoke;
     }
 
     .arrowOpen {
@@ -45,7 +63,7 @@
   }
 
   .cardBody {
-  
+    padding: 8px 16px;
   }
 }
 
@@ -58,11 +76,13 @@
   // z-index: -20;
   left: -250px;
   transition: 200ms ease-in;
+  width: 100%;
 }
 
 .snippetDisplayOpen {
   left: 0;
   transition: 200ms ease-in;
+  width: 100%;
 }
 
 .logo {
@@ -97,17 +117,17 @@
 
 .addButton {
   border: transparent;
-    height: 50px;
-    width: 270px;
-    // padding-left: 7px;
-    // padding-right: 7px;
-    border-radius: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: white;
+  height: 50px;
+  width: 270px;
+  // padding-left: 7px;
+  // padding-right: 7px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: white;
 }
 
 .img {

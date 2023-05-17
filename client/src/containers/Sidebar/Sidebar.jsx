@@ -68,32 +68,48 @@ const Sidebar = ({ handleLogin }) => {
     <React.Fragment>
       {/*----- SIDE BAR -----*/}
       <Card
-        id='card'
+        id="card"
         className={`pt-0 ${styles.sidebar} ${!collapse && styles.open}`}
       >
         <Card.Header>
           {/* Changes the collapse state, which will render/unrender the sidebar*/}
-
+          <div className={styles.displayTypeSelector}>
+            <input
+              type="radio"
+              name="displayType"
+              id="browseBySnippets"
+              value="snippets"
+              checked
+            ></input>
+            <label htmlFor="browseBySnippets">Snippets</label>
+            <input
+              type="radio"
+              name="displayType"
+              id="browseByTags"
+              value="snippets"
+            ></input>
+            <label htmlFor="browseByTags">Tags</label>
+          </div>
           <button className={styles.toggleButton} onClick={toggleSidebar}>
             <img
               className={`${styles.arrow} ${!collapse && styles.arrowOpen}`}
               src={arrow}
-              alt='arrow'
+              alt="arrow"
             />
           </button>
         </Card.Header>
 
         {/* Renders the list of snippets fetched from DB */}
 
-        <Card.Body className='px-0 pt-0'>
+        <Card.Body className="px-0 pt-0">
           {/* Animation while app is fetching data from DB */}
           <div className={styles.cardBody}>
             {loading && (
-              <div className='d-flex justify-content-center pt-3'>
+              <div className="d-flex justify-content-center pt-3">
                 <Spinner
-                  animation='border'
-                  role='status'
-                  variant='primary'
+                  animation="border"
+                  role="status"
+                  variant="primary"
                 ></Spinner>
               </div>
             )}
@@ -104,16 +120,13 @@ const Sidebar = ({ handleLogin }) => {
           </div>
         </Card.Body>
 
-        <h2 className={styles.imgHeader} style={{ display: 'inline-block' }}>
-          Click me to add a new snippet!
-        </h2>
         <button
           className={styles.addButton}
           onClick={() => {
             setOpenModal(true);
           }}
         >
-          <img src={img} alt='img' className={styles.img} />
+          Add New
         </button>
       </Card>
 
