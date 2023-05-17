@@ -18,7 +18,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/snippets', snippetsRouter);
+//to be deleted, just for testing purposes
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './need-to-be-deleted/testlogin.html'));
+});
+
+app.get('/signup', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './need-to-be-deleted/testsignup.html'));
+});
+
+// app.use('/snippets', snippetsRouter);
 app.post('/login', accessRouter);
 app.post('/signup', accessRouter);
 
