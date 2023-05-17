@@ -12,30 +12,22 @@ import { TAGS } from '../../../data/data';
 const suggestions = TAGS.map((tag) => {
   return {
     id: tag,
-    text: tag,
+    text: tag
   };
 });
 
 const KeyCodes = {
   comma: 188,
-  enter: 13,
+  enter: 13
 };
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const TagInput = (props) => {
+const TagInput = ({ onChange, defaultTags }) => {
   const [tags, setTags] = useState([]);
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
-  };
-
-  const initialTags = () => {
-    const newTagList = [];
-    if (props.tags) {
-      props.tags.forEach((tag) => newTagList.push({ id: tag, text: tag }));
-      setTags(newTagList);
-    }
   };
 
   // useEffect(() => {
@@ -62,10 +54,16 @@ const TagInput = (props) => {
   };
 
   useEffect(() => {
+    if (defaultTags) {
+      setTags(defaultTags);
+    }
+  }, []);
+
+  useEffect(() => {
     const tagStringList = [];
-    if (props.onChange) {
-      tags.forEach((tag) => tagStringList.push(tag.text));
-      props.onChange(tagStringList);
+    if (onChange) {
+      tags.forEach((tag) => tagStringList.push(tag));
+      onChange(tagStringList);
     }
   }, [tags]);
 
@@ -86,7 +84,7 @@ const TagInput = (props) => {
 
 TagInput.propTypes = {
   onChange: PropTypes.func,
-  tags: PropTypes.array,
+  defaultTags: PropTypes.array
 };
 
 export default TagInput;

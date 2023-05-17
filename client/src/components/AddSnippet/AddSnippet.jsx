@@ -30,6 +30,10 @@ const AddSnippet = ({ closeModal }) => {
   const [error, setError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
+  //TODO: Pull user info from global state
+  //FIXME: HARCODING USER INFO FOR NOW
+  const userId = '6463eb52ab99bf89a84a3ebd';
+
   function handleSubmit(e) {
     e.preventDefault();
     if (title === '') {
@@ -40,7 +44,7 @@ const AddSnippet = ({ closeModal }) => {
       setError(false);
     }
 
-    fetch('/snippets', {
+    fetch('/snippets?' + new URLSearchParams({ userId }), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
