@@ -8,7 +8,7 @@ require('dotenv').config();
 const server = 'http://localhost:3000';
 const mongoURI = process.env.MONGO_URI;
 
-describe('Snippets route', () => {
+xdescribe('Snippets route', () => {
   let user;
   let snippet_id;
   const username = '__DummyData__';
@@ -20,7 +20,7 @@ describe('Snippets route', () => {
     tags: ['1', '2', '3'],
     language: 'Klingon',
   };
-  xdescribe('GET', () => {
+  describe('GET', () => {
     //before all GET test:
     beforeAll(async () => {
       console.log('Connecting to the database!');
@@ -80,7 +80,7 @@ describe('Snippets route', () => {
         });
     });
   });
-  xdescribe('POST', () => {
+  describe('POST', () => {
     beforeAll(async () => {
       console.log('Connecting to the database!');
       await mongoose.connect(mongoURI);
@@ -100,16 +100,18 @@ describe('Snippets route', () => {
     });
     afterEach(async () => {
       user = await Users.findById(user._id);
-      return await Snippets.findByIdAndDelete(user.snippets[0]);
+      snippet_id = user.snippets.pop();
+      await user.save();
+      return await Snippets.findByIdAndDelete(snippet_id);
     });
-    xit('responds with 200 status and json', () => {
+    it('responds with 200 status and json', () => {
       return request(server)
         .post('/snippets')
         .send({ ...snippet, userId: user._id })
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8');
     });
-    xit('responds with the newly created document', () => {
+    it('responds with the newly created document', () => {
       return request(server)
         .post('/snippets')
         .send({ ...snippet, userId: user._id })
@@ -121,7 +123,7 @@ describe('Snippets route', () => {
           expect(res.body.tags).toEqual(snippet.tags);
         });
     });
-    xit("pushes newly created document to user's snippets array", () => {
+    it("pushes newly created document to user's snippets array", () => {
       return request(server)
         .post('/snippets')
         .send({ ...snippet, userId: user._id })
@@ -132,7 +134,7 @@ describe('Snippets route', () => {
     });
   });
   describe('PUT', () => {});
-  xdescribe('DELETE', () => {
+  describe('DELETE', () => {
     beforeAll(async () => {
       console.log('Connecting to the database!');
       await mongoose.connect(mongoURI);
@@ -153,13 +155,13 @@ describe('Snippets route', () => {
       console.log('Disconnecting from the database!');
       return await mongoose.connection.close();
     });
-    xit('responds with 200 status and json', () => {
+    it('responds with 200 status and json', () => {
       return request(server)
         .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8');
     });
-    xit('responds with the deleted document', () => {
+    it('responds with the deleted document', () => {
       return request(server)
         .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
         .expect((res) => {
@@ -170,7 +172,7 @@ describe('Snippets route', () => {
           expect(res.body.tags).toEqual(snippet.tags);
         });
     });
-    xit("removes delete document from user's snippets array", () => {
+    it("removes delete document from user's snippets array", () => {
       return request(server)
         .delete(`/snippets/?userId=${user._id}&snippetId=${snippet_id}`)
         .expect(async () => {
@@ -182,7 +184,47 @@ describe('Snippets route', () => {
 });
 
 describe('Authentication route', () => {
-  describe('GET', () => {});
+  let user;
+  const username = '__DummyData__';
+  const password = 'codesmith';
+  const languages = ['klingon'];
+  const tags = ['1', '2', '3'];
+  describe('GET', () => {
+    beforeAll(async () => {
+      console.log('Connecting to the database!');
+      await mongoose.connect(mongoURI);
+
+      console.log('Creating dummy data!');
+      return (user = await Users.create({
+        username,
+        password,
+        languages,
+        tags,
+      }));
+    });
+    afterAll(async () => {
+      console.log('Deleting dummy data!');
+      await Users.findByIdAndDelete(user._id);
+
+      console.log('Disconnecting from database!');
+      return await mongoose.connection.close();
+    });
+    xit('responds with 200 status and json', () => {
+      return request(server)
+        .get(`/authentication/?_id=${user._id}`)
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8');
+    });
+    xit('responds with the correct user data', () => {
+      return request(server)
+        .get(`/authentication/?_id=${user._id}`)
+        .expect((res) => {
+          expect(res.body.username).toEqual(username);
+          expect(res.body.languages[0]).toBe(languages[0]);
+          expect(res.body.tags[0]).toBe(tags[0]);
+        });
+    });
+  });
   describe('POST', () => {});
 });
 
