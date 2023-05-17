@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function(){
+export default function Login(){
   const [validUser, setValidUser] = useState(false);
 
   const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     if (validUser) {
       navigate('/');
     }
@@ -15,13 +15,13 @@ export default function(){
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const user = {}
+    const user = {};
     user.username = e.target.elements.username.value;
     user.password = e.target.elements.password.value;
-    console.log("Username is", user.username)
-    console.log("Password is", user.password)
+    console.log('Username is', user.username);
+    console.log('Password is', user.password);
 
-    fetch('http://localhost:3000/login', {
+    fetch('/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ export default function(){
     })
       .then((response) => {
         if (!response.ok){
-          throw new Error('Failed to login')
+          throw new Error('Failed to login');
         }
         return response.json();
       })
@@ -39,13 +39,13 @@ export default function(){
           setValidUser(true);
         }
       })
-      .catch(error => {console.log(error)})
-  }
+      .catch(error => {console.log(error)});
+  };
 
   return (
     <div id="loginPage">
-      <div class="ProjectName">Code Snippets</div>
-      <div class="credentialBox">
+      <div className="ProjectName">Code Snippets</div>
+      <div className="credentialBox">
         <form onSubmit={handleSubmit}>
           <input type="text" name="username" />
           <input type="password" name="password" />
