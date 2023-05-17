@@ -17,23 +17,23 @@ const MainContainer = () =>{
     const passwordInputValue = document.getElementById('password').value;
     document.getElementById('password').value = '';
 
-    // fetch(URLtoGetUser, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     username: usernameInputValue,
-    //     password: passwordInputValue,
-    //   }),
-    // })
-    //   .then((result) => result.json())
-    //   .then((result) => {
-    //     console.log('result is: ', result);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    fetch('/authentication', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: usernameInputValue,
+        password: passwordInputValue,
+      }),
+    })
+      .then((result) => result.json())
+      .then((result) => {
+        console.log('result is: ', result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     setLogin(true);
   };
