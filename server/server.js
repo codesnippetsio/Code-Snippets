@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { auth } = require('express-openid-connect');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const snippetsRouter = require('./routes/snippetsRouter');
 const authenticationRouter = require('./routes/authenticationRouter');
 
 require('dotenv').config();
+require('./authConfig/passport')(passport);
 
 //Create express app and set constants
 const app = express();
@@ -17,34 +19,10 @@ const mongoURI = process.env.MONGO_URI;
 mongoose.connect(mongoURI);
 
 //Call default middleware
+app.use(passport.initialize());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
-// Auth0 config
-const secret = process.env.SECRET;
-const clientID = process.env.CLIENT_ID;
-const issuerBaseURL = process.env.ISSUER_BASE_URL;
-
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: secret,
-  baseURL: 'http://localhost:3000',
-  clientID: clientID,
-  issuerBaseURL: issuerBaseURL
-};
-
-
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
-
-// testing auth confid
-
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
 
 //Point relevant requests to snippet and authentication routers
 app.use('/snippets', snippetsRouter);
