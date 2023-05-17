@@ -26,7 +26,7 @@ describe('Route integration', () => {
       });
     });
 
-    describe('POST', () => {      
+    describe('POST', () => {
       it('empty request responds with 500 status', () => {
         return request(server)
           .post('/snippets')
@@ -38,11 +38,11 @@ describe('Route integration', () => {
       });
     });
 
-    describe('POST', () => {      
+    describe('POST', () => {
       it('request with title responds with 200 status', () => {
         return request(server)
           .post('/snippets')
-          .send({title: "title"})
+          .send({ title: 'title' })
           .expect('Content-Type', /application\/json/)
           .expect(200)
           .then((response) => {
@@ -51,7 +51,7 @@ describe('Route integration', () => {
       });
     });
 
-    describe('PUT', () => {      
+    describe('PUT', () => {
       it('empty request responds with 500 status', () => {
         return request(server)
           .put('/snippets')
@@ -63,11 +63,11 @@ describe('Route integration', () => {
       });
     });
 
-    describe('PUT', () => {      
+    describe('PUT', () => {
       it('request with id and title responds with 200 status', () => {
         return request(server)
           .put('/snippets')
-          .send({id: 1, title: "newTitle"})
+          .send({ id: 2, title: 'newTitle' })
           .expect('Content-Type', /application\/json/)
           .expect(200)
           .then((response) => {
@@ -76,7 +76,7 @@ describe('Route integration', () => {
       });
     });
 
-     describe('DELETE', () => {      
+    describe('DELETE', () => {
       it('empty request responds with 500 status', () => {
         return request(server)
           .delete('/snippets')
@@ -88,11 +88,11 @@ describe('Route integration', () => {
       });
     });
 
-    describe('DELETE', () => {      
+    describe('DELETE', () => {
       it('request with id and title responds with 200 status', () => {
         return request(server)
           .delete('/snippets')
-          .query({id: 1})
+          .query({ id: 1 })
           .expect('Content-Type', /application\/json/)
           .expect(200)
           .then((response) => {
@@ -100,7 +100,5 @@ describe('Route integration', () => {
           });
       });
     });
-
-
   });
 });
