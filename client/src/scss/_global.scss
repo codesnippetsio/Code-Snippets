@@ -7,15 +7,6 @@ body {
   background-size: cover;
 }
 
-// this might be a bug. react tag library wasnt going inline
-.ReactTags__selected {
-  display: flex;
-}
-
-.cm-editor {
-  outline: none !important;
-}
-
 #right {
   background: radial-gradient(150px 40px at 195px bottom, #666, #222);
 
@@ -25,7 +16,7 @@ body {
 #card {
   background: radial-gradient(150px 40px at 195px bottom, #666, #222);
   color: white;
-  margin-top: 100px;
+  margin-left: 20px;
 }
 
 .login {

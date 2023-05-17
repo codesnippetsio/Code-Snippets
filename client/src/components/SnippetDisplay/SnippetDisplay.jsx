@@ -41,6 +41,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     })
       .then((response) => {
         if (response.ok) {
+          setCurrentDisplay(defaultDisplayValues);
           getSnippet();
         }
       })
@@ -80,53 +81,65 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   const displayContent = (
     <div className={styles.entireSnippetDisplay}>
       <div className="displayContainer">
-        <span className="title"> Title: </span>
-        <input
-          defaultValue={currentDisplay.title}
-          className="titleEdit"
-          onChange={(e) => {
-            if (editButtonState) {
-              setCurrentDisplay({ ...currentDisplay, title: e.target.value });
-            }
-          }}
-        ></input>
-
-        <span className="language"> Language: </span>
-        <input
-          defaultValue={currentDisplay.language}
-          className="languageEdit"
-          onChange={(e) => {
-            if (editButtonState) {
-              setCurrentDisplay({
-                ...currentDisplay,
-                language: e.target.value
-              });
-            }
-          }}
-        ></input>
-
-        <span className="comments"> Comments: </span>
-        <input
-          defaultValue={currentDisplay.comments}
-          className="commentsEdit"
-          onChange={(e) => {
-            if (editButtonState) {
-              setCurrentDisplay({
-                ...currentDisplay,
-                comments: e.target.value
-              });
-            }
-          }}
-        ></input>
+        <div className={styles.displayRow}>
+          <div className="aspect-entry">
+            <span className="title"> Title: </span>
+            <input
+              defaultValue={currentDisplay.title}
+              className="titleEdit"
+              onChange={(e) => {
+                if (editButtonState) {
+                  setCurrentDisplay({
+                    ...currentDisplay,
+                    title: e.target.value
+                  });
+                }
+              }}
+            ></input>
+          </div>
+          <div className="aspect-entry">
+            <span className="language"> Language: </span>
+            <input
+              defaultValue={currentDisplay.language}
+              className="languageEdit"
+              onChange={(e) => {
+                if (editButtonState) {
+                  setCurrentDisplay({
+                    ...currentDisplay,
+                    language: e.target.value
+                  });
+                }
+              }}
+            ></input>
+          </div>
+        </div>
+        <div className={styles.displayRow}>
+          <div className="aspect-entry">
+            <span className="comments"> Comments: </span>
+            <input
+              defaultValue={currentDisplay.comments}
+              className="commentsEdit"
+              onChange={(e) => {
+                if (editButtonState) {
+                  setCurrentDisplay({
+                    ...currentDisplay,
+                    comments: e.target.value
+                  });
+                }
+              }}
+            ></input>
+          </div>
+        </div>
 
         <TagInput
-          className="tags"
+          className="tags display-row"
           onChange={(e) => {
             if (editButtonState) {
               setCurrentDisplay({ ...currentDisplay, tags: e });
             }
           }}
           defaultTags={currentDisplay.tags}
+          readOnly={!editButtonState}
         />
         {/* <input className="tagsEdit" onChange={(e) => {setTags}}> <span> Title: </span> {snippetTagList}</input> */}
       </div>
@@ -149,134 +162,8 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <Button className={styles.addButton}> Copy Code Snippet </Button>
         </CopyToClipboard>
       </CodeMirror>
-
-      <Button
-        style={{ display: editButtonState ? 'flex' : 'none' }}
-        className="saveEditButton"
-        onClick={() => {
-          console.dir(selectedSnippet);
-          editSnippet(selectedSnippet._id);
-          setEditButtonState(false);
-        }}
-      >
-        Save Edit
-      </Button>
     </div>
   );
-  // const checkEdit = () => {
-  //   if (editButtonState === true) {
-  //     return (
-  //       <div className={styles.entireSnippetDisplay}>
-  //         <div className="displayContainer">
-  //           <span className="title"> Title: </span>
-  //           <input
-  //             defaultValue={snippetTitle}
-  //             className="titleEdit"
-  //             onChange={(e) => {
-  //               snippetTitle = e.target.value;
-  //             }}
-  //           ></input>
-
-  //           <span className="language"> Language: </span>
-  //           <input
-  //             defaultValue={snippetLanguage}
-  //             className="languageEdit"
-  //             onChange={(e) => {
-  //               snippetLanguage = e.target.value;
-  //             }}
-  //           ></input>
-
-  //           <span className="comments"> Comments: </span>
-  //           <input
-  //             defaultValue={snippetComments}
-  //             className="commentsEdit"
-  //             onChange={(e) => {
-  //               snippetComments = e.target.value;
-  //             }}
-  //           ></input>
-
-  //           <TagInput
-  //             className="tags"
-  //             onChange={(e) => (snippetTagList = e)}
-  //             tags={snippetTagList}
-  //           />
-  //           {/* <input className="tagsEdit" onChange={(e) => {setTags}}> <span> Title: </span> {snippetTagList}</input> */}
-  //         </div>
-
-  //         <CodeMirror
-  //           className={styles.editor}
-  //           height="500px"
-  //           id="storedCode"
-  //           value={snippetStoredCode}
-  //           extensions={[langs.tsx()]}
-  //           //   placeholder={'const sayHi = () => {\n  console.log(\'Hello World!)\n}'}
-  //           onChange={(e) => (snippetStoredCode = e)}
-  //         >
-  //           <CopyToClipboard
-  //             text={snippetStoredCode}
-  //             onCopy={() => setCopied(true)}
-  //           >
-  //             <Button className={styles.addButton}> Copy Code Snippet </Button>
-  //           </CopyToClipboard>
-  //         </CodeMirror>
-
-  //         <Button
-  //           className="saveEditButton"
-  //           onClick={() => {
-  //             console.dir(selectedSnippet);
-  //             editSnippet(selectedSnippet._id);
-  //             setEditButtonState(false);
-  //           }}
-  //         >
-  //           Save Edit
-  //         </Button>
-  //       </div>
-  //     );
-  //   }
-
-  //   if (editButtonState === false) {
-  //     return (
-  //       <div className={styles.entireSnippetDisplay}>
-  //         <div className="displayContainer">
-  //           <p className="title">
-  //             {snippetTitle}
-  //             <span className="title"> Title: </span> {snippetTitle}
-  //           </p>
-  //           <p className="language">
-  //             {snippetLanguage}
-  //             <span> Language: </span> {snippetLanguage}
-  //           </p>
-  //           <p className="comments">
-  //             {snippetComments}
-  //             <span> Comments: </span> {snippetComments}
-  //           </p>
-  //           <TagInput className="tags" tags={snippetTagList} />
-  //           {/* <div className="tagContainer">{renderTags()}</div> */}
-  //         </div>
-
-  //         <CodeMirror
-  //           className={styles.editor}
-  //           height="500px"
-  //           id="storedCode"
-  //           value={snippetStoredCode}
-  //           extensions={[langs.tsx()]}
-  //           //   placeholder={'const sayHi = () => {\n  console.log(\'Hello World!)\n}'}
-  //           options={{
-  //             readOnly: true
-  //           }}
-  //           onChange={(e) => (snippetStoredCode = e)}
-  //         >
-  //           <CopyToClipboard
-  //             text={snippetStoredCode}
-  //             onCopy={() => setCopied(true)}
-  //           >
-  //             <Button className="copyButton"> Copy Code Snippet </Button>
-  //           </CopyToClipboard>
-  //         </CodeMirror>
-  //       </div>
-  //     );
-  //   }
-  // };
 
   return (
     <React.Fragment>
@@ -296,10 +183,23 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
             className="editButton"
             onClick={() => {
               //editSnippet(selectedSnippet.id);
-              setEditButtonState(true);
+              editButtonState
+                ? setEditButtonState(false)
+                : setEditButtonState(true);
             }}
           >
-            Edit Snippet
+            {editButtonState ? 'Close Editor' : 'Edit Snippet'}
+          </Button>
+          <Button
+            style={{ display: editButtonState ? 'flex' : 'none' }}
+            className="saveEditButton"
+            onClick={() => {
+              console.dir(selectedSnippet);
+              editSnippet(selectedSnippet._id);
+              setEditButtonState(false);
+            }}
+          >
+            Save Edit
           </Button>
         </div>
       </Card>
