@@ -49,3 +49,5 @@ sessionController.startSession = async (req, res, next) => {
     });
   }
 };
+
+module.exports = sessionController;
