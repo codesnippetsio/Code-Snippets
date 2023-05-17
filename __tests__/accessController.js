@@ -1,7 +1,8 @@
-// const fs = require('fs');
-// const path = require('path');
-// const bcrypt = require('bcrypt');
-// const accessController = require('../server/controllers/accessController');
+const fs = require('fs');
+const path = require('path');
+const bcrypt = require('bcrypt');
+const accessController = require('../server/controllers/accessController');
+const User = require('../server/models/userModel.js');
 
 // jest.mock('./User'); // Mocking the User model
 
