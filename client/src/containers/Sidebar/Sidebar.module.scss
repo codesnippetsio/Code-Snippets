@@ -28,6 +28,7 @@
 
   .toggleButton {
     position: absolute;
+    z-index: 20;
     right: -50px;
     top: 35px;
     transform: scale(.5);
