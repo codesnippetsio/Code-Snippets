@@ -28,11 +28,11 @@ const Sidebar = ({ handleLogin }) => {
   //Get all snippets stored under user's account
   //TODO: Get user ID from global state to include in request
   //FIXME: HARD CODING ID FOR NOW
+  const userId = '6463eb52ab99bf89a84a3ebd';
+
   const getSnippet = () => {
     setLoading(true);
-    fetch(
-      '/snippets?' + new URLSearchParams({ _id: '6463eb52ab99bf89a84a3ebd' })
-    )
+    fetch('/snippets?' + new URLSearchParams({ userId: userId }))
       .then((res) => res.json())
       .then((newSnippetArray) => {
         //As structured in snippets route, should receive an array of snippet objects
@@ -98,7 +98,7 @@ const Sidebar = ({ handleLogin }) => {
             )}
             <SnippetsRadioList
               snippets={snippets}
-              onChange={setSelectedSnippetWrapper}
+              setSelectedSnippet={setSelectedSnippetWrapper}
             />
           </div>
         </Card.Body>
