@@ -23,7 +23,7 @@ userController.verifyUser = async (req, res, next) => {
       message: 'error verifying user'
     });
   }
-}
+};
 
 userController.findUser = async (req, res, next) => {
   // console.log('In userController.findUser!!!');
