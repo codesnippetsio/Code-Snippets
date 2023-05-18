@@ -18,13 +18,18 @@ const port = process.env.PORT || 3000;
 const mongoURI = process.env.MONGO_URI;
 mongoose.connect(mongoURI);
 
-//Call default middleware
+// initialize passport
 app.use(passport.initialize());
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 // parse incoming cookies to authentication endpoints and store them on req.cookies object
 app.use(cookieParser());
+// allow cookies to be included in CORS request
+app.use(cors({
+  origin: 'http://localhost:8080',
+  credentials: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 //Point relevant requests to snippet and authentication routers
 
