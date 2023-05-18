@@ -9,7 +9,7 @@ require('dotenv').config();
 const secret = process.env.JWT_SECRET;
 
 router.post('/signup', authenticationController.signUp, (req, res) => {
-  return res.status(201).json(res.locals.newUser);
+  return res.status(201).json({ username: res.locals.newUser.username });
 });
 
 router.post(
@@ -18,17 +18,17 @@ router.post(
   (req, res) => {
     console.log(req.user);
     const token = jwt.sign({ userId: req.user.id }, secret, {
-      expiresIn: '1d'
+      expiresIn: '1d',
     });
     res.cookie('token', token, {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
-      httpOnly: true
+      httpOnly: true,
     });
     res.cookie('userId', req.user.id, {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
-      httpOnly: true
+      httpOnly: true,
     });
-    return res.status(202).json({ token });
+    return res.status(202).json({ username: req.user.username });
   }
 );
 
