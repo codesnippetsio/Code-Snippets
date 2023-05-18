@@ -18,7 +18,8 @@ const Welcome = ({ setLoggedIn }) => {
       },
       body: JSON.stringify({ username, password }),
     })
-      .then((res) => res.json())
+      .then(console.log(JSON.stringify({ username, password })))
+      //.then((res) => res.json())
       .then((user) => {
         console.log('hello');
         console.log('You loggedin', user);
