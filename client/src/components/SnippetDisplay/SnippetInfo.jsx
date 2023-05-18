@@ -1,5 +1,6 @@
 import React from 'react';
 import TagInput from '../../components/ui/TagInput/TagInput';
+import styles from './SnippetInfo.scss';
 
 const SnippetInfo = ({
   editButtonState,
