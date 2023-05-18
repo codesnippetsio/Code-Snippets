@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './TagInput.scss';
 
 //  importing utils
 import { WithContext as ReactTags } from 'react-tag-input';
@@ -23,20 +24,19 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const TagInput = ({ onChange, defaultTags }) => {
+const TagInput = ({ onChange, defaultTags, readOnly }) => {
   const [tags, setTags] = useState([]);
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
   };
 
-  // useEffect(() => {
-  //   console.log('hello');
-  //   initialTags();
-  // }, [tags]);
-
   const handleAddition = (tag) => {
-    setTags([...tags, tag]);
+    console.log('Added tag:');
+    console.dir(tag);
+    const newTags = tags.map((el) => el);
+    newTags.push(tag);
+    setTags(newTags);
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -55,20 +55,27 @@ const TagInput = ({ onChange, defaultTags }) => {
 
   useEffect(() => {
     if (defaultTags) {
-      setTags(defaultTags);
+      const tagArr = [];
+      defaultTags.forEach((tag) => {
+        tagArr.push({ id: tag, text: tag });
+      });
+      setTags(tagArr);
     }
-  }, []);
+  }, [defaultTags]);
 
   useEffect(() => {
     const tagStringList = [];
     if (onChange) {
-      tags.forEach((tag) => tagStringList.push(tag));
+      tags.forEach((tag) => tagStringList.push(tag.text));
       onChange(tagStringList);
     }
   }, [tags]);
 
   return (
-    <ReactTags 
+    <ReactTags
+      readOnly={readOnly}
+      inline={false}
+      inputFieldPosition="bottom"
       tags={tags}
       suggestions={suggestions}
       delimiters={delimiters}

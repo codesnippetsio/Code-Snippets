@@ -5,6 +5,7 @@ const snippetsController = require('../controllers/snippetsController');
 
 const router = express.Router();
 
+
 // This Route is Secure
 router.get('/', passport.authenticate('jwt', {session: false }), snippetsController.getSnippetsByUser, (req, res) =>{
   return res
@@ -12,10 +13,12 @@ router.get('/', passport.authenticate('jwt', {session: false }), snippetsControl
     .json(res.locals.allSnippets);
 });
 
+
 router.post(
   '/',
   snippetsController.createSnippet,
   snippetsController.saveSnippetToUser,
+  snippetsController.recalcTagsAndLang,
   (req, res) => res.status(200).json(res.locals.newSnippet)
 );
 

@@ -18,14 +18,14 @@ const MainContainer = () => {
     fetch('http://localhost:3000/authentication/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       // include cookies from cross origin request
       credentials: 'include',
       body: JSON.stringify({
         username: usernameInputValue,
-        password: passwordInputValue,
-      }),
+        password: passwordInputValue
+      })
     })
       .then((result) => result.json())
       .then((result) => {
@@ -35,6 +35,9 @@ const MainContainer = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    //Bypass login requirement:
+    setLogin(true);
   };
   //functino to handle showing the signup page
   const handleHaveAccount = () => setHaveAccount(false);
@@ -50,12 +53,12 @@ const MainContainer = () => {
     fetch('http://localhost:3000/authentication/signup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: nameValue,
-        password: passwordValue,
-      }),
+        password: passwordValue
+      })
     })
       .then((result) => result.json())
       .then((result) => {

@@ -24,7 +24,7 @@ authenticationController.signUp = async (req, res, next) => {
       username: req.body.username,
       password: hashedPassword,
     });
-    res.locals.newUser = await newUser;
+    res.locals.newUser = newUser;
     return next();
   } catch (err) {
     return next(err);

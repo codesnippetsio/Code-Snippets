@@ -12,6 +12,7 @@ const createError = (method, log, status, message = log) => {
 };
 
 //Retrieves all snippets associated with a user by looking up user (by ID) and referencing all snippets in the associated list
+//NOTE: WE SHOULD REALLY SEPARATE OUT STUFF LIKE THIS INTO A SEPARATE USER ROUTE AND USER CONTROLLER
 snippetsController.getSnippetsByUser = (req, res, next) => {
   const { userId } = req.user._id;
   
@@ -20,6 +21,7 @@ snippetsController.getSnippetsByUser = (req, res, next) => {
     .exec()
     .then((user) => {
       res.locals.allSnippets = user.snippets;
+      res.locals.userTagsLangs = { tags: user.tags, languages: user.languages };
       return next();
     })
     .catch((err) => {
@@ -54,6 +56,7 @@ snippetsController.saveSnippetToUser = (req, res, next) => {
         .save()
         .then((r) => {
           res.locals.updatedUserRecord = r;
+          res.locals.changeFlag = true;
           return next();
         })
         .catch((err) => {
