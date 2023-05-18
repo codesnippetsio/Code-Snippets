@@ -9,6 +9,19 @@
 //   border-color: black;
 // }
 
+.tagsSnippetsDisplayHolder {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 75vh;
+}
+
+.tagsSnippetsDisplayBox {
+  padding: 8px 16px;
+  overflow-y: auto;
+  max-height: 50%;
+}
+
 .displayTypeSelector {
   display: flex;
   justify-content: space-around;
@@ -34,9 +47,14 @@
   border: none !important;
 }
 
+.cardBodyContent {
+  //height: min-content;
+  overflow: hidden;
+}
 .sidebar {
   width: 300px;
-  height: inherit;
+  //height: inherit;
+  //max-height: 75vh;
   position: absolute;
   left: -250px;
   top: 0;
@@ -69,6 +87,8 @@
 
   .cardBody {
     padding: 8px 16px;
+    overflow-y: auto;
+    max-height: 75vh;
   }
 }
 
