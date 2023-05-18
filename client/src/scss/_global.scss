@@ -1,3 +1,18 @@
+*::-webkit-scrollbar {
+  color: #062a56;
+}
+*::-webkit-scrollbar-track {
+  background: transparentize($accent-bkg, 1);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparentize($accent-bkg, 1);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: $accent-bkg;
+}
+
 body {
   background: url(https://wallpaperaccess.com/full/266479.png) no-repeat center
     center fixed;
