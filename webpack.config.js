@@ -14,7 +14,7 @@ module.exports = {
     rules: [
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        type: 'asset/resource',
+        type: 'asset/resource'
       },
       {
         test: /\.jsx?/,
@@ -24,27 +24,25 @@ module.exports = {
           options: {
             presets: [
               '@babel/preset-env',
-              ['@babel/preset-react', { runtime: 'automatic' }],
-            ],
-          },
-        },
+              ['@babel/preset-react', { runtime: 'automatic' }]
+            ]
+          }
+        }
       },
       {
         test: /\.s?css/,
-        use: [
-          'style-loader', 'css-loader', 'sass-loader'
-        ]
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
-      template:'./public/index.html'
+      template: './public/index.html'
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.scss'],
+    extensions: ['.js', '.jsx', '.scss']
   },
   devServer: {
     static: {
@@ -52,7 +50,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist')
     },
     proxy: {
-      '/snippets': 'http://localhost:3000'
+      '/*': 'http://localhost:3000'
     }
   },
   devtool: 'eval-source-map'

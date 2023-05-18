@@ -16,25 +16,34 @@ router.post(
   '/login',
   passport.authenticate('local', { session: false }),
   (req, res) => {
+    console.log(req.user);
     const token = jwt.sign({ userId: req.user.id }, secret, {
-      expiresIn: '1d',
+      expiresIn: '1d'
     });
     res.cookie('token', token, {
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),// Expires in 30 days
-      httpOnly: true 
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
+      httpOnly: true
     });
     res.cookie('test', 'test', {
       domain: 'localhost',
       path: '/'
     });
+    res.cookie('userID', req.user.id, {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
+      httpOnly: true
+    });
     return res.status(202).json({ token });
   }
 );
 
-router.get('/protected', passport.authenticate('jwt', {session: false }), (req, res) => {
-  console.log('at protected router, SUCCESS!');
-  res.send('Protected route accessed!');
-});
+router.get(
+  '/protected',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log('at protected router, SUCCESS!');
+    res.send('Protected route accessed!');
+  }
+);
 
 router.get('/', authenticationController.getUserData, (req, res) => {
   res.status(200).json(res.locals.userData);

@@ -8,12 +8,13 @@ const router = express.Router();
 //In the future, this should be refactored as a route to explicitly load all user data
 //in the context of a separate user route and user controller
 
-router.get('/', snippetsController.getSnippetsByUser, (req, res) =>
+router.get('/', snippetsController.getSnippetsByUser, (req, res) => {
+  console.log(req.cookies);
   res.status(200).json({
     snippets: res.locals.allSnippets,
     tagsLangs: res.locals.userTagsLangs
-  })
-);
+  });
+});
 
 router.post(
   '/',

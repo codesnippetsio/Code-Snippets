@@ -35,7 +35,7 @@ const MainContainer = () => {
       });
 
     //Bypass login requirement:
-    setLogin(true);
+    //setLogin(true);
   };
   //functino to handle showing the signup page
   const handleHaveAccount = () => setHaveAccount(false);
