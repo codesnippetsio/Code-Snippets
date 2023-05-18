@@ -1,22 +1,22 @@
 const express = require('express');
+const passport = require('passport');
 
 const snippetsController = require('../controllers/snippetsController');
 
 const router = express.Router();
 
-//NOTE: I'm muddying things here by returning tags and languages alongside snippets
-//In the future, this should be refactored as a route to explicitly load all user data
-//in the context of a separate user route and user controller
-
-router.get('/', snippetsController.getSnippetsByUser, (req, res) => {
-  res.status(200).json({
-    snippets: res.locals.allSnippets,
-    tagsLangs: res.locals.userTagsLangs
-  });
-});
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  snippetsController.getSnippetsByUser,
+  (req, res) => {
+    return res.status(200).json(res.locals.allSnippets);
+  }
+);
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   snippetsController.createSnippet,
   snippetsController.saveSnippetToUser,
   snippetsController.recalcTagsAndLang,
@@ -25,6 +25,7 @@ router.post(
 
 router.put(
   '/',
+  passport.authenticate('jwt', { session: false }),
   snippetsController.updateSnippet,
   snippetsController.recalcTagsAndLang,
   (req, res) =>
@@ -36,6 +37,7 @@ router.put(
 
 router.delete(
   '/',
+  passport.authenticate('jwt', { session: false }),
   snippetsController.deleteSnippet,
   snippetsController.recalcTagsAndLang,
   (req, res) =>

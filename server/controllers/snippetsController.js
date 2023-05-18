@@ -14,9 +14,7 @@ const createError = (method, log, status, message = log) => {
 //Retrieves all snippets associated with a user by looking up user (by ID) and referencing all snippets in the associated list
 //NOTE: WE SHOULD REALLY SEPARATE OUT STUFF LIKE THIS INTO A SEPARATE USER ROUTE AND USER CONTROLLER
 snippetsController.getSnippetsByUser = (req, res, next) => {
-  const { userId } = req.cookies;
-  console.log(userId);
-  //const userId = '645fee9104d1f0acef95a002';
+  const { userId } = req.user._id;
 
   User.findById(userId)
     .populate('snippets')
@@ -50,7 +48,7 @@ snippetsController.createSnippet = (req, res, next) => {
 
 //Associates snippet with a particular user
 snippetsController.saveSnippetToUser = (req, res, next) => {
-  const { userId } = req.cookies;
+  const { userId } = req.user._id;
   User.findById(userId)
     .then((user) => {
       user.snippets.push(res.locals.newSnippet._id);
@@ -126,7 +124,7 @@ snippetsController.updateSnippet = (req, res, next) => {
 
 //Deletes snippet with provided ID and removes from users with associated ID
 snippetsController.deleteSnippet = (req, res, next) => {
-  const { userId } = req.cookies;
+  const { userId } = req.user._id;
   const { snippetId } = req.query;
   Snippet.findByIdAndDelete(snippetId)
     .exec()
@@ -181,7 +179,7 @@ snippetsController.recalcTagsAndLang = (req, res, next) => {
     return next();
   }
 
-  const { userId } = req.cookies;
+  const { userId } = req.user._id;
   const tagList = new Set();
   const languageList = new Set();
   console.log(userId);
