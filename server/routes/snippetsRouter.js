@@ -15,12 +15,26 @@ router.post(
   (req, res) => res.status(200).json(res.locals.newSnippet)
 );
 
-router.put('/', snippetsController.updateSnippet, (req, res) =>
-  res.status(200).json(res.locals.updatedSnippet)
+router.put(
+  '/',
+  snippetsController.updateSnippet,
+  snippetsController.recalcTagsAndLang,
+  (req, res) =>
+    res.status(200).json({
+      snippet: res.locals.updatedSnippet,
+      userData: res.locals.updatedUserRecord
+    })
 );
 
-router.delete('/', snippetsController.deleteSnippet, (req, res) =>
-  res.status(200).json(res.locals.deletedSnippet)
+router.delete(
+  '/',
+  snippetsController.deleteSnippet,
+  snippetsController.recalcTagsAndLang,
+  (req, res) =>
+    res.status(200).json({
+      snippet: res.locals.deletedSnippet,
+      userData: res.locals.updatedUserRecord
+    })
 );
 
 router.use((req, res) => res.status(404).send('Invalid endpoint'));
