@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SnippetDisplay from '../../components/SnippetDisplay/SnippetCard.jsx';
+import SnippetCard from '../../components/SnippetDisplay/SnippetCard.jsx';
 import AddSnippet from '../../components/AddSnippet/AddSnippet.jsx';
 import styles from './Sidebar.module.scss';
 import SnippetsRadioList from './SnippetsRadioList/SnippetsRadioList.jsx';
@@ -110,7 +110,7 @@ const Sidebar = () => {
         }`}
       >
         {snippets && (
-          <SnippetDisplay
+          <SnippetCard
             selectedSnippet={selectedSnippet}
             getSnippet={getSnippet}
           />

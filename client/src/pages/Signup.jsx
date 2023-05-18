@@ -5,10 +5,10 @@ const Signup = ({ setModalVisible }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let newAccount = {
-      first: e.target[0].value,
-      last: e.target[1].value,
-      username: e.target[2].value,
-      password: e.target[3].value,
+      first: e.target[1].value,
+      last: e.target[2].value,
+      username: e.target[3].value,
+      password: e.target[4].value,
     };
     console.log(newAccount);
     fetch('/signup', {
