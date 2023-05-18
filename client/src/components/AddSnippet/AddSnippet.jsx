@@ -2,6 +2,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { langs } from '@uiw/codemirror-extensions-langs';
+import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import styles from './AddSnippet.module.scss';
 import React, { useState } from 'react';
 import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
@@ -78,43 +79,45 @@ const AddSnippet = ({ closeModal }) => {
           <br />
 
           <div className={styles.codeSnippet}>
-            <label>Title: </label>
-            <input
-              className={styles.title}
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            ></input>
-            {error && <span className='error'>Title is required!</span>}
-            <br />
-            <br />
+            <div className='d-flex flex-row'>
+              <div className='input-container'>
+                <label>Title: </label>
+                <input
+                  className={styles.title}
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
+                ></input>
+                {error && <span className='error'>Title is required!</span>}
+              </div>
 
-            <label>Language: </label>
-            <select
-              className={styles.language}
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-            >
-              {LANGUAGES.map((language) => (
-                <option key={language} value={language}>
-                  {language}
-                </option>
-              ))}
-            </select>
-            <br />
-            <br />
+              <div className='input-container'>
+                <label>Language: </label>
+                <select
+                  className={styles.language}
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                >
+                  {LANGUAGES.map((language) => (
+                    <option key={language} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <label>Comments: </label>
-            <input
-              className={styles.comments}
-              value={comments}
-              onChange={(e) => {
-                setComments(e.target.value);
-              }}
-            ></input>
-            <br />
-            <br />
+              <div className='input-container'>
+                <label>Comments: </label>
+                <input
+                  className={styles.comments}
+                  value={comments}
+                  onChange={(e) => {
+                    setComments(e.target.value);
+                  }}
+                ></input>
+              </div>
+            </div>
 
             <label>Tags: </label>
             <TagInput className={styles.tags} onChange={setTagsWrapper} />
@@ -125,6 +128,7 @@ const AddSnippet = ({ closeModal }) => {
               className={styles.editor}
               height='500px'
               id='storedCode'
+              theme={okaidia}
               // value={storedCode}
               extensions={[langs.tsx()]}
               placeholder={

@@ -5,7 +5,7 @@ import styles from './Sidebar.module.scss';
 import SnippetsRadioList from './SnippetsRadioList/SnippetsRadioList.jsx';
 import { Card, Spinner } from 'react-bootstrap';
 import arrow from '../../assets/arrow.png';
-import img from '../../assets/star nose mole.jpeg';
+import img from '../../assets/snakesnakedog.png';
 
 const Sidebar = () => {
   const [snippets, setSnippets] = useState([]);
@@ -96,7 +96,11 @@ const Sidebar = () => {
             setOpenModal(true);
           }}
         >
-          <img src={img} alt='img' className={styles.img} />
+          <img
+            src={img}
+            alt='image of a cat-snake hybrid'
+            className={styles.img}
+          />
         </button>
       </Card>
       {openModal && <AddSnippet closeModal={setOpenModal} />}

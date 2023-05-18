@@ -2,6 +2,7 @@
   width: 95%;
   margin: auto;
   padding-bottom: 10px;
+  height: 55vh;
 }
 
 .modal {
@@ -29,11 +30,15 @@
 .header {
   font-size: 30px;
   color: white;
-  background-color: rgb(35, 50, 180);
+  background-color: rgb(255, 0, 128);
 }
 
 .codeSnippet {
   font-size: 16px;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.editor-container {
+  display: flex;
 }
