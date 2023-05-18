@@ -1,5 +1,4 @@
 const passport = require('../authConfig/passport.js');
-const iNeed = require('../authConfig/jwt.config');
 const User = require('../models/userModel.js');
 const bcrypt = require('bcrypt');
 const authenticationController = {};
