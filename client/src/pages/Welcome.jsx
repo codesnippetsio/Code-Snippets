@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Welcome.scss';
-import Signup from '../components/Signup'
+import Signup from './Signup';
 
 const Welcome = ({ setLoggedIn }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,41 +40,50 @@ const Welcome = ({ setLoggedIn }) => {
 
   return (
     <div className='welcome'>
-      <h1>Code Snippets</h1>
-      <form className='form' onSubmit={handleSubmit}>
-        <div className='input-container'>
-          <label>Username </label>
-          <input
-            type='text'
-            name='username'
-            className='login__input'
-            // onChange={inputChange}
-            required
-            autoComplete='off'
-          />
+      <form
+        className={modalVisible ? 'form form-flip' : 'form'}
+        onSubmit={handleSubmit}
+      >
+        <div className='title-container'>
+          <span className='title-c'>C</span>
+          <div className='typing-container'>
+            <h1 className='typing-title'>ode Snippets</h1>
+          </div>
         </div>
-        <div className='input-container'>
-          <label>Password </label>
-          <input
-            type='password'
-            name='pword'
-            className='login__input'
-            // onChange={inputChange}
-            required
-            autoComplete='off'
-          />
+        <h3 className='form-title'>Login</h3>
+        <div className='form-container'>
+          <div className='input-container'>
+            <label className='input-label'>Username </label>
+            <input
+              type='text'
+              name='username'
+              className='input-field input-field--small'
+              // onChange={inputChange}
+              required
+              autoComplete='off'
+            />
+          </div>
+          <div className='input-container'>
+            <label className='input-label'>Password </label>
+            <input
+              type='password'
+              name='pword'
+              className='input-field input-field--small'
+              // onChange={inputChange}
+              required
+              autoComplete='off'
+            />
+          </div>
         </div>
-        <button type='submit' className='btn btn--popup'>
+        <button type='submit' className='form-btn'>
           Login
         </button>
-      </form>
-      <h2>
-        Not a member?{' '}
-        <a className='signup' onClick={signupDisplay}>
-          Sign up
+        <a className='signup-link' onClick={signupDisplay}>
+          Not a member? Sign up here!
         </a>
-      </h2>
-      {modalVisible && <Signup setModalVisible={setModalVisible}/>}
+      </form>
+
+      {modalVisible && <Signup setModalVisible={setModalVisible} />}
     </div>
   );
 };
