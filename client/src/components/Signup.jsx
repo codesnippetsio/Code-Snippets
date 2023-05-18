@@ -19,6 +19,7 @@ const Signup = ({setModalVisible}) => {
       },
       body: JSON.stringify(newAccount),
     })
+      // comment this out since it's redundant?  Seems to work without it.
       // .then((res) => res.json())
       .then((user) => {
         console.log(`You made a new account ${user}`);
