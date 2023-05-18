@@ -1,16 +1,16 @@
 *::-webkit-scrollbar {
-  color: #062a56;
+  color: #232024;
 }
 *::-webkit-scrollbar-track {
-  background: transparentize($accent-bkg, 1);
+  background: transparentize(#232024, 1);
 }
 
 *::-webkit-scrollbar-corner {
-  background: transparentize($accent-bkg, 1);
+  background: transparentize(#232024, 1);
 }
 
 *::-webkit-scrollbar-thumb {
-  background: $accent-bkg;
+  background: whitesmoke;
 }
 
 body {
