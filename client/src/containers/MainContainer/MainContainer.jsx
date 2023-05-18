@@ -20,6 +20,8 @@ const MainContainer = () => {
       headers: {
         'Content-Type': 'application/json'
       },
+      // include cookies from cross origin request
+      credentials: 'include',
       body: JSON.stringify({
         username: usernameInputValue,
         password: passwordInputValue

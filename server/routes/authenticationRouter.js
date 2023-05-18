@@ -24,10 +24,6 @@ router.post(
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
       httpOnly: true
     });
-    res.cookie('test', 'test', {
-      domain: 'localhost',
-      path: '/'
-    });
     res.cookie('userID', req.user.id, {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
       httpOnly: true
@@ -45,7 +41,4 @@ router.get(
   }
 );
 
-router.get('/', authenticationController.getUserData, (req, res) => {
-  res.status(200).json(res.locals.userData);
-});
 module.exports = router;
