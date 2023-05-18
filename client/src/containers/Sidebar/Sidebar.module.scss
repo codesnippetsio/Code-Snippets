@@ -9,24 +9,29 @@
 //   border-color: black;
 // }
 
-.displayTypeSelectosr {
+.displayTypeSelector {
   display: flex;
   justify-content: space-around;
+  text-align: center;
   gap: 10px;
   width: 100%;
-  input {
-    display: none;
-  }
-  label {
-  }
-  .displayTypeButton {
-    .active {
-      color: whitesmoke;
-      border-bottom: 1pt double whitesmoke;
-    }
-    .inactive {
-    }
-  }
+}
+
+.displayTypeButtonActive {
+  background-color: transparent;
+  box-shadow: none;
+  width: 100%;
+  color: whitesmoke !important;
+  border: none;
+  border-bottom: 1.5pt solid whitesmoke !important;
+}
+
+.displayTypeButtonInactive {
+  background-color: transparent;
+  box-shadow: none;
+  width: 100%;
+  color: rgb(124, 124, 124) !important;
+  border: none !important;
 }
 
 .sidebar {
@@ -118,7 +123,6 @@
 .addButton {
   border: transparent;
   height: 50px;
-  width: 270px;
   // padding-left: 7px;
   // padding-right: 7px;
   border-radius: 10px;
