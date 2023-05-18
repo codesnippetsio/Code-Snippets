@@ -3,6 +3,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
+import { githubLight } from '@uiw/codemirror-theme-github';
 import styles from './AddSnippet.module.scss';
 import React, { useState } from 'react';
 import SaveModal from '../../components/AddSnippet/SaveModal.jsx';
@@ -10,6 +11,7 @@ import TagInput from '../../components/ui/TagInput/TagInput';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { LANGUAGES } from '../../data/data.js';
+import DarkModeToggler from '../DarkModeToggler/DarkModeToggler';
 
 const AddSnippet = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -19,6 +21,7 @@ const AddSnippet = ({ closeModal }) => {
   const [tagList, setTags] = useState('');
   const [error, setError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [themeColor, setThemeColor] = useState(githubLight);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -79,7 +82,7 @@ const AddSnippet = ({ closeModal }) => {
           <br />
 
           <div className={styles.codeSnippet}>
-            <div className='d-flex flex-row'>
+            <div className='d-flex flex-row justify-content-around"'>
               <div className='input-container'>
                 <label>Title: </label>
                 <input
@@ -117,6 +120,11 @@ const AddSnippet = ({ closeModal }) => {
                   }}
                 ></input>
               </div>
+              <DarkModeToggler
+                setThemeColor={setThemeColor}
+                okaidia={okaidia}
+                githubLight={githubLight}
+              />
             </div>
 
             <label>Tags: </label>
@@ -124,18 +132,20 @@ const AddSnippet = ({ closeModal }) => {
             <hr />
 
             <h5 className='px-2'>Enter code:</h5>
+
             <CodeMirror
               className={styles.editor}
               height='500px'
               id='storedCode'
-              theme={okaidia}
-              // value={storedCode}
+              theme={themeColor}
+              // value={storedCode}s
               extensions={[langs.tsx()]}
               placeholder={
                 "const sayHi = () => {\n  console.log('Hello World!)\n}"
               }
               onChange={(e) => setStoredCode(e)}
             ></CodeMirror>
+
             {/* <input
               id='storedCode'
               value={storedCode}
