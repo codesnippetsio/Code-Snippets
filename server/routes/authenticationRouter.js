@@ -12,8 +12,7 @@ router.post('/signup', authenticationController.signUp, (req, res) => {
   return res.status(201).json(res.locals.newUser);
 });
 
-router.post(
-  '/login',
+router.post('/login',
   passport.authenticate('local', { session: false }),
   (req, res) => {
     console.log(req.user);
