@@ -7,6 +7,7 @@ import Signup from '../../components/userStart/Signup.jsx';
 const MainContainer = () => {
   const [login, setLogin] = useState(false);
   const [haveAccount, setHaveAccount] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ const MainContainer = () => {
         setLogin(result.username);
       })
       .catch((err) => {
+        setError(true);
         console.log(err);
       });
 
@@ -89,7 +91,12 @@ const MainContainer = () => {
     </div>
   ) : haveAccount ? (
     <div className={styles.container}>
-      <Login handleLogin={handleLogin} handleHaveAccount={handleHaveAccount} />
+      <Login
+        handleLogin={handleLogin}
+        handleHaveAccount={handleHaveAccount}
+        style={`${error ? 'red' : ''}`}
+        error={error}
+      />
     </div>
   ) : (
     <div className={styles.container}>
