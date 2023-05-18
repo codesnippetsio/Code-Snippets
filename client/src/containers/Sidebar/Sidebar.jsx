@@ -91,7 +91,7 @@ const Sidebar = ({ handleLogin }) => {
   };
 
   const snippetsDisplay = (
-    <Card.Body className="px-0 pt-0">
+    <Card.Body className={`px-0 pt-0 ${styles.cardBodyContent}`}>
       {/* Animation while app is fetching data from DB */}
       <div className={styles.cardBody}>
         {loading && (
@@ -113,9 +113,9 @@ const Sidebar = ({ handleLogin }) => {
   );
 
   const tagsDisplay = (
-    <Card.Body className="px-0 pt-0">
+    <Card.Body className={`px-0 pt-0 ${styles.cardBodyContent}`}>
       {/* Animation while app is fetching data from DB */}
-      <div className={styles.cardBody}>
+      <div>
         {loading && (
           <div className="d-flex justify-content-center pt-3">
             <Spinner
@@ -125,16 +125,24 @@ const Sidebar = ({ handleLogin }) => {
             ></Spinner>
           </div>
         )}
-        <TagsList
-          allTags={userTags}
-          selectedTags={selectedTags}
-          selectDeselectTag={selectDeselectTag}
-        />
-        <SnippetsRadioList
-          listType="filteredList"
-          snippets={filteredSnippets}
-          setSelectedSnippet={setSelectedSnippetWrapper}
-        />
+        <div className={styles.tagsSnippetsDisplayHolder}>
+          <div className={styles.tagsSnippetsDisplayBox}>
+            <TagsList
+              allTags={userTags}
+              selectedTags={selectedTags}
+              selectDeselectTag={selectDeselectTag}
+            />
+          </div>
+          <hr />
+          <div className={styles.tagsSnippetsDisplayBox}>
+            <SnippetsRadioList
+              className={styles.tagsSnippetsDisplayBox}
+              listType="filteredList"
+              snippets={filteredSnippets}
+              setSelectedSnippet={setSelectedSnippetWrapper}
+            />
+          </div>
+        </div>
       </div>
     </Card.Body>
   );
