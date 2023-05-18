@@ -18,26 +18,26 @@ const MainContainer = () => {
     fetch('http://localhost:3000/authentication/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       // include cookies from cross origin request
       credentials: 'include',
       body: JSON.stringify({
         username: usernameInputValue,
-        password: passwordInputValue
-      })
+        password: passwordInputValue,
+      }),
     })
       .then((result) => result.json())
       .then((result) => {
         console.log('result from login request: ', result);
-        setLogin(true);
+        setLogin(result.username);
       })
       .catch((err) => {
         console.log(err);
       });
 
     //Bypass login requirement:
-    setLogin(true);
+    //setLogin(true);
   };
   //functino to handle showing the signup page
   const handleHaveAccount = () => setHaveAccount(false);
@@ -53,12 +53,12 @@ const MainContainer = () => {
     fetch('http://localhost:3000/authentication/signup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: nameValue,
-        password: passwordValue
-      })
+        password: passwordValue,
+      }),
     })
       .then((result) => result.json())
       .then((result) => {
@@ -73,6 +73,18 @@ const MainContainer = () => {
 
   return login ? (
     <div className={styles.container}>
+      <div className={styles.div}>
+        <button
+          className={styles.button}
+          onClick={() => {
+            setLogin(false);
+          }}>
+          Logout
+        </button>
+        <h2 className={styles.h2}>
+          welcome, <span className={styles.span}>{login}</span>
+        </h2>
+      </div>
       <Sidebar />
     </div>
   ) : haveAccount ? (

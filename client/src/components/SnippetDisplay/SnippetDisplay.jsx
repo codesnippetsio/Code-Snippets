@@ -25,18 +25,13 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   const [copied, setCopied] = useState(false);
   const [editButtonState, setEditButtonState] = useState(false);
   const [currentDisplay, setCurrentDisplay] = useState(defaultDisplayValues);
-  //TODO: Pull userId from global state
-  //FIXME: HARDCODING USER ID FOR NOW
-  const userId = '6463eb52ab99bf89a84a3ebd';
-  // indSnippet = this.props
-  // create delete method using fetch request
 
   useEffect(() => {
     setCurrentDisplay(selectedSnippet);
   }, [selectedSnippet, getSnippet]);
 
-  const deleteSnippet = (snippetId, userId) => {
-    fetch('/snippets?' + new URLSearchParams({ snippetId, userId }), {
+  const deleteSnippet = (snippetId) => {
+    fetch('/snippets?' + new URLSearchParams({ snippetId }), {
       method: 'DELETE'
     })
       .then((response) => {
@@ -55,7 +50,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   };
 
   const editSnippet = (snippetId) => {
-    fetch(`/snippets?${new URLSearchParams({ snippetId, userId })}`, {
+    fetch(`/snippets?${new URLSearchParams({ snippetId })}`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(currentDisplay)
@@ -174,7 +169,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <Button
             className="deleteButton"
             onClick={() => {
-              deleteSnippet(selectedSnippet._id, userId);
+              deleteSnippet(selectedSnippet._id);
             }}
           >
             Delete Snippet

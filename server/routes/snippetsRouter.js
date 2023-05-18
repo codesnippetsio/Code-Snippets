@@ -5,17 +5,23 @@ const snippetsController = require('../controllers/snippetsController');
 
 const router = express.Router();
 
-
-// This Route is Secure
-router.get('/', passport.authenticate('jwt', {session: false }), snippetsController.getSnippetsByUser, (req, res) =>{
-  return res
-    .status(200)
-    .json(res.locals.allSnippets);
-});
-
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  snippetsController.getSnippetsByUser,
+  (req, res) => {
+    return res
+      .status(200)
+      .json({
+        snippets: res.locals.allSnippets,
+        tagsLangs: res.locals.userTagsLangs
+      });
+  }
+);
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   snippetsController.createSnippet,
   snippetsController.saveSnippetToUser,
   snippetsController.recalcTagsAndLang,
@@ -24,6 +30,7 @@ router.post(
 
 router.put(
   '/',
+  passport.authenticate('jwt', { session: false }),
   snippetsController.updateSnippet,
   snippetsController.recalcTagsAndLang,
   (req, res) =>
@@ -35,6 +42,7 @@ router.put(
 
 router.delete(
   '/',
+  passport.authenticate('jwt', { session: false }),
   snippetsController.deleteSnippet,
   snippetsController.recalcTagsAndLang,
   (req, res) =>

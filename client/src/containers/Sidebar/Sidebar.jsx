@@ -34,13 +34,10 @@ const Sidebar = ({ handleLogin }) => {
     getUserData();
   }, []);
   //Get all snippets stored under user's account
-  //TODO: Get user ID from global state to include in request
-  //FIXME: HARD CODING ID FOR NOW
-  const userId = '6463eb52ab99bf89a84a3ebd';
 
   const getUserData = () => {
     setLoading(true);
-    fetch('/snippets?' + new URLSearchParams({ userId: userId }))
+    fetch('/snippets')
       .then((res) => res.json())
       .then((data) => {
         //As structured in snippets route, should receive an array of snippet objects
