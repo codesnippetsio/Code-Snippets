@@ -10,7 +10,12 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   snippetsController.getSnippetsByUser,
   (req, res) => {
-    return res.status(200).json(res.locals.allSnippets);
+    return res
+      .status(200)
+      .json({
+        snippets: res.locals.allSnippets,
+        tagsLangs: res.locals.userTagsLangs
+      });
   }
 );
 
