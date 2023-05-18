@@ -24,6 +24,7 @@ const Sidebar = ({ handleLogin }) => {
   //Tags and selected tags
   const [userTags, setUserTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [filteredSnippets, setFilteredSnippets] = useState([]);
 
   const [openModal, setOpenModal] = useState(false);
   const [collapse, setCollapse] = useState(false);
@@ -33,6 +34,10 @@ const Sidebar = ({ handleLogin }) => {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    filterSnippetsByTags();
+  }, [snippets, selectedTags]);
   //Get all snippets stored under user's account
 
   const getUserData = () => {
@@ -49,17 +54,6 @@ const Sidebar = ({ handleLogin }) => {
         console.log('Failed to complete request for snippets: ', error)
       );
   };
-
-  // // renderTags function
-  // const renderTabs = () => {
-  //   const tabs = [];
-
-  //   for (let i = 0; i < snippets.length; i++) {
-  //     tabs.push(<button className={styles.tag}>{snippets[i].title}</button>);
-  //   }
-
-  //   return tabs;
-  // };
 
   // wrapper to send to our snippets radio list for updating selected snippet. probably not 100% needed, but want to be able to console log from Sidebar
   const setSelectedSnippetWrapper = (e) => {
@@ -82,8 +76,18 @@ const Sidebar = ({ handleLogin }) => {
   };
 
   const toggleDisplayType = (event) => {
-    console.log(event.target.value);
     setDisplayType(event.target.value);
+  };
+
+  const filterSnippetsByTags = () => {
+    const snippetSubset = snippets.filter((sn) => {
+      for (let i = 0; i < [...sn.tags, sn.lanuage].length; i++) {
+        if (selectedTags.includes([...sn.tags, sn.lanuage][i])) return true;
+      }
+      return false;
+    });
+
+    setFilteredSnippets(snippetSubset);
   };
 
   const snippetsDisplay = (
@@ -100,6 +104,7 @@ const Sidebar = ({ handleLogin }) => {
           </div>
         )}
         <SnippetsRadioList
+          listType="fullList"
           snippets={snippets}
           setSelectedSnippet={setSelectedSnippetWrapper}
         />
@@ -124,6 +129,11 @@ const Sidebar = ({ handleLogin }) => {
           allTags={userTags}
           selectedTags={selectedTags}
           selectDeselectTag={selectDeselectTag}
+        />
+        <SnippetsRadioList
+          listType="filteredList"
+          snippets={filteredSnippets}
+          setSelectedSnippet={setSelectedSnippetWrapper}
         />
       </div>
     </Card.Body>
