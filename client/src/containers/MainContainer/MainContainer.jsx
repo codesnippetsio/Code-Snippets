@@ -7,7 +7,12 @@ import validator from 'validator';
 const MainContainer = () => {
   const [login, setLogin] = useState(false);
   const [haveAccount, setHaveAccount] = useState(true);
+
   const [strengthMessage, setStrengthMessage] = useState('');
+  
+  //MAY NEED TO REMOVE -- DUPLICATE WITH STRENGTHMESSAGE
+  const [error, setError] = useState(false);
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -26,23 +31,30 @@ const MainContainer = () => {
     fetch('http://localhost:3000/authentication/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       // include cookies from cross origin request
       credentials: 'include',
       body: JSON.stringify({
         username: usernameInputValue,
-        password: passwordInputValue
-      })
+        password: passwordInputValue,
+      }),
     })
       .then((result) => result.json())
       .then((result) => {
         console.log('result from login request: ', result);
-        setLogin(true);
+        setLogin(result.username);
       })
       .catch((err) => {
+      
+      //MAY NEED TO REMOVE -- SEE IF TWO MESSAGES APPEAR
+       setError(true);
+        console.log(err);
+
+
         document.querySelector('.errorMessage').innerHTML = 'Please verify your user information and try again!';
         return false;
+       
       });
   };
   //functino to handle showing the signup page
@@ -74,17 +86,18 @@ const MainContainer = () => {
     fetch('http://localhost:3000/authentication/signup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: nameValue,
-        password: passwordValue
-      })
+        password: passwordValue,
+      }),
     })
       .then((result) => result.json())
       .then((result) => {
         console.log('result from signup request: ', result);
         setHaveAccount(true);
+        setLogin(result.username);
       })
       .catch((err) => {
         console.log(err);
@@ -92,12 +105,31 @@ const MainContainer = () => {
   };
 
   return login ? (
-    <div className={ styles.container }>
+
+    <div className={styles.container}>
+      <div className={styles.div}>
+        <button
+          className={styles.button}
+          onClick={() => {
+            setLogin(false);
+          }}>
+          Logout
+        </button>
+        <h2 className={styles.h2}>
+          welcome, <span className={styles.span}>{login}</span>
+        </h2>
+      </div>
       <Sidebar />
     </div>
   ) : haveAccount ? (
-    <div className={ styles.container }>
-      <Login handleLogin={ handleLogin } handleHaveAccount={ handleHaveAccount } />
+    <div className={styles.container}>
+      <Login
+        handleLogin={handleLogin}
+        handleHaveAccount={handleHaveAccount}
+        style={`${error ? 'red' : ''}`}
+        error={error}
+      />
+
     </div>
   ) : (
     <div className={styles.container}>

@@ -4,3 +4,32 @@
 
   display: flex;
 }
+
+.div {
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+}
+
+.button {
+  margin-right: 1rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.h2 {
+  display: inline-block;
+  background: -webkit-linear-gradient(#ffffff, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.span {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 48px;
+  text-transform: uppercase;
+  background: -webkit-linear-gradient(#ffffff, #e2b2b2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

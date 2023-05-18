@@ -12,6 +12,7 @@ import { langs } from '@uiw/codemirror-extensions-langs';
 
 //  importing utils
 import { Card, Button } from 'react-bootstrap';
+import { set } from 'mongoose';
 
 const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   const defaultDisplayValues = {
@@ -29,6 +30,13 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   useEffect(() => {
     setCurrentDisplay(selectedSnippet);
   }, [selectedSnippet, getSnippet]);
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
 
   const deleteSnippet = (snippetId) => {
     fetch('/snippets?' + new URLSearchParams({ snippetId }), {
@@ -80,6 +88,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <div className="aspect-entry">
             <span className="title"> Title: </span>
             <input
+              readOnly={!editButtonState}
               defaultValue={currentDisplay.title}
               className="titleEdit"
               onChange={(e) => {
@@ -95,6 +104,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <div className="aspect-entry">
             <span className="language"> Language: </span>
             <input
+              readOnly={!editButtonState}
               defaultValue={currentDisplay.language}
               className="languageEdit"
               onChange={(e) => {
@@ -112,6 +122,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           <div className="aspect-entry">
             <span className="comments"> Comments: </span>
             <input
+              readOnly={!editButtonState}
               defaultValue={currentDisplay.comments}
               className="commentsEdit"
               onChange={(e) => {
@@ -140,6 +151,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
       </div>
 
       <CodeMirror
+        readOnly={!editButtonState}
         className={styles.editor}
         height="500px"
         id="storedCode"
@@ -150,12 +162,13 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
           setCurrentDisplay({ ...currentDisplay, storedCode: e });
         }}
       >
-        <CopyToClipboard
-          text={currentDisplay.storedCode}
-          onCopy={() => setCopied(true)}
-        >
-          <Button className={styles.addButton}> Copy Code Snippet </Button>
+        <CopyToClipboard text={currentDisplay.storedCode}>
+          <Button className={styles.addButton} onClick={handleCopy}>
+            {' '}
+            Copy Code Snippet{' '}
+          </Button>
         </CopyToClipboard>
+        {copied && <span>copied to clipboard!</span>}
       </CodeMirror>
     </div>
   );
