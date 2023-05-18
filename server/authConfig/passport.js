@@ -3,7 +3,10 @@ const passport = require('passport');
 const User = require('../models/userModel.js');
 const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
+const jwtStrategy = require('./jwt.config');
 
+
+passport.use(jwtStrategy);
 passport.use(new LocalStrategy({
   usernameField: 'username', // field name for username in req body
   passwordField: 'password', // field name for password in req body
@@ -33,4 +36,17 @@ passport.use(new LocalStrategy({
 }
 ));
 
-// module.exports = passport.use;
+// Serialize the user object into a session
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+// Deserialize the user object from a session
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
