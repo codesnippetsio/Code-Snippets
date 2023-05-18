@@ -8,7 +8,6 @@ const JwtStrategy = require('passport-jwt').Strategy,
 require('dotenv').config();
 const secret = process.env.JWT_SECRET;  
 
-console.log('outside passport jwt config');
 // Passport JWT config
 const options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -17,14 +16,10 @@ options.secretOrKey = secret;
 // new JWT strategy
 const jwtStrategy = new JwtStrategy(options,
   async (payload, done) => {
-    console.log('JwtStrat called', options);
     try{
       // find user based on JWT payload
       const user = await User.findById(payload.userId);
-      console.log('payload', payload);
-      console.log('payload.userId', payload.userId);
       if (user) {
-        
         // if user is found, return user
         return done(null, user);
       } else {

@@ -11,7 +11,6 @@ passport.use(new LocalStrategy({
   usernameField: 'username', // field name for username in req body
   passwordField: 'password', // field name for password in req body
 }, async (username, password, done) => {
-  console.log('local strat called');
   try {
     const user = await User.findOne({ username });
 
