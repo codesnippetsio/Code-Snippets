@@ -59,6 +59,7 @@ const MainContainer = () => {
       .then((result) => {
         console.log('result from signup request: ', result);
         setHaveAccount(true);
+        setLogin(true);
       })
       .catch((err) => {
         console.log(err);
