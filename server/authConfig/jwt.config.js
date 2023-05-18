@@ -10,7 +10,13 @@ const secret = process.env.JWT_SECRET;
 
 // Passport JWT config
 const options = {};
-options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+options.jwtFromRequest = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies['token'];
+  }
+  return token;
+};
 options.secretOrKey = secret;
 
 // new JWT strategy

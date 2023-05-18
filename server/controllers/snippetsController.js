@@ -14,9 +14,8 @@ const createError = (method, log, status, message = log) => {
 //Retrieves all snippets associated with a user by looking up user (by ID) and referencing all snippets in the associated list
 //NOTE: WE SHOULD REALLY SEPARATE OUT STUFF LIKE THIS INTO A SEPARATE USER ROUTE AND USER CONTROLLER
 snippetsController.getSnippetsByUser = (req, res, next) => {
-  const { userId } = req.query;
-  //const userId = '645fee9104d1f0acef95a002';
-
+  const { userId } = req.user._id;
+  
   User.findById(userId)
     .populate('snippets')
     .exec()
