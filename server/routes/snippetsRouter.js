@@ -9,7 +9,6 @@ const router = express.Router();
 //in the context of a separate user route and user controller
 
 router.get('/', snippetsController.getSnippetsByUser, (req, res) => {
-  console.log(req.cookies);
   res.status(200).json({
     snippets: res.locals.allSnippets,
     tagsLangs: res.locals.userTagsLangs

@@ -24,7 +24,7 @@ router.post(
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
       httpOnly: true
     });
-    res.cookie('userID', req.user.id, {
+    res.cookie('userId', req.user.id, {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
       httpOnly: true
     });
