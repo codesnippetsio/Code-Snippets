@@ -9,7 +9,7 @@ require('dotenv').config();
 const secret = process.env.JWT_SECRET;
 
 router.post('/signup', authenticationController.signUp, (req, res) => {
-  return res.status(201).json(res.locals.newUser);
+  return res.status(201).json({ username: res.locals.newUser.username });
 });
 
 router.post(
