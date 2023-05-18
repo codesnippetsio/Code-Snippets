@@ -7,8 +7,6 @@ import TagInput from '../../components/ui/TagInput/TagInput';
 //  importing external functionality
 import CodeMirror from '@uiw/react-codemirror';
 import PropTypes from 'prop-types';
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { languages } from '@codemirror/language-data';
 import { langs } from '@uiw/codemirror-extensions-langs';
 
 //  importing utils
@@ -21,12 +19,12 @@ import styles from './AddSnippet.module.scss';
 //  importing data
 import { LANGUAGES } from '../../data/data.js';
 
-const AddSnippet = ({ closeModal }) => {
+const AddSnippet = ({ closeModal, getUserData }) => {
   const [title, setTitle] = useState('');
   const [language, setLanguage] = useState('');
   const [comments, setComments] = useState('');
   const [storedCode, setStoredCode] = useState('');
-  const [tagList, setTags] = useState('');
+  const [tagList, setTags] = useState([]);
   const [error, setError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
@@ -57,7 +55,11 @@ const AddSnippet = ({ closeModal }) => {
         storedCode: storedCode
       })
     })
-      .then((data) => data.json())
+      .then((data) => {
+        getUserData();
+        closeModal(false);
+        data.json();
+      })
       .catch((err) => {
         console.log(err);
         console.log('failed saving snippet');
@@ -178,7 +180,8 @@ const AddSnippet = ({ closeModal }) => {
 };
 
 AddSnippet.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  getUserData: PropTypes.func
 };
 
 export default AddSnippet;

@@ -1,17 +1,24 @@
 const express = require('express');
+const passport = require('passport');
 
 const snippetsController = require('../controllers/snippetsController');
 
 const router = express.Router();
 
-router.get('/', snippetsController.getSnippetsByUser, (req, res) =>
-  res.status(200).json(res.locals.allSnippets)
-);
+
+// This Route is Secure
+router.get('/', passport.authenticate('jwt', {session: false }), snippetsController.getSnippetsByUser, (req, res) =>{
+  return res
+    .status(200)
+    .json(res.locals.allSnippets);
+});
+
 
 router.post(
   '/',
   snippetsController.createSnippet,
   snippetsController.saveSnippetToUser,
+  snippetsController.recalcTagsAndLang,
   (req, res) => res.status(200).json(res.locals.newSnippet)
 );
 

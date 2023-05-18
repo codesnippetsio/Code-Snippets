@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 
 const authenticationController = require('../controllers/authenticationController');
@@ -13,18 +12,22 @@ router.post('/signup', authenticationController.signUp, (req, res) => {
   return res.status(201).json(res.locals.newUser);
 });
 
-router.post(
-  '/login',
-  passport.authenticate('local', { session: false }),
+router.post('/login',passport.authenticate('local', { session: false }),
   (req, res) => {
     const token = jwt.sign({ userId: req.user.id }, secret, {
       expiresIn: '1d',
+    });
+    res.cookie('token', token, {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),// Expires in 30 days
+      httpOnly: true 
     });
     return res.status(202).json({ token });
   }
 );
 
-router.get('/', authenticationController.getUserData, (req, res) => {
-  res.status(200).json(res.locals.userData);
+router.get('/protected', passport.authenticate('jwt', {session: false }), (req, res) => {
+  console.log('at protected router, SUCCESS!');
+  res.send('Protected route accessed!');
 });
+
 module.exports = router;
