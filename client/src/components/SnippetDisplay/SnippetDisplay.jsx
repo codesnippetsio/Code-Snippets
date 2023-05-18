@@ -12,6 +12,7 @@ import { langs } from '@uiw/codemirror-extensions-langs';
 
 //  importing utils
 import { Card, Button } from 'react-bootstrap';
+import { set } from 'mongoose';
 
 const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
   const defaultDisplayValues = {
@@ -19,7 +20,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     language: '',
     comments: '',
     storedCode: '',
-    tags: []
+    tags: [],
   };
 
   const [copied, setCopied] = useState(false);
@@ -30,9 +31,16 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     setCurrentDisplay(selectedSnippet);
   }, [selectedSnippet, getSnippet]);
 
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
   const deleteSnippet = (snippetId) => {
     fetch('/snippets?' + new URLSearchParams({ snippetId }), {
-      method: 'DELETE'
+      method: 'DELETE',
     })
       .then((response) => {
         if (response.ok) {
@@ -44,7 +52,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
         return {
           log: `SnippetDisiplay.deleteSnippet: Error: ${err}`,
           status: err.status,
-          message: 'There was an error deleting snippet.'
+          message: 'There was an error deleting snippet.',
         };
       });
   };
@@ -53,7 +61,7 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
     fetch(`/snippets?${new URLSearchParams({ snippetId })}`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(currentDisplay)
+      body: JSON.stringify(currentDisplay),
     })
       .then((response) => {
         //Are we using this response anywhere? IF not, delete this.
@@ -68,66 +76,63 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
         return {
           log: `SnippetDisplay.editSnippet: Error: ${err}`,
           status: err.status,
-          message: 'There was an error editing code snippet.'
+          message: 'There was an error editing code snippet.',
         };
       });
   };
 
   const displayContent = (
     <div className={styles.entireSnippetDisplay}>
-      <div className="displayContainer">
+      <div className='displayContainer'>
         <div className={styles.displayRow}>
-          <div className="aspect-entry">
-            <span className="title"> Title: </span>
+          <div className='aspect-entry'>
+            <span className='title'> Title: </span>
             <input
               defaultValue={currentDisplay.title}
-              className="titleEdit"
+              className='titleEdit'
               onChange={(e) => {
                 if (editButtonState) {
                   setCurrentDisplay({
                     ...currentDisplay,
-                    title: e.target.value
+                    title: e.target.value,
                   });
                 }
-              }}
-            ></input>
+              }}></input>
           </div>
-          <div className="aspect-entry">
-            <span className="language"> Language: </span>
+          <div className='aspect-entry'>
+            <span className='language'> Language: </span>
             <input
               defaultValue={currentDisplay.language}
-              className="languageEdit"
+              className='languageEdit'
               onChange={(e) => {
                 if (editButtonState) {
                   setCurrentDisplay({
                     ...currentDisplay,
-                    language: e.target.value
+                    language: e.target.value,
                   });
                 }
-              }}
-            ></input>
+              }}></input>
           </div>
         </div>
         <div className={styles.displayRow}>
-          <div className="aspect-entry">
-            <span className="comments"> Comments: </span>
+          <div className='aspect-entry'>
+            <span className='comments'> Comments: </span>
             <input
               defaultValue={currentDisplay.comments}
-              className="commentsEdit"
+              className='commentsEdit'
               onChange={(e) => {
                 if (editButtonState) {
                   setCurrentDisplay({
                     ...currentDisplay,
-                    comments: e.target.value
+                    comments: e.target.value,
                   });
                 }
-              }}
-            ></input>
+              }}></input>
           </div>
         </div>
 
         <TagInput
-          className="tags display-row"
+          className='tags display-row'
           onChange={(e) => {
             if (editButtonState) {
               setCurrentDisplay({ ...currentDisplay, tags: e });
@@ -141,59 +146,56 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
 
       <CodeMirror
         className={styles.editor}
-        height="500px"
-        id="storedCode"
+        height='500px'
+        id='storedCode'
         value={currentDisplay.storedCode}
         extensions={[langs.tsx()]}
         //   placeholder={'const sayHi = () => {\n  console.log(\'Hello World!)\n}'}
         onChange={(e) => {
           setCurrentDisplay({ ...currentDisplay, storedCode: e });
-        }}
-      >
-        <CopyToClipboard
-          text={currentDisplay.storedCode}
-          onCopy={() => setCopied(true)}
-        >
-          <Button className={styles.addButton}> Copy Code Snippet </Button>
+        }}>
+        <CopyToClipboard text={currentDisplay.storedCode}>
+          <Button className={styles.addButton} onClick={handleCopy}>
+            {' '}
+            Copy Code Snippet{' '}
+          </Button>
         </CopyToClipboard>
+        {copied && <span>copied to clipboard!</span>}
       </CodeMirror>
     </div>
   );
 
   return (
     <React.Fragment>
-      <Card className={styles.card} id="right">
+      <Card className={styles.card} id='right'>
         {displayContent}
 
         <div className={styles.buttonDiv}>
           <Button
-            className="deleteButton"
+            className='deleteButton'
             onClick={() => {
               deleteSnippet(selectedSnippet._id);
-            }}
-          >
+            }}>
             Delete Snippet
           </Button>
           <Button
-            className="editButton"
+            className='editButton'
             onClick={() => {
               //editSnippet(selectedSnippet.id);
               editButtonState
                 ? setEditButtonState(false)
                 : setEditButtonState(true);
-            }}
-          >
+            }}>
             {editButtonState ? 'Close Editor' : 'Edit Snippet'}
           </Button>
           <Button
             style={{ display: editButtonState ? 'flex' : 'none' }}
-            className="saveEditButton"
+            className='saveEditButton'
             onClick={() => {
               console.dir(selectedSnippet);
               editSnippet(selectedSnippet._id);
               setEditButtonState(false);
-            }}
-          >
+            }}>
             Save Edit
           </Button>
         </div>
@@ -204,6 +206,6 @@ const SnippetDisplay = ({ selectedSnippet, getSnippet }) => {
 
 SnippetDisplay.propTypes = {
   selectedSnippet: PropTypes.object,
-  getSnippet: PropTypes.func
+  getSnippet: PropTypes.func,
 };
 export default SnippetDisplay;
