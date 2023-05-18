@@ -5,7 +5,7 @@ cookieController.setSSIDCookie = (req, res, next) => {
   
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + 30);
-
+  console.log(expirationDate)
   res.cookie('ssid', res.locals.user, {
     httpOnly: true,
     expires: expirationDate,
