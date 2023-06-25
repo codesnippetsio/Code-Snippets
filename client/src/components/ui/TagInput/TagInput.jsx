@@ -1,46 +1,42 @@
-import React, { useEffect } from 'react';
-import { TAGS } from '../../../data/data';
-import styles from './TagInput.module.scss';
+import React, { useState, useEffect } from 'react';
+import './TagInput.scss';
+
+//  importing utils
 import { WithContext as ReactTags } from 'react-tag-input';
 import PropTypes from 'prop-types';
+
+//  importing data
+import { TAGS } from '../../../data/data';
+
+//  importing styles
 
 const suggestions = TAGS.map((tag) => {
   return {
     id: tag,
-    text: tag,
+    text: tag
   };
 });
 
 const KeyCodes = {
   comma: 188,
-  enter: 13,
+  enter: 13
 };
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const TagInput = (props) => {
-
-  const [tags, setTags] = React.useState([]);
+const TagInput = ({ onChange, defaultTags, readOnly }) => {
+  const [tags, setTags] = useState([]);
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
   };
 
-  const initialTags = () => {
-    const newTagList = [];
-    if (props.tags) {
-      props.tags.forEach((tag) => newTagList.push({ id: tag, text: tag }));
-      setTags(newTagList);
-    }
-  };
-
-  // useEffect(() => {
-  //   console.log('hello');
-  //   initialTags();
-  // }, [tags]);
-
   const handleAddition = (tag) => {
-    setTags([...tags, tag]);
+    console.log('Added tag:');
+    console.dir(tag);
+    const newTags = tags.map((el) => el);
+    newTags.push(tag);
+    setTags(newTags);
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -58,15 +54,28 @@ const TagInput = (props) => {
   };
 
   useEffect(() => {
+    if (defaultTags) {
+      const tagArr = [];
+      defaultTags.forEach((tag) => {
+        tagArr.push({ id: tag, text: tag });
+      });
+      setTags(tagArr);
+    }
+  }, [defaultTags]);
+
+  useEffect(() => {
     const tagStringList = [];
-    if (props.onChange) {
+    if (onChange) {
       tags.forEach((tag) => tagStringList.push(tag.text));
-      props.onChange(tagStringList);
+      onChange(tagStringList);
     }
   }, [tags]);
 
   return (
     <ReactTags
+      readOnly={readOnly}
+      inline={false}
+      inputFieldPosition="bottom"
       tags={tags}
       suggestions={suggestions}
       delimiters={delimiters}
@@ -82,7 +91,7 @@ const TagInput = (props) => {
 
 TagInput.propTypes = {
   onChange: PropTypes.func,
-  tags: PropTypes.array,
+  defaultTags: PropTypes.array
 };
 
 export default TagInput;

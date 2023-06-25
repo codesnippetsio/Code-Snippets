@@ -1,46 +1,58 @@
 import React, { useState, useEffect } from 'react';
+
+//  importing child components
 import SnippetDisplay from '../../components/SnippetDisplay/SnippetDisplay.jsx';
 import AddSnippet from '../../components/AddSnippet/AddSnippet.jsx';
-import styles from './Sidebar.module.scss';
 import SnippetsRadioList from './SnippetsRadioList/SnippetsRadioList.jsx';
+import TagsList from './TagsList/TagsList.jsx';
+
+//  importing utils
 import { Card, Spinner } from 'react-bootstrap';
+
+//  importing styles
+import styles from './Sidebar.module.scss';
+
+//  importing assets
 import arrow from '../../assets/arrow.png';
 import img from '../../assets/star nose mole.jpeg';
 
-const Sidebar = () => {
+const Sidebar = ({ handleLogin }) => {
+  //Snippets and selected snippet
   const [snippets, setSnippets] = useState([]);
   const [selectedSnippet, setSelectedSnippet] = useState({});
+
+  //Tags and selected tags
+  const [userTags, setUserTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [filteredSnippets, setFilteredSnippets] = useState([]);
+
   const [openModal, setOpenModal] = useState(false);
   const [collapse, setCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [displayType, setDisplayType] = useState('snippets');
 
-  // getSnippet func
-  const getSnippet = () => {
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  useEffect(() => {
+    filterSnippetsByTags();
+  }, [snippets, selectedTags]);
+  //Get all snippets stored under user's account
+
+  const getUserData = () => {
     setLoading(true);
-    fetch('http://localhost:3000/snippets')
+    fetch('/snippets')
       .then((res) => res.json())
-      .then((res) => {
-        console.log('res', res);
-
-        // moved setSnippets to outside of for loop so we arent re-rendering each time a snippet is added to state
-        const newSnippetArray = [];
-        for (const snippet of res.snippets) newSnippetArray.push(snippet);
-
-        setSnippets(newSnippetArray);
+      .then((data) => {
+        //As structured in snippets route, should receive an array of snippet objects
+        setSnippets(data.snippets);
+        setUserTags([...data.tagsLangs.tags, ...data.tagsLangs.languages]);
         setLoading(false);
       })
-      .catch((error) => console.log('Get request failed', error));
-  };
-
-  // renderTags function
-  const renderTabs = () => {
-    const tabs = [];
-
-    for (let i = 0; i < snippets.length; i++) {
-      tabs.push(<button className={styles.tab}>{snippets[i].title}</button>);
-    }
-
-    return tabs;
+      .catch((error) =>
+        console.log('Failed to complete request for snippets: ', error)
+      );
   };
 
   // wrapper to send to our snippets radio list for updating selected snippet. probably not 100% needed, but want to be able to console log from Sidebar
@@ -48,57 +60,157 @@ const Sidebar = () => {
     setSelectedSnippet(e);
   };
 
-  // get data from backend at first page load
-  useEffect(() => getSnippet(), []);
+  const selectDeselectTag = (tagValue) => {
+    const newTagList = new Set(selectedTags);
+    if (!newTagList.has(tagValue)) {
+      newTagList.add(tagValue);
+    } else {
+      newTagList.delete(tagValue);
+    }
+
+    setSelectedTags(Array.from(newTagList));
+  };
 
   const toggleSidebar = () => {
     setCollapse(() => !collapse);
   };
 
+  const toggleDisplayType = (event) => {
+    setDisplayType(event.target.value);
+  };
+
+  const filterSnippetsByTags = () => {
+    const snippetSubset = snippets.filter((sn) => {
+      for (let i = 0; i < [...sn.tags, sn.lanuage].length; i++) {
+        if (selectedTags.includes([...sn.tags, sn.lanuage][i])) return true;
+      }
+      return false;
+    });
+
+    setFilteredSnippets(snippetSubset);
+  };
+
+  const snippetsDisplay = (
+    <Card.Body className={`px-0 pt-0 ${styles.cardBodyContent}`}>
+      {/* Animation while app is fetching data from DB */}
+      <div className={styles.cardBody}>
+        {loading && (
+          <div className="d-flex justify-content-center pt-3">
+            <Spinner
+              animation="border"
+              role="status"
+              variant="primary"
+            ></Spinner>
+          </div>
+        )}
+        <SnippetsRadioList
+          listType="fullList"
+          snippets={snippets}
+          setSelectedSnippet={setSelectedSnippetWrapper}
+        />
+      </div>
+    </Card.Body>
+  );
+
+  const tagsDisplay = (
+    <Card.Body className={`px-0 pt-0 ${styles.cardBodyContent}`}>
+      {/* Animation while app is fetching data from DB */}
+      <div>
+        {loading && (
+          <div className="d-flex justify-content-center pt-3">
+            <Spinner
+              animation="border"
+              role="status"
+              variant="primary"
+            ></Spinner>
+          </div>
+        )}
+        <div className={styles.tagsSnippetsDisplayHolder}>
+          <div className={styles.tagsSnippetsDisplayBox}>
+            <TagsList
+              allTags={userTags}
+              selectedTags={selectedTags}
+              selectDeselectTag={selectDeselectTag}
+            />
+          </div>
+          <hr />
+          <div className={styles.tagsSnippetsDisplayBox}>
+            <SnippetsRadioList
+              className={styles.tagsSnippetsDisplayBox}
+              listType="filteredList"
+              snippets={filteredSnippets}
+              setSelectedSnippet={setSelectedSnippetWrapper}
+            />
+          </div>
+        </div>
+      </div>
+    </Card.Body>
+  );
+
   return (
-    <>
-      <Card className={`pt-0 ${styles.sidebar} ${!collapse && styles.open}`}>
+    <React.Fragment>
+      {/*----- SIDE BAR -----*/}
+      <Card
+        id="card"
+        className={`pt-0 ${styles.sidebar} ${!collapse && styles.open}`}
+      >
         <Card.Header>
-          <h1>Code Snippets</h1>
+          {/* Changes the collapse state, which will render/unrender the sidebar*/}
+          <div className={styles.displayTypeSelector}>
+            <button
+              value="snippets"
+              className={
+                displayType === 'snippets'
+                  ? styles.displayTypeButtonActive
+                  : styles.displayTypeButtonInactive
+              }
+              onClick={toggleDisplayType}
+            >
+              Snippets
+            </button>
+            <button
+              value="tags"
+              className={
+                displayType === 'tags'
+                  ? styles.displayTypeButtonActive
+                  : styles.displayTypeButtonInactive
+              }
+              onClick={toggleDisplayType}
+            >
+              Tags
+            </button>
+          </div>
           <button className={styles.toggleButton} onClick={toggleSidebar}>
             <img
               className={`${styles.arrow} ${!collapse && styles.arrowOpen}`}
               src={arrow}
-              alt='arrow'
+              alt="arrow"
             />
           </button>
         </Card.Header>
-        <Card.Body className='px-0 pt-0'>
-          <div className={styles.cardBody}>
-            {/* render our snippet list, pass down snippets and function to update selectedSnippet */}
-            {loading && (
-              <div className='d-flex justify-content-center pt-3'>
-                <Spinner
-                  animation='border'
-                  role='status'
-                  variant='primary'
-                ></Spinner>
-              </div>
-            )}
-            <SnippetsRadioList
-              snippets={snippets}
-              onChange={setSelectedSnippetWrapper}
-            />
-          </div>
-        </Card.Body>
-        
-        <h2 className={styles.imgHeader} style={{ display:'inline-block'}}>Click me to add a new snippet!</h2>
+
+        {/* Renders the list of snippets fetched from DB */}
+
+        {displayType === 'snippets' ? snippetsDisplay : tagsDisplay}
+
         <button
           className={styles.addButton}
           onClick={() => {
             setOpenModal(true);
           }}
         >
-          <img src={img} alt="img" className={styles.img}/>
+          Add New Snippet
         </button>
-
       </Card>
-      {openModal && <AddSnippet closeModal={setOpenModal} />}
+
+      {/*----- ADD SNIPPET MODAL -----*/}
+
+      {openModal && (
+        <AddSnippet closeModal={setOpenModal} getUserData={getUserData} />
+      )}
+
+      {/*----- SNIPPET DISPLAY -----*/}
+
       <div
         className={`${styles.snippetDisplay} ${
           !collapse && styles.snippetDisplayOpen
@@ -107,11 +219,11 @@ const Sidebar = () => {
         {snippets && (
           <SnippetDisplay
             selectedSnippet={selectedSnippet}
-            getSnippet={getSnippet}
+            getSnippet={getUserData}
           />
         )}
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

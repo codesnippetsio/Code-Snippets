@@ -9,18 +9,59 @@
 //   border-color: black;
 // }
 
+.tagsSnippetsDisplayHolder {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 75vh;
+}
+
+.tagsSnippetsDisplayBox {
+  padding: 8px 16px;
+  overflow-y: auto;
+  max-height: 50%;
+}
+
+.displayTypeSelector {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.displayTypeButtonActive {
+  background-color: transparent;
+  box-shadow: none;
+  width: 100%;
+  color: whitesmoke !important;
+  border: none;
+  border-bottom: 1.5pt solid whitesmoke !important;
+}
+
+.displayTypeButtonInactive {
+  background-color: transparent;
+  box-shadow: none;
+  width: 100%;
+  color: rgb(124, 124, 124) !important;
+  border: none !important;
+}
+
+.cardBodyContent {
+  //height: min-content;
+  overflow: hidden;
+}
 .sidebar {
   width: 300px;
-  height: 100vh !important;
+  //height: inherit;
+  //max-height: 75vh;
   position: absolute;
-  left: -300px;
+  left: -250px;
   top: 0;
-  
+
   transition: 200ms ease-in;
 
   background-color: rgb(10, 25, 41);
-
-  padding-top: 28px;
 
   display: flex;
   flex-direction: column;
@@ -31,12 +72,12 @@
     z-index: 20;
     right: -50px;
     top: 35px;
-    transform: scale(.5);
+    transform: scale(0.5);
     background: none;
     border: none;
 
     .arrow {
-      
+      color: whitesmoke;
     }
 
     .arrowOpen {
@@ -45,7 +86,9 @@
   }
 
   .cardBody {
-  
+    padding: 8px 16px;
+    overflow-y: auto;
+    max-height: 75vh;
   }
 }
 
@@ -58,11 +101,13 @@
   // z-index: -20;
   left: -250px;
   transition: 200ms ease-in;
+  width: 100%;
 }
 
 .snippetDisplayOpen {
   left: 0;
   transition: 200ms ease-in;
+  width: 100%;
 }
 
 .logo {
@@ -97,17 +142,16 @@
 
 .addButton {
   border: transparent;
-    height: 50px;
-    width: 270px;
-    // padding-left: 7px;
-    // padding-right: 7px;
-    border-radius: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: white;
+  height: 50px;
+  // padding-left: 7px;
+  // padding-right: 7px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: white;
 }
 
 .img {
